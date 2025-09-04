@@ -1,4 +1,4 @@
-public class room {
+public class Room {
     int id;
     int building;
     int roomNum;
@@ -8,7 +8,7 @@ public class room {
 
     
 
-    public Main() {
+    public Room() {
         id = 0;
         building = 0;
         roomNum = 0;

@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class timeslot {
+public class Timeslot {
 
     LocalDateTime currentDateTime;
     int startYear;
@@ -11,7 +11,7 @@ public class timeslot {
     int durationHour;
     int durationMinute;
 
-    public Main() {
+    public Timeslot() {
         startYear = 0;
         startMonth = 0;
         startDay = 0;
