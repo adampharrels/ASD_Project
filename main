@@ -1,5 +1,18 @@
+import java.util.Scanner;
+
 public class UniSpaceFinder {
-    public static void Main(String[] args) {
-        System.out.println("Hello World");
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); // Placeholder for the GUI
+        System.out.println("Enter command: ");
+        String command = sc.nextLine();
+        if (input.equalsIgnoreCase("create account")) {
+            System.out.println("Enter a username: ");
+            String command = sc.nextLine();
+            System.out.println("Enter a password: ");
+            String command = sc.nextLine();
+            account.createAccount();
+
+        }
     }
 }
