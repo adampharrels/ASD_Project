@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+public class UniSpaceFinder {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in); // Placeholder for the GUI
+        String command;
+        Account user = null;
+        while (!command.equalsIgnoreCase("finished")) {
+            System.out.println("Enter command: ");
+            String command = sc.nextLine();
+            if (command.equalsIgnoreCase("create account")) {
+                System.out.println("Enter a username: ");
+                String usernameC = sc.nextLine();
+                System.out.println("Enter a password: ");
+                String passwordC = sc.nextLine();
+                Account.createAccount(usernameC, passwordC);
+            } else if (command.equalsIgnoreCase("login")) {
+               System.out.println("Enter your username: ");
+               String usernameL = sc.nextLine();
+               System.out.println("Enter your password: ");
+               String passwordL = sc.nextLine();
+               Account.login(usernameL, usernameL);
+            } else if (command.equalsIgnoreCase("book room")) {
+                if (user == null) {
+                    System.out.println("No user logged in.")
+                }
+                else {
+
+                }
+
+            }
+            
+        }
+        }
+        
+    }
+}
