@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniSpace • Sign up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#3751FE; --brand-600:#2743ff; --ink:#0f172a; --muted:#6B7280; --panel:#ffffff; --bg:#fafbfd; --border:#e5e7eb; --shadow:0 10px 30px rgba(2,6,23,.08); --radius:18px;
+      --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif; color:var(--ink); background:linear-gradient(120deg,#f5f7ff 0%,#fff 60%);}  
+
+    .shell{min-height:100dvh; display:grid; grid-template-columns: 1.1fr 1fr;}
+    @media (max-width:980px){.shell{grid-template-columns:1fr}.right{display:none}}
+
+    .left{padding:clamp(24px,4vw,56px); display:flex; align-items:flex-start}
+    .left-inner{width:min(740px,100%)}
+
+    .brand-row{display:flex; align-items:center; justify-content:space-between; margin-bottom:28px}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand .dot{width:36px;height:36px;border-radius:10px;background:var(--brand);display:grid;place-items:center;color:#fff;font-weight:800;box-shadow:0 12px 24px rgba(55,81,254,.28)}
+    .brand .name{font-weight:800; font-size:22px; color:var(--ink)}
+    .aux-link{color:#94a3b8; text-decoration:none; font-weight:600}
+    .aux-link:hover{color:#64748b}
+
+    h1{font-size: clamp(28px,3.6vw,48px); line-height:1.05; margin:6px 0 10px; color:var(--brand)}
+    .subtitle{color:#6b7280; margin:0 0 22px; font-size:15px}
+
+    .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:clamp(18px,2.6vw,28px); width:min(720px,100%)}
+
+    .grid{display:grid; gap:14px}
+    .grid.cols-2{grid-template-columns:1fr 1fr; gap:14px}
+    @media (max-width:640px){.grid.cols-2{grid-template-columns:1fr}}
+
+    .field{margin: 6px 0}
+    label{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#111827; margin-bottom:6px}
+    .control{position:relative}
+    input[type="text"], input[type="email"], input[type="password"]{width:100%; height:50px; border:1px solid var(--border); border-radius:12px; padding:0 14px; font-size:15px; background:#fff; outline:0; transition:border .15s, box-shadow .15s}
+    input:focus{border-color:var(--brand); box-shadow:0 0 0 4px rgba(55,81,254,.15)}
+
+    .toggle{position:absolute; right:10px; top:50%; transform:translateY(-50%); background:#f1f5f9; border:0; height:34px; width:34px; border-radius:10px; cursor:pointer; color:#334155}
+    .toggle:hover{background:#e2e8f0}
+
+    .hint{font-size:12px; color:#64748b; margin-top:6px}
+
+    .row{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px}
+    .check{display:flex; align-items:center; gap:8px; color:#475569; font-size:14px}
+
+    .btn{height:46px; padding:0 18px; border-radius:12px; border:1px solid transparent; font-weight:700; font-size:15px; cursor:pointer}
+    .primary{background:var(--brand); color:#fff; box-shadow:0 10px 22px rgba(55,81,254,.25)}
+    .primary:hover{background:var(--brand-600)}
+    .ghost{background:#fff; border:1px solid var(--border); color:#0f172a}
+
+    .sso-wrap{display:grid; gap:12px; margin-top:18px}
+    .sep{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; color:#94a3b8; font-weight:600}
+    .sep:before,.sep:after{content:""; height:1px; background:#e5e7eb}
+    .sso{height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:10px; font-weight:700; border:1px solid #dbe1ff; color:#1f2a5c; background:#eff2ff}
+
+    .error{display:none; color:#ef4444; font-size:13px; margin-top:6px}
+
+    /* Strength meter */
+    .meter{height:8px; border-radius:6px; background:#eef2ff; overflow:hidden; margin-top:8px}
+    .meter > i{display:block; height:100%; width:0%; background:var(--bad); transition:width .25s ease, background .25s ease}
+
+    /* Right panel */
+    .right{padding:clamp(24px,3.5vw,56px); display:grid; align-content:start; gap:28px}
+    .illu{width:min(540px,100%); margin-left:auto}
+    .uts-logo{margin-top:clamp(10px,2vw,24px)}
+    .mark{display:flex; align-items:center; gap:14px}
+    .door{width:84px;height:84px;background:var(--brand);border-radius:6px;position:relative;box-shadow:0 16px 36px rgba(55,81,254,.25)}
+    .door:before{content:"";position:absolute;right:8px;top:6px;bottom:6px;width:10px;background:#fff;border-radius:3px}
+    .door:after{content:"";position:absolute;left:26px;top:50%;transform:translateY(-50%);width:8px;height:8px;background:#fff;border-radius:50%}
+    .uts-text{font-weight:800; font-size: clamp(26px,3vw,40px); color:var(--brand); line-height:1}
+
+    footer.small{margin-top:auto; color:#94a3b8; font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="left">
+      <div class="left-inner">
+        <div class="brand-row">
+          <div class="brand"><div class="dot">U</div><div class="name">UniSpace</div></div>
+          <a class="aux-link" href="login.html">Back to login</a>
+        </div>
+        <h1>Create your account</h1>
+        <p class="subtitle">Book smarter. One profile for all your spaces.</p>
+
+        <form id="signupForm" class="card" novalidate>
+          <div class="grid cols-2">
+            <div class="field">
+              <label for="first">First name</label>
+              <div class="control"><input id="first" name="first" type="text" autocomplete="given-name" required></div>
+            </div>
+            <div class="field">
+              <label for="last">Last name</label>
+              <div class="control"><input id="last" name="last" type="text" autocomplete="family-name" required></div>
+            </div>
+          </div>
+
+          <div class="grid cols-2">
+            <div class="field">
+              <label for="email">UTS email</label>
+              <div class="control"><input id="email" name="email" type="email" inputmode="email" placeholder="name@student.uts.edu.au" autocomplete="email" required></div>
+              <p class="error" id="emailErr">Use your UTS email address.</p>
+            </div>
+            <div class="field">
+              <label for="sid">Student ID (optional)</label>
+              <div class="control"><input id="sid" name="sid" type="text" inputmode="numeric" pattern="[0-9]{8}" placeholder="12345678"></div>
+              <p class="hint">8 digits</p>
+            </div>
+          </div>
+
+          <div class="grid cols-2">
+            <div class="field">
+              <label for="pwd">Password</label>
+              <div class="control">
+                <input id="pwd" name="pwd" type="password" minlength="8" autocomplete="new-password" required>
+                <button class="toggle" type="button" id="togglePwd">👁️</button>
+              </div>
+              <div class="meter" aria-hidden="true"><i id="meterBar"></i></div>
+              <p class="hint" id="pwdHint">Use 8+ chars with a number & symbol.</p>
+            </div>
+            <div class="field">
+              <label for="pwd2">Confirm password</label>
+              <div class="control">
+                <input id="pwd2" name="pwd2" type="password" minlength="8" autocomplete="new-password" required>
+                <button class="toggle" type="button" id="togglePwd2">👁️</button>
+              </div>
+              <p class="error" id="matchErr">Passwords don’t match.</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="check"><input type="checkbox" id="terms" required> I agree to the <a href="#" class="aux-link">Terms</a> & <a href="#" class="aux-link">Privacy</a></label>
+            <span class="check"><input type="checkbox" id="news"> Email me booking tips</span>
+          </div>
+
+          <div class="row" style="justify-content:flex-start; gap:12px; margin-top:14px">
+            <button class="btn primary" type="submit">Create account</button>
+            <button class="btn ghost" type="button" onclick="window.location='login.html'">Back to login</button>
+          </div>
+
+          <div class="sso-wrap">
+            <div class="sep">Or continue with</div>
+            <button type="button" class="sso" aria-label="Continue with UTS student account">UTS Student Account</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <aside class="right">
+      <img src="students-illustration.png" alt="Two students studying" class="illu" onerror="this.style.display='none'"/>
+      <div class="uts-logo">
+        <div class="mark">
+          <div class="door" aria-hidden="true"></div>
+          <div class="uts-text">UTS<br/>ROOM<br/>BOOKING</div>
+        </div>
+      </div>
+      <footer class="small">© 2025 UniSpace • Demo UI</footer>
+    </aside>
+  </div>
+
+  <script>
+    const email = document.getElementById('email');
+    const emailErr = document.getElementById('emailErr');
+    const pwd = document.getElementById('pwd');
+    const pwd2 = document.getElementById('pwd2');
+    const matchErr = document.getElementById('matchErr');
+    const meterBar = document.getElementById('meterBar');
+    const togglePwd = document.getElementById('togglePwd');
+    const togglePwd2 = document.getElementById('togglePwd2');
+
+    function utsEmailValid(v){
+      return /@student\.uts\.edu\.au$/i.test(v.trim());
+    }
+
+    email.addEventListener('blur', ()=>{
+      emailErr.style.display = utsEmailValid(email.value) ? 'none' : 'block';
+    });
+
+    // Password strength meter
+    function strength(v){
+      let s = 0; if(v.length>=8) s+=25; if(/[A-Z]/.test(v)) s+=20; if(/[0-9]/.test(v)) s+=20; if(/[^A-Za-z0-9]/.test(v)) s+=35; return s;
+    }
+    pwd.addEventListener('input', ()=>{
+      const val = strength(pwd.value); meterBar.style.width = val+'%';
+      meterBar.style.background = val>80? 'var(--ok)': val>50? 'var(--warn)' : 'var(--bad)';
+    });
+
+    // Show/hide
+    const flip = (input,btn)=>{ let shown=false; btn.addEventListener('click',()=>{shown=!shown; input.type = shown? 'text':'password'; btn.textContent = shown? '🙈':'👁️';}); };
+    flip(pwd, togglePwd); flip(pwd2, togglePwd2);
+
+    // Match check
+    function checkMatch(){
+      const ok = pwd.value && pwd.value === pwd2.value; matchErr.style.display = ok? 'none':'block'; return ok;
+    }
+    pwd2.addEventListener('input', checkMatch);
+
+    document.getElementById('signupForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const okEmail = utsEmailValid(email.value);
+      const okMatch = checkMatch();
+      emailErr.style.display = okEmail? 'none':'block';
+      if(okEmail && okMatch){
+        // Simulate success
+        alert('Account created! Redirecting to login…');
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>
