@@ -87,6 +87,7 @@
     border:1px solid transparent; 
     font-weight:700; 
     font-size:15px; cursor:pointer}
+    
   .primary{background:var(--brand); color:#fff; box-shadow:0 10px 22px rgba(55,81,254,.25)}
   .primary:hover{background:var(--brand-600)}
   .ghost{background:#fff; border:1px solid var(--border); color:#0f172a}
