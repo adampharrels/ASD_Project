@@ -40,8 +40,28 @@ document.getElementById('signupForm').addEventListener('submit', (e)=>{
   const okMatch = checkMatch();
   emailErr.style.display = okEmail? 'none':'block';
   if(okEmail && okMatch){
-    // Simulate success
-    alert('Account created! Redirecting to login…');
-    window.location.href = 'login.html';
+    // Gather form data
+    const data = {
+      first: document.getElementById('first').value,
+      last: document.getElementById('last').value,
+      email: email.value,
+      sid: document.getElementById('sid').value,
+      password: pwd.value
+    };
+    fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+      if(result.success){
+        alert('Account created! Redirecting to login…');
+        window.location.href = 'login.html';
+      } else {
+        alert('Signup failed: ' + (result.message || 'Unknown error'));
+      }
+    })
+    .catch(() => alert('Network error. Please try again.'));
   }
 });
