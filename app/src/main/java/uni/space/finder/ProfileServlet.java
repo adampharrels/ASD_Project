@@ -16,13 +16,12 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("email") == null) {
-            response.getWriter().write("{\"success\":false,\"error\":\"Not logged in\"}");
-            return;
+        String email = null;
+        if (session != null && session.getAttribute("email") != null) {
+            email = (String) session.getAttribute("email");
         }
-        String email = (String) session.getAttribute("email");
-    // Read accounts.txt from the correct location
-    File file = new File("app/accounts.txt");
+        // Read accounts.txt from the deployed webapp root
+        File file = new File(getServletContext().getRealPath("/accounts.txt"));
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
         JSONObject result = new JSONObject();
