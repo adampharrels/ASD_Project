@@ -1,3 +1,11 @@
+/* Hide dropdown when .hidden is present */
+.profile-dropdown.hidden {
+  display: none !important;
+}
+/* Hide dropdown when .hidden is present */
+.profile-dropdown.hidden {
+  display: none !important;
+}
 /* Profile Dropdown Styling */
 .profile-dropdown {
   background: #fff;
@@ -13,7 +21,12 @@
   top: 3.5rem;
   z-index: 1000;
   animation: fadeIn 0.18s;
+  pointer-events: auto;
+  visibility: visible;
 }
+  display: none !important;
+  pointer-events: none;
+  visibility: hidden;
 
 .profile-dropdown ul {
   list-style: none;

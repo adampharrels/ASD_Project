@@ -16,11 +16,18 @@
         <li><a class="active" href="#">Reserve</a></li>
         <li><a href="#">Events</a></li>
       </ul>
-
-      <!-- Profile button (dropdown is created by JS) -->
-      <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
-        <img src="assets/icons/user.svg" alt="Profile" />
-      </button>
+      <div class="profile-menu-wrapper">
+        <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+          <img src="assets/icons/user.svg" alt="Profile" />
+        </button>
+        <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+          <ul>
+            <li><a role="menuitem" href="profile.html" tabindex="0">Profile</a></li>
+            <li><a role="menuitem" href="#" tabindex="0">Settings</a></li>
+            <li><a role="menuitem" href="#" tabindex="0" style="color:#d32f2f">Log out</a></li>
+          </ul>
+        </nav>
+      </div>
     </nav>
 
     <div class="searchbar">

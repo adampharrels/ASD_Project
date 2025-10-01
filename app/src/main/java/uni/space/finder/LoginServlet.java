@@ -30,6 +30,9 @@ public class LoginServlet extends HttpServlet {
         if (!success) {
             result.put("message", "Invalid email or password");
         }
+            if (success) {
+                req.getSession(true).setAttribute("email", email);
+            }
         PrintWriter out = resp.getWriter();
         out.print(gson.toJson(result));
         out.flush();
