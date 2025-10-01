@@ -2,7 +2,7 @@
 // Fetch user profile info from backend and display on profile.html
 
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('ProfileServlet')
+  fetch('/ProfileServlet')
     .then(response => response.json())
     .then(data => {
       const container = document.getElementById('profile-info');
