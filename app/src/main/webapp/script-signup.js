@@ -57,7 +57,7 @@ document.getElementById('signupForm').addEventListener('submit', (e)=>{
     .then(result => {
       if(result.success){
         alert('Account created! Redirecting to login…');
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
       } else {
         alert('Signup failed: ' + (result.message || 'Unknown error'));
       }

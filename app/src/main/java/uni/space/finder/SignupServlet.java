@@ -1,11 +1,15 @@
 package uni.space.finder;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import java.io.*;
-import com.google.gson.*;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import com.google.gson.Gson;
 
+@WebServlet("/api/signup")
 public class SignupServlet extends HttpServlet {
     // Add CORS headers to all responses
     private void setCorsHeaders(HttpServletResponse resp) {
