@@ -1,2 +1,3 @@
 0,asasfd@student.uts.edu.au,@asd12345A,Adam,Nguyen,123123
 1,thoainguyen.khuu-1@student.uts.edu.au,Nguyen276$,Noah,Khuu,12767063
+2,adam@student.uts.edu.au,@adaM123,Adam,Nguyen,123123
