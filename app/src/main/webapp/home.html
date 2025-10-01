@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UniSpace – Home</title>
+  <link rel="stylesheet" href="styles-home.css" />
+  <link rel="icon" href="assets/icons/favicon.svg" />
+</head>
+<body>
+  <!-- Header / Top Nav -->
+  <header class="site-header container">
+    <nav class="nav">
+      <a class="brand" href="#">UniSpace</a>
+      <ul class="nav-links">
+        <li><a class="active" href="#">Reserve</a></li>
+        <li><a href="#">Events</a></li>
+      </ul>
+      <button class="profile-btn" aria-label="Profile">
+        <img src="assets/icons/user.svg" alt="" />
+      </button>
+    </nav>
+
+    <div class="searchbar">
+      <input type="search" placeholder="Search" aria-label="Search" />
+      <button class="icon-btn" aria-label="Search">
+        <img src="assets/icons/search.svg" alt="" />
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Quick Reserve -->
+    <section class="container card card-lg quick-reserve">
+      <h2>Quick Reserve</h2>
+      <form class="qr-grid" action="#" method="get">
+        <label>
+          <span>Start date</span>
+          <input type="date" required />
+        </label>
+        <label>
+          <span>Start time</span>
+          <input type="time" required />
+        </label>
+        <label>
+          <span>Duration</span>
+          <select required>
+            <option value="">Select</option>
+            <option>30 mins</option>
+            <option>1 hr</option>
+            <option>2 hrs</option>
+            <option>3 hrs</option>
+          </select>
+        </label>
+        <label>
+          <span>Campus</span>
+          <select>
+            <option>Building 1</option>
+            <option>Building 2</option>
+          </select>
+        </label>
+        <label>
+          <span>Participants</span>
+          <input type="number" min="1" placeholder="e.g. 4" />
+        </label>
+        <label class="grid-span-2">
+          <span>Resources</span>
+          <select>
+            <option>UTS Building 1 – CB01.2.56 – Meeting Pod</option>
+            <option>CB06.06.112 – Group Study Room</option>
+          </select>
+        </label>
+        <div class="grid-span-2 center">
+          <button class="btn-primary" type="submit">Reserve</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="container quick-actions">
+      <article class="card qa">
+        <h3>Quick Check In</h3>
+        <label>
+          <span>Booking ID</span>
+          <input type="text" placeholder="123456789" />
+        </label>
+        <button class="btn-secondary" type="button">Check In</button>
+      </article>
+
+      <article class="card qa">
+        <h3>Quick Check Out</h3>
+        <label>
+          <span>On-going room</span>
+          <input type="text" value="CB01.2.56 – Meeting Pod (37 mins remaining)" readonly />
+        </label>
+        <button class="btn-secondary" type="button">Leave</button>
+      </article>
+
+      <article class="card qa">
+        <h3>Room Cancellation</h3>
+        <label>
+          <span>Booking ID</span>
+          <input type="text" placeholder="123456789" />
+        </label>
+        <button class="btn-secondary btn-danger" type="button">Cancel</button>
+      </article>
+    </section>
+
+    <!-- Rooms available soon -->
+    <section class="container section-head">
+      <h3>Room available in the next 30 minutes</h3>
+    </section>
+    <section class="container carousel">
+      <button class="carousel-nav prev" aria-label="Previous">‹</button>
+
+      <div class="cards-row" id="roomsRow">
+        <!-- Card 1 -->
+        <article class="room-card card">
+          <img src="assets/img/room1.jpg" alt="CB06.06.112 room photo" />
+          <div class="card-body">
+            <h4>CB06.06.112</h4>
+            <div class="tags">
+              <span class="tag">TV</span>
+              <span class="tag">Whiteboard</span>
+              <span class="tag">Monitor</span>
+              <span class="tag">HDMI Cable</span>
+            </div>
+            <ul class="meta">
+              <li>Capacity: 8</li>
+              <li>Group Study Room</li>
+              <li>Public area</li>
+            </ul>
+            <div class="rating">★ 4.9</div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="room-card card">
+          <img src="assets/img/room2.jpg" alt="CB06.06.113 room photo" />
+          <div class="card-body">
+            <h4>CB06.06.113</h4>
+            <div class="tags">
+              <span class="tag">TV</span>
+              <span class="tag">Whiteboard</span>
+              <span class="tag">Monitor</span>
+              <span class="tag">HDMI Cable</span>
+            </div>
+            <ul class="meta">
+              <li>Capacity: 8</li>
+              <li>Group Study Room</li>
+              <li>Public area</li>
+            </ul>
+            <div class="rating">★ 4.9</div>
+          </div>
+        </article>
+      </div>
+
+      <button class="carousel-nav next" aria-label="Next">›</button>
+    </section>
+
+    <div class="container center">
+      <a class="btn-outline" href="#">View more</a>
+    </div>
+
+    <!-- Social Events -->
+    <section class="container section-head">
+      <h3>Social Events – UTS Student Communities</h3>
+    </section>
+    <section class="container carousel">
+      <button class="carousel-nav prev" aria-label="Previous">‹</button>
+
+      <div class="cards-row" id="eventsRow">
+        <article class="event-card card">
+          <img src="assets/img/event1.jpg" alt="Movie Studio - CGI" />
+          <div class="card-body">
+            <h4>Movie Studio – CGI</h4>
+            <ul class="meta">
+              <li>2025-09-01</li>
+              <li>7:00 AM – 2 hrs</li>
+              <li>CB10.2.035</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="event-card card">
+          <img src="assets/img/event2.jpg" alt="Movie Studio - CGI" />
+          <div class="card-body">
+            <h4>Movie Studio – CGI</h4>
+            <ul class="meta">
+              <li>2025-09-01</li>
+              <li>7:00 AM – 2 hrs</li>
+              <li>CB10.2.035</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <button class="carousel-nav next" aria-label="Next">›</button>
+    </section>
+
+    <div class="container center">
+      <a class="btn-outline" href="#">View more</a>
+    </div>
+  </main>
+
+  <script src="js/home.js"></script>
+</body>
+</html>
