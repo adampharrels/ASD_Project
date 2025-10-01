@@ -1,3 +1,58 @@
+/* Profile Dropdown Styling */
+.profile-dropdown {
+  background: #fff;
+  border: 1px solid var(--gray-300);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12);
+  padding: 0.5rem 0;
+  min-width: 180px;
+  font-family: inherit;
+  font-size: 1rem;
+  position: absolute;
+  right: 1rem;
+  top: 3.5rem;
+  z-index: 1000;
+  animation: fadeIn 0.18s;
+}
+
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown li {
+  margin: 0;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: #222;
+  text-decoration: none;
+  border-radius: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.profile-dropdown a:hover {
+  background: var(--gray-100);
+  color: var(--blue);
+}
+
+.profile-dropdown li:last-child a {
+  color: #d32f2f;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure profile button is above dropdown */
+.profile-btn {
+  position: relative;
+  z-index: 1100;
+}
 :root{
   --blue:#0d6efd;
   --blue-600:#0b5ed7;
