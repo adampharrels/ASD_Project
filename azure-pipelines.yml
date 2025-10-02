@@ -92,9 +92,14 @@ steps:
     mergeTestResults: true
     failTaskOnFailedTests: false
 
-# Generate test report
-- script: ./gradlew testReport
-  displayName: 'Generate test report'
+# Copy test reports to artifacts
+- task: CopyFiles@2
+  displayName: 'Copy test reports'
+  condition: succeededOrFailed()
+  inputs:
+    contents: '**/build/reports/tests/**'
+    targetFolder: '$(Build.ArtifactStagingDirectory)/test-reports'
+    flattenFolders: false
   continueOnError: true
 
 # Build the application JAR
@@ -127,6 +132,24 @@ steps:
     echo "Java Version: $(java -version 2>&1 | head -1)"
     echo "Gradle Version: $(./gradlew --version | grep Gradle)"
     echo "Build Status: Success"
-    ls -la build/libs/
+    echo ""
+    echo "=== Artifacts ==="
+    if [ -d "build/libs" ]; then
+      echo "JAR files:"
+      ls -la build/libs/
+    else
+      echo "No JAR files found"
+    fi
+    echo ""
+    echo "=== Test Results ==="
+    if [ -d "build/test-results/test" ]; then
+      echo "Test result files:"
+      ls -la build/test-results/test/
+    else
+      echo "No test results found"
+    fi
+    if [ -d "build/reports/tests/test" ]; then
+      echo "Test report available at: build/reports/tests/test/index.html"
+    fi
   displayName: 'Build summary'
   condition: succeeded()
