@@ -20,8 +20,6 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'mysql:mysql-connector-java:8.0.33'
-    
-    // Test dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
@@ -36,47 +34,32 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport // Generate coverage report after tests
+    finalizedBy jacocoTestReport
 }
 
-// JaCoCo Configuration for Code Coverage
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = '0.8.10'
 }
 
 jacocoTestReport {
-    dependsOn test // Tests are required to run before generating the report
-    
+    dependsOn test, compileJava, processResources
     reports {
         xml.required = true
         html.required = true
         csv.required = false
     }
-    
-    executionData fileTree(dir: "$buildDir/jacoco", include: "**/*.exec")
-    
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                '**/Application.class',
-                '**/App.class' // Exclude main application class if needed
-            ])
-        }))
-    }
+    executionData fileTree(dir: 'build/jacoco', include: '**/*.exec')
 }
 
-// Coverage verification task
 jacocoTestCoverageVerification {
     dependsOn jacocoTestReport
-    
     violationRules {
         rule {
             limit {
-                minimum = 0.80 // 80% minimum coverage
+                minimum = 0.80
             }
         }
     }
 }
 
-// Make check depend on coverage verification
 check.dependsOn jacocoTestCoverageVerification
