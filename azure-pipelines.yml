@@ -13,12 +13,11 @@ variables:
 
 steps:
 # Set up Java environment
-- task: JavaToolInstaller@0
+- task: UseJavaVersion@1
   displayName: 'Set up JDK 21'
   inputs:
     versionSpec: '21'
-    jdkArchitecture: 'x64'
-    jdkSourceOption: 'PreInstalled'
+    jdkArchitectureOption: 'x64'
 
 # Cache Gradle dependencies
 - task: Cache@2
