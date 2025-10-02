@@ -1,2 +1,3 @@
 0,adam@student.uts.edu.au,@daM1234,Adam,Nguyen,123123
 1,thoainguyen.khuu-1@student.uts.edu.au,Nguyen276$,Noah ,Khuu ,12767063
+2,nathan.nourse@student.uts.edu.au,aKevya5@RMeRdrU,Nathan,Nourse,24791891
