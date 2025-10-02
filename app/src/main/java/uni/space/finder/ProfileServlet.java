@@ -1,13 +1,15 @@
 package uni.space.finder;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.*;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/ProfileServlet"})
 public class ProfileServlet extends HttpServlet {
@@ -17,14 +19,22 @@ public class ProfileServlet extends HttpServlet {
         response.setContentType("application/json");
         HttpSession session = request.getSession(false);
         String email = null;
-        if (session != null && session.getAttribute("email") != null) {
-            email = (String) session.getAttribute("email");
+        if (session == null) {
+            System.out.println("[ProfileServlet] No session found.");
+        } else {
+            Object attr = session.getAttribute("email");
+            if (attr == null) {
+                System.out.println("[ProfileServlet] Session found, but no email attribute.");
+            } else {
+                email = (String) attr;
+                System.out.println("[ProfileServlet] Session email: " + email);
+            }
         }
-        // Read accounts.txt from the deployed webapp root
-        File file = new File(getServletContext().getRealPath("/accounts.txt"));
+    // Read accounts.txt from the project/app root
+    File file = new File("accounts.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line;
-        JSONObject result = new JSONObject();
+        Map<String, Object> result = new HashMap<>();
         boolean found = false;
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");
@@ -44,6 +54,7 @@ public class ProfileServlet extends HttpServlet {
             result.put("success", false);
             result.put("error", "User not found");
         }
-        response.getWriter().write(result.toString());
+        Gson gson = new Gson();
+        response.getWriter().write(gson.toJson(result));
     }
 }

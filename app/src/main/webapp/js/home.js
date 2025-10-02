@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
     dropdown.className = 'profile-dropdown';
     dropdown.innerHTML = `
       <ul>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a href="profile.html" id="profileLink">Profile</a></li>
+        <li><a href="settings.html" id="settingsLink">Settings</a></li>
         <li><a href="#" id="logoutBtn">Log out</a></li>
       </ul>
     `;

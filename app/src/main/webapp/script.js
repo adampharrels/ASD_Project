@@ -26,7 +26,24 @@ form.addEventListener('submit', (e)=>{
   } else { pwdErr.style.display='none'; }
 
   if(ok){
-    // Simulate login success → go to Home/Dashboard
-    window.location.href = 'home.html';
+    fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email: email.value, password: pwd.value })
+    })
+    .then(res => res.json())
+    .then(result => {
+      if(result.success){
+        window.location.href = 'home.html';
+      } else {
+        pwdErr.textContent = result.message || 'Login failed.';
+        pwdErr.style.display = 'block';
+      }
+    })
+    .catch(() => {
+      pwdErr.textContent = 'Network error. Please try again.';
+      pwdErr.style.display = 'block';
+    });
   }
 });
