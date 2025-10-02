@@ -80,11 +80,11 @@ steps:
 # Run unit tests with detailed reporting and coverage
 - script: |
     echo "=== Starting Unit Test Execution with Code Coverage ==="
-    echo "Test configuration:"
-    echo "- Total test classes: 4 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest)"
-    echo "- Expected total tests: 21"
-    echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
-    echo "- Coverage tool: JaCoCo"
+  echo "Test configuration:"
+  echo "- Total test classes: 5 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest, AccountTest)"
+  echo "- Expected total tests: 22+ (including AccountTest)"
+  echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
+  echo "- Coverage tool: JaCoCo"
     echo ""
     
     # Run tests with detailed output, coverage, and continue on failure
@@ -131,7 +131,7 @@ steps:
     echo "=== Test Coverage Analysis ==="
     
     # Check if all expected test classes ran
-    EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest")
+  EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest" "AccountTest")
     
     for class in "${EXPECTED_CLASSES[@]}"; do
       if [ -f "build/test-results/test/TEST-com.calendar.${class}.xml" ]; then
@@ -143,11 +143,12 @@ steps:
     done
     
     echo ""
-    echo "=== Test Layer Coverage Verification ==="
-    echo "✅ Model Layer: BookingTest (data validation)"
-    echo "✅ Controller Layer: AppTest (REST API with MockMvc)"
-    echo "✅ Service Layer: CalendarServiceTest (business logic)"
-    echo "✅ Integration Layer: AppIntegrationTest (full stack)"
+  echo "=== Test Layer Coverage Verification ==="
+  echo "✅ Model Layer: BookingTest (data validation)"
+  echo "✅ Account Logic: AccountTest (account creation/login)"
+  echo "✅ Controller Layer: AppTest (REST API with MockMvc)"
+  echo "✅ Service Layer: CalendarServiceTest (business logic)"
+  echo "✅ Integration Layer: AppIntegrationTest (full stack)"
   displayName: 'Validate test coverage'
   condition: succeededOrFailed()
 
