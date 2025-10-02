@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniSpace - Room Booking Calendar</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(120deg, #f5f7ff 0%, #fff 60%);
+            color: #0f172a;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(2,6,23,.08);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand .dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #3751FE;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 12px 24px rgba(55,81,254,.28);
+        }
+        
+        .brand .name {
+            font-weight: 800;
+            font-size: 22px;
+            color: #0f172a;
+        }
+        
+        h1 {
+            color: #3751FE;
+            margin: 0 0 20px 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .calendar { 
+            border-collapse: collapse; 
+            width: 100%; 
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(2,6,23,.08);
+        }
+        
+        .calendar th, .calendar td { 
+            border: 1px solid #e5e7eb; 
+            padding: 12px; 
+            text-align: left; 
+            vertical-align: top;
+        }
+        
+        .calendar th { 
+            background-color: #f8fafc; 
+            font-weight: 600;
+            color: #374151;
+            text-align: center;
+        }
+        
+        .booking { 
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            margin: 2px 0; 
+            padding: 6px; 
+            border-radius: 6px; 
+            font-size: 11px;
+            border-left: 3px solid #3751FE;
+            box-shadow: 0 2px 4px rgba(55,81,254,.1);
+        }
+        
+        .room-filter { 
+            margin: 20px 0; 
+            padding: 20px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(2,6,23,.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .room-filter label {
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .room-filter select { 
+            padding: 10px 15px; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 12px;
+            background: white;
+            min-width: 200px;
+            font-size: 14px;
+        }
+        
+        .room-filter select:focus {
+            outline: none;
+            border-color: #3751FE;
+            box-shadow: 0 0 0 3px rgba(55,81,254,.1);
+        }
+        
+        .room-filter button {
+            padding: 10px 20px;
+            background: #3751FE;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        
+        .room-filter button:hover {
+            background: #2743ff;
+        }
+        
+        .time-slot { 
+            height: 60px; 
+            vertical-align: top;
+            width: 120px;
+        }
+        
+        .calendar td:first-child {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #6b7280;
+            text-align: center;
+            width: 80px;
+        }
+        
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 12px;
+            color: #0c4a6e;
+            display: none;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .room-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .room-filter select {
+                min-width: auto;
+            }
+            
+            .calendar {
+                font-size: 12px;
+            }
+            
+            .time-slot {
+                height: 50px;
+            }
+        }
+    </style>
+    <script type="text/javascript" language="javascript" src="calendar/calendar.nocache.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="brand">
+            <div class="dot">U</div>
+            <div class="name">UniSpace</div>
+        </div>
+        <div style="color: #6b7280; font-size: 14px;">Room Booking System</div>
+    </div>
+
+    <h1>📅 Room Booking Calendar</h1>
+    
+    <div class="status" id="statusMessage">
+        Loading booking data...
+    </div>
+    
+    <div class="room-filter">
+        <label for="roomFilter">Filter by Room:</label>
+        <select id="roomFilter">
+            <option value="">All Rooms</option>
+        </select>
+        <button onclick="refreshCalendar()">🔄 Refresh</button>
+    </div>
+
+    <table class="calendar" id="calendar">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+        </thead>
+        <tbody id="calendarBody">
+        </tbody>
+    </table>
+
+    <script src="calendar.js"></script>
+</body>
+</html>

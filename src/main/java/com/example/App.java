@@ -1,61 +1,50 @@
 package com.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@SpringBootApplication
+@RestController
+@CrossOrigin(origins = "*")
 public class App {
-    public static String getValueFromDatabase(String url, String user, String password, String query) {
-        String result = null;
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                result = rs.getString(1);
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-        }
-        return result;
-    }
+    
+    @Autowired
+    private CalendarService bookingService;
 
     public static void main(String[] args) {
-        // Connect to MySQL database "asd" (phpMyAdmin manages MySQL)
-        String url = "jdbc:mysql://localhost:3306/asd";
-        String user = "root";
-        String password = "";
-        //System.out.println("Booking time: " + getStartTime(url, user, password) + ", " + getEndTime(url, user, password));
+        SpringApplication.run(App.class, args);
     }
 
-    public static String getStartTime(String url, String user, String password){
-        String query = "SELECT start_Time, end_Time FROM booktime where room_id = 0";
-        String startTime = null;
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                startTime = rs.getString("start_Time");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
-        }
-        return startTime;
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/calendar.html";
     }
 
-    public static String getEndTime(String url, String user, String password){
-        String query = "SELECT start_Time, end_Time FROM booktime where room_id = 0";
-        String endTime = null;
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                endTime = rs.getString("end_Time");
-            }
-        } catch (SQLException e) {
-            System.err.println("SQL Exception: " + e.getMessage());
+    @GetMapping("/api/status")
+    public Map<String, Object> getStatus() {
+        Map<String, Object> status = new HashMap<>();
+        if (bookingService.isDatabaseConnected()) {
+            status.put("database", "connected");
+        } else {
+            status.put("database", "disconnected");
         }
-        return endTime;
+        status.put("timestamp", new java.util.Date());
+        return status;
+    }
+
+    @GetMapping("/api/bookings")
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
+
+    @GetMapping("/api/rooms")
+    public List<Map<String, Object>> getAllRooms() {
+        return bookingService.getAllRooms();
     }
 }

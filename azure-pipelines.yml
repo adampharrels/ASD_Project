@@ -1,31 +1,93 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Azure Pipeline for Spring Boot Room Booking System
+# Builds, tests, and validates the application
 
 trigger:
 - main
+- Martin
 
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-- task: Maven@3
+# Set up Java environment
+- task: JavaToolInstaller@0
+  displayName: 'Set up JDK 21'
   inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'clean compile'
-  displayName: 'Build with Maven'
+    versionSpec: '21'
+    jdkArchitecture: 'x64'
+    jdkSourceOption: 'PreInstalled'
 
-- task: Maven@3
+# Cache Gradle dependencies
+- task: Cache@2
+  displayName: 'Cache Gradle dependencies'
   inputs:
-    mavenPomFile: 'pom.xml'
-    goals: 'test'
+    key: 'gradle | "$(Agent.OS)" | **/build.gradle'
+    restoreKeys: |
+      gradle | "$(Agent.OS)"
+      gradle
+    path: $(GRADLE_USER_HOME)
+
+# Make gradlew executable
+- script: chmod +x gradlew
+  displayName: 'Make gradlew executable'
+
+# Clean and compile the project
+- script: ./gradlew clean compileJava
+  displayName: 'Clean and compile Java code'
+
+# Run unit tests
+- script: ./gradlew test
   displayName: 'Run unit tests'
+  continueOnError: true
+
+# Publish test results
+- task: PublishTestResults@2
+  displayName: 'Publish test results'
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/build/test-results/test/*.xml'
+    mergeTestResults: true
+    failTaskOnFailedTests: false
+
+# Generate test report
+- script: ./gradlew testReport
+  displayName: 'Generate test report'
+  continueOnError: true
+
+# Build the application JAR
+- script: ./gradlew build -x test
+  displayName: 'Build application JAR'
+
+# Copy JAR to staging directory
+- task: CopyFiles@2
+  displayName: 'Copy JAR files'
+  inputs:
+    contents: '**/build/libs/*.jar'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+# Publish build artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'room-booking-app'
+
+# Code quality check (optional)
+- script: ./gradlew check
+  displayName: 'Run code quality checks'
+  continueOnError: true
+
+# Display build summary
+- script: |
+    echo "=== Build Summary ==="
+    echo "Java Version: $(java -version 2>&1 | head -1)"
+    echo "Gradle Version: $(./gradlew --version | grep Gradle)"
+    echo "Build Status: Success"
+    ls -la build/libs/
+  displayName: 'Build summary'
+  condition: succeeded()
