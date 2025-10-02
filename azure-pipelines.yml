@@ -13,11 +13,25 @@ variables:
 
 steps:
 # Set up Java environment
-- task: UseJavaVersion@1
+- script: |
+    # Check if Java 21 is available
+    java -version
+    javac -version
+    echo "JAVA_HOME: $JAVA_HOME"
+  displayName: 'Check Java version'
+
+# Install JDK 21 if needed
+- bash: |
+    if ! java -version 2>&1 | grep -q "21"; then
+      echo "Installing OpenJDK 21..."
+      sudo apt-get update
+      sudo apt-get install -y openjdk-21-jdk
+      export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+      echo "##vso[task.setvariable variable=JAVA_HOME]$JAVA_HOME"
+      echo "##vso[task.setvariable variable=PATH]$JAVA_HOME/bin:$PATH"
+    fi
+    java -version
   displayName: 'Set up JDK 21'
-  inputs:
-    versionSpec: '21'
-    jdkArchitectureOption: 'x64'
 
 # Cache Gradle dependencies
 - task: Cache@2
