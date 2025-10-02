@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
       const container = document.getElementById('profile-info');
-      if (data && data.success) {
+      if(data && data.success) {
         container.innerHTML = `
           <div class="profile-details">
             <p><strong>ID:</strong> ${data.id}</p>
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         `;
       } else {
-        container.innerHTML = '<p>Unable to load profile information.</p>';
+        // If not logged in, redirect to login page
+        window.location.href = 'index.html';
       }
     })
     .catch(() => {

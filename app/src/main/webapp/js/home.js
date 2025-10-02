@@ -37,8 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Log out handler
     dropdown.querySelector('#logoutBtn').addEventListener('click', function(ev) {
       ev.preventDefault();
-      // TODO: Add logout logic here
-      alert('Logged out!');
+      fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      .then(res => res.json())
+      .then(result => {
+        if(result.success){
+          window.location.href = 'index.html';
+        } else {
+          alert('Logout failed.');
+        }
+      })
+      .catch(() => alert('Network error. Please try again.'));
       dropdown.remove();
       dropdown = null;
     });
