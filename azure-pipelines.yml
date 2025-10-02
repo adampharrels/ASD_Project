@@ -44,7 +44,14 @@ steps:
     path: $(GRADLE_USER_HOME)
 
 # Make gradlew executable
-- script: chmod +x gradlew
+- script: |
+    if [ -f "gradlew" ]; then
+      chmod +x gradlew
+      echo "gradlew is now executable"
+    else
+      echo "gradlew file not found in repository!"
+      exit 1
+    fi
   displayName: 'Make gradlew executable'
 
 # Clean and compile the project
