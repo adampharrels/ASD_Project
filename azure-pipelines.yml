@@ -82,6 +82,7 @@ steps:
     echo "=== Starting Unit Test Execution with Code Coverage ==="
   echo "Test configuration:"
   echo "- Total test classes: 5 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest, AccountTest)"
+  echo "- AccountTest is my own unit test for account creation and login (see app/src/test/java/uni/space/finder/AccountTest.java)"
   echo "- Expected total tests: 22+ (including AccountTest)"
   echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
   echo "- Coverage tool: JaCoCo"
@@ -195,28 +196,32 @@ steps:
     mkdir -p $(Build.ArtifactStagingDirectory)/test-summary
     
     # Create detailed test and coverage summary
-    cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
-    # Unit Test & Code Coverage Report
+  cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
+  # Unit Test & Code Coverage Report
     
-    **Build:** $(Build.BuildNumber)  
-    **Date:** $(date)  
-    **Branch:** $(Build.SourceBranchName)  
+  **Build:** $(Build.BuildNumber)  
+  **Date:** $(date)  
+  **Branch:** $(Build.SourceBranchName)  
     
-    ## Test Suite Overview
-    - **Total Test Classes:** 4
-    - **Total Tests:** 21
-    - **Test Frameworks:** JUnit 5, Mockito, Spring Test
-    - **Coverage Tool:** JaCoCo
-    - **Database:** H2 in-memory for integration tests
+  ## Test Suite Overview
+  - **Total Test Classes:** 5
+  - **Total Tests:** 22+ (including AccountTest)
+  - **Test Frameworks:** JUnit 5, Mockito, Spring Test
+  - **Coverage Tool:** JaCoCo
+  - **Database:** H2 in-memory for integration tests
     
-    ## Test Coverage by Layer
-    1. **Model Layer** (BookingTest): Data validation and integrity
-    2. **Controller Layer** (AppTest): REST API functionality with MockMvc  
-    3. **Service Layer** (CalendarServiceTest): Business logic and database operations
-    4. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+  ## My Contribution
+  - **AccountTest**: Custom unit test for account creation and login logic (see `app/src/test/java/uni/space/finder/AccountTest.java`).
     
-    ## Code Coverage Analysis
-    EOF
+  ## Test Coverage by Layer
+  1. **Model Layer** (BookingTest): Data validation and integrity
+  2. **Account Logic** (AccountTest): Account creation and login (my part)
+  3. **Controller Layer** (AppTest): REST API functionality with MockMvc  
+  4. **Service Layer** (CalendarServiceTest): Business logic and database operations
+  5. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+    
+  ## Code Coverage Analysis
+  EOF
     
     # Add coverage information if available
     if [ -f "build/reports/jacoco/test/jacocoTestReport.xml" ]; then
