@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Booking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Book a Room</h1>
+
+    <section id="room-selection">
+        <h2>Select a Room</h2>
+        <form id="booking-form" method="POST" action="/book-room">
+            <label for="room">Room:</label>
+            <select id="room" name="room">
+                <option value="1.1">Building 1 - Room 1</option>
+                <option value="1.2">Building 1 - Room 2</option>
+                <option value="2.1">Building 2 - Room 1</option>
+                <option value="3.4">Building 3 - Room 4</option>
+            </select>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="time">Start Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="duration">Duration (minutes):</label>
+            <input type="number" id="duration" name="duration" min="15" max="240" required>
+
+            <button type="submit">Book Room</button>
+        </form>
+    </section>
+
+    <section id="my-bookings">
+        <h2>My Bookings</h2>
+        <ul id="booking-list">
+            <!-- This could be populated from backend -->
+            <!-- Example: -->
+            <!-- <li>Room 1.1 on 2025-10-03 at 10:00 for 60 minutes</li> -->
+        </ul>
+    </section>
+
+</body>
+</html>
