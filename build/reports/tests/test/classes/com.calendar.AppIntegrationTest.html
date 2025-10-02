@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.487s</div>
+<div class="counter">1.934s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,37 +82,37 @@
 </thead>
 <tr>
 <td class="success">testApplicationStartsSuccessfully()</td>
-<td class="success">0.005s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testBookingsEndpoint()</td>
-<td class="success">0.029s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testCorsHeaders()</td>
-<td class="success">0.037s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testHomeEndpointRedirection()</td>
-<td class="success">0.011s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testNonExistentEndpoint()</td>
 <td class="success">0.034s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">testCorsHeaders()</td>
+<td class="success">0.047s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHomeEndpointRedirection()</td>
+<td class="success">0.010s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testNonExistentEndpoint()</td>
+<td class="success">0.066s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">testRoomsEndpoint()</td>
-<td class="success">1.361s</td>
+<td class="success">1.761s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testStatusEndpoint()</td>
-<td class="success">0.010s</td>
+<td class="success">0.012s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -120,8 +120,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>13:57:15.227 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.calendar.AppIntegrationTest]: AppIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-13:57:15.382 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.calendar.App for test class com.calendar.AppIntegrationTest
+<pre>14:11:35.743 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.calendar.AppIntegrationTest]: AppIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:11:36.019 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.calendar.App for test class com.calendar.AppIntegrationTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -131,187 +131,187 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2025-10-02T13:57:16.238+10:00  INFO 40584 --- [    Test worker] com.calendar.AppIntegrationTest          : Starting AppIntegrationTest using Java 21.0.8 with PID 40584 (started by marti in C:\UTS\Spring 2025\Advanced Software\ASD_Project-1)
-2025-10-02T13:57:16.241+10:00  INFO 40584 --- [    Test worker] com.calendar.AppIntegrationTest          : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-10-02T13:57:17.440+10:00  INFO 40584 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
-2025-10-02T13:57:17.454+10:00  INFO 40584 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-10-02T13:57:17.455+10:00  INFO 40584 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
-2025-10-02T13:57:17.544+10:00  INFO 40584 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-10-02T13:57:17.546+10:00  INFO 40584 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1269 ms
-2025-10-02T13:57:17.684+10:00  INFO 40584 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-2025-10-02T13:57:17.773+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : 6 mappings in 'requestMappingHandlerMapping'
-2025-10-02T13:57:17.854+10:00 DEBUG 40584 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
-2025-10-02T13:57:17.892+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
-2025-10-02T13:57:17.947+10:00 DEBUG 40584 --- [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
-2025-10-02T13:57:18.032+10:00  INFO 40584 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 60622 (http) with context path ''
-2025-10-02T13:57:18.040+10:00  INFO 40584 --- [    Test worker] com.calendar.AppIntegrationTest          : Started AppIntegrationTest in 2.162 seconds (process running for 3.848)
-2025-10-02T13:57:18.046+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 0, missCount = 1, failureCount = 0]
-2025-10-02T13:57:18.051+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 1, missCount = 1, failureCount = 0]
-2025-10-02T13:57:18.059+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testRoomsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:18.060+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 2, missCount = 1, failureCount = 0]
-2025-10-02T13:57:18.061+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 3, missCount = 1, failureCount = 0]
-2025-10-02T13:57:18.926+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 4, missCount = 1, failureCount = 0]
-2025-10-02T13:57:18.962+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/api/rooms
-2025-10-02T13:57:18.976+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.079+10:00  INFO 40584 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-02T13:57:19.079+10:00  INFO 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-10-02T13:57:19.079+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
-2025-10-02T13:57:19.080+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
-2025-10-02T13:57:19.080+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
-2025-10-02T13:57:19.081+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4eac65db
-2025-10-02T13:57:19.081+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@13f4048e
-2025-10-02T13:57:19.082+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
-2025-10-02T13:57:19.082+10:00  INFO 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
-2025-10-02T13:57:19.092+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/rooms&quot;, parameters={}
-2025-10-02T13:57:19.106+10:00 DEBUG 40584 --- [o-auto-1-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getAllRooms()
-2025-10-02T13:57:19.366+10:00 DEBUG 40584 --- [o-auto-1-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
-2025-10-02T13:57:19.367+10:00 DEBUG 40584 --- [o-auto-1-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[{hdmiCable=true, image=Group_Study_Room, speaker=true, equipment=[Speaker System, Whiteboard, Monit (truncated)...]
-2025-10-02T13:57:19.397+10:00 DEBUG 40584 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-10-02T13:57:19.398+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
-2025-10-02T13:57:19.400+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
-2025-10-02T13:57:19.407+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 5, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.408+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 6, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.409+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 7, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.409+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 8, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.410+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 9, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.412+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 10, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.412+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testRoomsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.421+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.421+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 11, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.422+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 12, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.424+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testCorsHeaders], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.424+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 13, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.424+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 14, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.425+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 15, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.426+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/api/status
-2025-10-02T13:57:19.426+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.427+10:00 DEBUG 40584 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/status&quot;, parameters={}
-2025-10-02T13:57:19.428+10:00 DEBUG 40584 --- [o-auto-1-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
-2025-10-02T13:57:19.431+10:00 DEBUG 40584 --- [o-auto-1-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
-2025-10-02T13:57:19.432+10:00 DEBUG 40584 --- [o-auto-1-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=connected, timestamp=Thu Oct 02 13:57:19 AEST 2025}]
-2025-10-02T13:57:19.454+10:00 DEBUG 40584 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-10-02T13:57:19.454+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
-2025-10-02T13:57:19.455+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
-2025-10-02T13:57:19.455+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 16, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.456+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 17, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.456+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 18, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.457+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 19, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.459+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 20, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.459+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 21, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.459+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testCorsHeaders], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.462+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.463+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 22, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.463+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 23, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.465+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testHomeEndpointRedirection], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.465+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 24, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.465+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 25, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.466+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 26, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.467+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/
-2025-10-02T13:57:19.467+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.469+10:00 DEBUG 40584 --- [o-auto-1-exec-3] o.s.web.servlet.DispatcherServlet        : GET &quot;/&quot;, parameters={}
-2025-10-02T13:57:19.469+10:00 DEBUG 40584 --- [o-auto-1-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#home()
-2025-10-02T13:57:19.470+10:00 DEBUG 40584 --- [o-auto-1-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'text/plain', given [text/plain, application/json, application/*+json, */*] and supported [text/plain, */*, application/json, application/*+json]
-2025-10-02T13:57:19.470+10:00 DEBUG 40584 --- [o-auto-1-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [&quot;redirect:/calendar.html&quot;]
-2025-10-02T13:57:19.471+10:00 DEBUG 40584 --- [o-auto-1-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-10-02T13:57:19.473+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
-2025-10-02T13:57:19.473+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;text/plain;charset=UTF-8&quot;
-2025-10-02T13:57:19.473+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 27, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.474+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 28, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.474+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 29, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.474+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 30, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.474+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 31, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.475+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 32, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.475+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testHomeEndpointRedirection], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.477+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.477+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 33, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.478+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 34, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.479+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testApplicationStartsSuccessfully], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.480+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 35, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.480+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 36, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.480+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 37, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.482+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 38, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.482+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 39, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.483+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 40, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.483+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 41, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.483+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 42, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.483+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 43, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.484+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testApplicationStartsSuccessfully], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.486+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.486+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 44, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.487+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 45, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.488+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testBookingsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.488+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 46, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.488+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 47, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.489+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 48, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.489+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/api/bookings
-2025-10-02T13:57:19.490+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.491+10:00 DEBUG 40584 --- [o-auto-1-exec-4] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/bookings&quot;, parameters={}
-2025-10-02T13:57:19.491+10:00 DEBUG 40584 --- [o-auto-1-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getAllBookings()
-2025-10-02T13:57:19.499+10:00 DEBUG 40584 --- [o-auto-1-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
-2025-10-02T13:57:19.500+10:00 DEBUG 40584 --- [o-auto-1-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[com.calendar.Booking@f609e4, com.calendar.Booking@21766fa5, com.calendar.Booking@653431f]]
-2025-10-02T13:57:19.514+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
-2025-10-02T13:57:19.514+10:00 DEBUG 40584 --- [o-auto-1-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-10-02T13:57:19.514+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
-2025-10-02T13:57:19.514+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 49, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.514+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 50, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.515+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 51, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.515+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 52, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.515+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 53, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.516+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 54, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.516+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testBookingsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.518+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.518+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 55, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.519+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 56, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.520+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testStatusEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.520+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 57, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.520+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 58, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.521+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 59, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.521+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/api/status
-2025-10-02T13:57:19.521+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.522+10:00 DEBUG 40584 --- [o-auto-1-exec-5] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/status&quot;, parameters={}
-2025-10-02T13:57:19.523+10:00 DEBUG 40584 --- [o-auto-1-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
-2025-10-02T13:57:19.526+10:00 DEBUG 40584 --- [o-auto-1-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
-2025-10-02T13:57:19.526+10:00 DEBUG 40584 --- [o-auto-1-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=connected, timestamp=Thu Oct 02 13:57:19 AEST 2025}]
-2025-10-02T13:57:19.527+10:00 DEBUG 40584 --- [o-auto-1-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
-2025-10-02T13:57:19.527+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
-2025-10-02T13:57:19.527+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
-2025-10-02T13:57:19.527+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 60, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.528+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 61, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.528+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 62, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.528+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 63, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.528+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 64, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.529+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 65, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.529+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testStatusEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.532+10:00 DEBUG 40584 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
-2025-10-02T13:57:19.532+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 66, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.533+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 67, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.534+10:00 DEBUG 40584 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testNonExistentEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.534+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 68, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.534+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 69, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.535+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 70, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.535+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:60622/api/nonexistent
-2025-10-02T13:57:19.536+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
-2025-10-02T13:57:19.537+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/nonexistent&quot;, parameters={}
-2025-10-02T13:57:19.540+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
-2025-10-02T13:57:19.542+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
-2025-10-02T13:57:19.546+10:00 DEBUG 40584 --- [o-auto-1-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/nonexistent.]
-2025-10-02T13:57:19.546+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
-2025-10-02T13:57:19.551+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : &quot;ERROR&quot; dispatch for GET &quot;/error&quot;, parameters={}
-2025-10-02T13:57:19.553+10:00 DEBUG 40584 --- [o-auto-1-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
-2025-10-02T13:57:19.560+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
-2025-10-02T13:57:19.561+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Thu Oct 02 13:57:19 AEST 2025, status=404, error=Not Found, path=/api/nonexistent}]
-2025-10-02T13:57:19.562+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Response 404 NOT_FOUND
-2025-10-02T13:57:19.563+10:00 DEBUG 40584 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
-2025-10-02T13:57:19.565+10:00 DEBUG 40584 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : Exiting from &quot;ERROR&quot; dispatch, status 404
-2025-10-02T13:57:19.566+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 71, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.566+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 72, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.567+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 73, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.567+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 74, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.567+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 75, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.567+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 76, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.567+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testNonExistentEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
-2025-10-02T13:57:19.569+10:00 DEBUG 40584 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@29bd85db size = 1, maxSize = 32, parentContextCount = 0, hitCount = 77, missCount = 1, failureCount = 0]
-2025-10-02T13:57:19.570+10:00 DEBUG 40584 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test class: class [AppIntegrationTest], class annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:37.218+10:00  INFO 34596 --- [    Test worker] com.calendar.AppIntegrationTest          : Starting AppIntegrationTest using Java 21.0.8 with PID 34596 (started by marti in C:\UTS\Spring 2025\Advanced Software\ASD_Project-1)
+2025-10-02T14:11:37.220+10:00  INFO 34596 --- [    Test worker] com.calendar.AppIntegrationTest          : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-10-02T14:11:38.541+10:00  INFO 34596 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2025-10-02T14:11:38.560+10:00  INFO 34596 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-10-02T14:11:38.560+10:00  INFO 34596 --- [    Test worker] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-10-02T14:11:38.665+10:00  INFO 34596 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-10-02T14:11:38.666+10:00  INFO 34596 --- [    Test worker] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1412 ms
+2025-10-02T14:11:38.808+10:00  INFO 34596 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-10-02T14:11:38.896+10:00 DEBUG 34596 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : 6 mappings in 'requestMappingHandlerMapping'
+2025-10-02T14:11:38.981+10:00 DEBUG 34596 --- [    Test worker] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-10-02T14:11:39.023+10:00 DEBUG 34596 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-10-02T14:11:39.087+10:00 DEBUG 34596 --- [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-10-02T14:11:39.185+10:00  INFO 34596 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 61012 (http) with context path ''
+2025-10-02T14:11:39.193+10:00  INFO 34596 --- [    Test worker] com.calendar.AppIntegrationTest          : Started AppIntegrationTest in 2.428 seconds (process running for 5.346)
+2025-10-02T14:11:39.199+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 0, missCount = 1, failureCount = 0]
+2025-10-02T14:11:39.204+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 1, missCount = 1, failureCount = 0]
+2025-10-02T14:11:39.211+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testRoomsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:39.212+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 2, missCount = 1, failureCount = 0]
+2025-10-02T14:11:39.213+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 3, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.315+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 4, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.374+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/api/rooms
+2025-10-02T14:11:40.394+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:40.531+10:00  INFO 34596 --- [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-02T14:11:40.532+10:00  INFO 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-10-02T14:11:40.532+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2025-10-02T14:11:40.532+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2025-10-02T14:11:40.532+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2025-10-02T14:11:40.533+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@565b04e9
+2025-10-02T14:11:40.533+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@be60fad
+2025-10-02T14:11:40.533+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-10-02T14:11:40.534+10:00  INFO 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-10-02T14:11:40.548+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/rooms&quot;, parameters={}
+2025-10-02T14:11:40.565+10:00 DEBUG 34596 --- [o-auto-1-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getAllRooms()
+2025-10-02T14:11:40.905+10:00 DEBUG 34596 --- [o-auto-1-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
+2025-10-02T14:11:40.907+10:00 DEBUG 34596 --- [o-auto-1-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[{hdmiCable=true, image=Group_Study_Room, speaker=true, equipment=[Speaker System, Whiteboard, Monit (truncated)...]
+2025-10-02T14:11:40.946+10:00 DEBUG 34596 --- [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-10-02T14:11:40.947+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
+2025-10-02T14:11:40.948+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
+2025-10-02T14:11:40.958+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 5, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.958+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 6, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.959+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 7, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.960+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 8, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.961+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 9, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.963+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 10, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.963+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testRoomsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:40.972+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:40.972+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 11, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.973+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 12, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.975+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testCorsHeaders], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:40.975+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 13, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.975+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 14, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.976+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 15, missCount = 1, failureCount = 0]
+2025-10-02T14:11:40.977+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/api/status
+2025-10-02T14:11:40.977+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:40.979+10:00 DEBUG 34596 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/status&quot;, parameters={}
+2025-10-02T14:11:40.979+10:00 DEBUG 34596 --- [o-auto-1-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
+2025-10-02T14:11:40.983+10:00 DEBUG 34596 --- [o-auto-1-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
+2025-10-02T14:11:40.984+10:00 DEBUG 34596 --- [o-auto-1-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=connected, timestamp=Thu Oct 02 14:11:40 AEST 2025}]
+2025-10-02T14:11:41.017+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
+2025-10-02T14:11:41.017+10:00 DEBUG 34596 --- [o-auto-1-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-10-02T14:11:41.018+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
+2025-10-02T14:11:41.018+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 16, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.018+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 17, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.019+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 18, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.019+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 19, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.019+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 20, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.020+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 21, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.020+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testCorsHeaders], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.023+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:41.023+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 22, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.023+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 23, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.025+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testHomeEndpointRedirection], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.025+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 24, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.025+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 25, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.026+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 26, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.027+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/
+2025-10-02T14:11:41.027+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:41.028+10:00 DEBUG 34596 --- [o-auto-1-exec-3] o.s.web.servlet.DispatcherServlet        : GET &quot;/&quot;, parameters={}
+2025-10-02T14:11:41.029+10:00 DEBUG 34596 --- [o-auto-1-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#home()
+2025-10-02T14:11:41.030+10:00 DEBUG 34596 --- [o-auto-1-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'text/plain', given [text/plain, application/json, application/*+json, */*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-02T14:11:41.030+10:00 DEBUG 34596 --- [o-auto-1-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [&quot;redirect:/calendar.html&quot;]
+2025-10-02T14:11:41.031+10:00 DEBUG 34596 --- [o-auto-1-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-10-02T14:11:41.032+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
+2025-10-02T14:11:41.032+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;text/plain;charset=UTF-8&quot;
+2025-10-02T14:11:41.033+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 27, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.033+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 28, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.033+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 29, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.034+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 30, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.034+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 31, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.034+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 32, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.034+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testHomeEndpointRedirection], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.036+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:41.037+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 33, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.037+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 34, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.038+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testApplicationStartsSuccessfully], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.038+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 35, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.038+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 36, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.039+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 37, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.040+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 38, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.040+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 39, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.040+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 40, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.040+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 41, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.041+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 42, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.041+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 43, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.041+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testApplicationStartsSuccessfully], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.044+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:41.044+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 44, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.045+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 45, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.046+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testBookingsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.046+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 46, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.046+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 47, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.047+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 48, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.047+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/api/bookings
+2025-10-02T14:11:41.048+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:41.049+10:00 DEBUG 34596 --- [o-auto-1-exec-4] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/bookings&quot;, parameters={}
+2025-10-02T14:11:41.049+10:00 DEBUG 34596 --- [o-auto-1-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getAllBookings()
+2025-10-02T14:11:41.058+10:00 DEBUG 34596 --- [o-auto-1-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
+2025-10-02T14:11:41.059+10:00 DEBUG 34596 --- [o-auto-1-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[com.calendar.Booking@20d5118f, com.calendar.Booking@251f3228, com.calendar.Booking@323ece6a]]
+2025-10-02T14:11:41.077+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
+2025-10-02T14:11:41.077+10:00 DEBUG 34596 --- [o-auto-1-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-10-02T14:11:41.077+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
+2025-10-02T14:11:41.077+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 49, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.078+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 50, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.078+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 51, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.078+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 52, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.078+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 53, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.079+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 54, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.079+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testBookingsEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.082+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:41.082+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 55, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.082+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 56, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.083+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testStatusEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.083+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 57, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.084+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 58, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.084+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 59, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.085+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/api/status
+2025-10-02T14:11:41.086+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:41.087+10:00 DEBUG 34596 --- [o-auto-1-exec-5] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/status&quot;, parameters={}
+2025-10-02T14:11:41.087+10:00 DEBUG 34596 --- [o-auto-1-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
+2025-10-02T14:11:41.091+10:00 DEBUG 34596 --- [o-auto-1-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
+2025-10-02T14:11:41.091+10:00 DEBUG 34596 --- [o-auto-1-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=connected, timestamp=Thu Oct 02 14:11:41 AEST 2025}]
+2025-10-02T14:11:41.092+10:00 DEBUG 34596 --- [o-auto-1-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2025-10-02T14:11:41.092+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 200 OK
+2025-10-02T14:11:41.093+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
+2025-10-02T14:11:41.093+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 60, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.093+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 61, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.094+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 62, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.094+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 63, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.094+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 64, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.094+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 65, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.095+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testStatusEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.098+10:00 DEBUG 34596 --- [    Test worker] DependencyInjectionTestExecutionListener : Performing dependency injection for test class com.calendar.AppIntegrationTest
+2025-10-02T14:11:41.098+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 66, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.099+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 67, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.100+10:00 DEBUG 34596 --- [    Test worker] sContextBeforeModesTestExecutionListener : Before test method: class [AppIntegrationTest], method [testNonExistentEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.100+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 68, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.100+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 69, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.101+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 70, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.102+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : HTTP GET http://localhost:61012/api/nonexistent
+2025-10-02T14:11:41.102+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Accept=[text/plain, application/json, application/*+json, */*]
+2025-10-02T14:11:41.103+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : GET &quot;/api/nonexistent&quot;, parameters={}
+2025-10-02T14:11:41.108+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2025-10-02T14:11:41.111+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2025-10-02T14:11:41.118+10:00 DEBUG 34596 --- [o-auto-1-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/nonexistent.]
+2025-10-02T14:11:41.119+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2025-10-02T14:11:41.130+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : &quot;ERROR&quot; dispatch for GET &quot;/error&quot;, parameters={}
+2025-10-02T14:11:41.132+10:00 DEBUG 34596 --- [o-auto-1-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2025-10-02T14:11:41.154+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [text/plain, application/json, application/*+json, */*] and supported [application/json, application/*+json]
+2025-10-02T14:11:41.155+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Thu Oct 02 14:11:41 AEST 2025, status=404, error=Not Found, path=/api/nonexistent}]
+2025-10-02T14:11:41.157+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Response 404 NOT_FOUND
+2025-10-02T14:11:41.158+10:00 DEBUG 34596 --- [    Test worker] o.s.web.client.RestTemplate              : Reading to [java.lang.String] as &quot;application/json&quot;
+2025-10-02T14:11:41.160+10:00 DEBUG 34596 --- [o-auto-1-exec-6] o.s.web.servlet.DispatcherServlet        : Exiting from &quot;ERROR&quot; dispatch, status 404
+2025-10-02T14:11:41.161+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 71, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.161+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 72, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.162+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 73, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.163+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 74, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.163+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 75, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.163+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 76, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.164+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test method: class [AppIntegrationTest], method [testNonExistentEndpoint], class annotated with @DirtiesContext [false] with mode [null], method annotated with @DirtiesContext [false] with mode [null]
+2025-10-02T14:11:41.167+10:00 DEBUG 34596 --- [    Test worker] org.springframework.test.context.cache   : Spring test ApplicationContext cache statistics: [DefaultContextCache@1e954b94 size = 1, maxSize = 32, parentContextCount = 0, hitCount = 77, missCount = 1, failureCount = 0]
+2025-10-02T14:11:41.168+10:00 DEBUG 34596 --- [    Test worker] .c.s.DirtiesContextTestExecutionListener : After test class: class [AppIntegrationTest], class annotated with @DirtiesContext [false] with mode [null]
 </pre>
 </span>
 </div>
@@ -333,7 +333,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.11</a> at 2025年10月2日 下午1:57:20</p>
+<a href="http://www.gradle.org">Gradle 8.11</a> at 2025年10月2日 下午2:11:43</p>
 </div>
 </div>
 </body>

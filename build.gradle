@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -35,4 +36,47 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport // Generate coverage report after tests
 }
+
+// JaCoCo Configuration for Code Coverage
+jacoco {
+    toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+    dependsOn test // Tests are required to run before generating the report
+    
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+    
+    executionData fileTree(dir: "$buildDir/jacoco", include: "**/*.exec")
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                '**/Application.class',
+                '**/App.class' // Exclude main application class if needed
+            ])
+        }))
+    }
+}
+
+// Coverage verification task
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+    
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80 // 80% minimum coverage
+            }
+        }
+    }
+}
+
+// Make check depend on coverage verification
+check.dependsOn jacocoTestCoverageVerification

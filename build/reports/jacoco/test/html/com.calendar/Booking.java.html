@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Booking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ASD_Project-1</a> &gt; <a href="index.source.html" class="el_package">com.calendar</a> &gt; <span class="el_source">Booking.java</span></div><h1>Booking.java</h1><pre class="source lang-java linenums">package com.calendar;
+
+public class Booking {
+    private int timeID;
+    private int roomId;
+    private String startTime;
+    private String endTime;
+    private String roomName;
+    private String roomType;
+    private int capacity;
+    private boolean speaker;
+    private boolean whiteboard;
+    private boolean monitor;
+    private boolean hdmiCable;
+    private String image;
+
+    public Booking(int timeID, int roomId, String startTime, String endTime, String roomName, String roomType, 
+<span class="fc" id="L18">                   int capacity, boolean speaker, boolean whiteboard, boolean monitor, boolean hdmiCable, String image) {</span>
+<span class="fc" id="L19">        this.timeID = timeID;</span>
+<span class="fc" id="L20">        this.roomId = roomId;</span>
+<span class="fc" id="L21">        this.startTime = startTime;</span>
+<span class="fc" id="L22">        this.endTime = endTime;</span>
+<span class="fc" id="L23">        this.roomName = roomName;</span>
+<span class="fc" id="L24">        this.roomType = roomType;</span>
+<span class="fc" id="L25">        this.capacity = capacity;</span>
+<span class="fc" id="L26">        this.speaker = speaker;</span>
+<span class="fc" id="L27">        this.whiteboard = whiteboard;</span>
+<span class="fc" id="L28">        this.monitor = monitor;</span>
+<span class="fc" id="L29">        this.hdmiCable = hdmiCable;</span>
+<span class="fc" id="L30">        this.image = image;</span>
+<span class="fc" id="L31">    }</span>
+
+    // Getters and setters for existing fields
+<span class="fc" id="L34">    public int getTimeID() { return timeID; }</span>
+<span class="fc" id="L35">    public void setTimeID(int timeID) { this.timeID = timeID; }</span>
+    
+<span class="fc" id="L37">    public int getRoomId() { return roomId; }</span>
+<span class="fc" id="L38">    public void setRoomId(int roomId) { this.roomId = roomId; }</span>
+    
+<span class="fc" id="L40">    public String getStartTime() { return startTime; }</span>
+<span class="fc" id="L41">    public void setStartTime(String startTime) { this.startTime = startTime; }</span>
+    
+<span class="fc" id="L43">    public String getEndTime() { return endTime; }</span>
+<span class="fc" id="L44">    public void setEndTime(String endTime) { this.endTime = endTime; }</span>
+    
+<span class="fc" id="L46">    public String getRoomName() { return roomName; }</span>
+<span class="fc" id="L47">    public void setRoomName(String roomName) { this.roomName = roomName; }</span>
+    
+<span class="fc" id="L49">    public String getRoomType() { return roomType; }</span>
+<span class="fc" id="L50">    public void setRoomType(String roomType) { this.roomType = roomType; }</span>
+
+    // Getters and setters for new room details
+<span class="fc" id="L53">    public int getCapacity() { return capacity; }</span>
+<span class="fc" id="L54">    public void setCapacity(int capacity) { this.capacity = capacity; }</span>
+    
+<span class="fc" id="L56">    public boolean isSpeaker() { return speaker; }</span>
+<span class="fc" id="L57">    public void setSpeaker(boolean speaker) { this.speaker = speaker; }</span>
+    
+<span class="fc" id="L59">    public boolean isWhiteboard() { return whiteboard; }</span>
+<span class="fc" id="L60">    public void setWhiteboard(boolean whiteboard) { this.whiteboard = whiteboard; }</span>
+    
+<span class="fc" id="L62">    public boolean isMonitor() { return monitor; }</span>
+<span class="fc" id="L63">    public void setMonitor(boolean monitor) { this.monitor = monitor; }</span>
+    
+<span class="fc" id="L65">    public boolean isHdmiCable() { return hdmiCable; }</span>
+<span class="fc" id="L66">    public void setHdmiCable(boolean hdmiCable) { this.hdmiCable = hdmiCable; }</span>
+    
+<span class="fc" id="L68">    public String getImage() { return image; }</span>
+<span class="fc" id="L69">    public void setImage(String image) { this.image = image; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

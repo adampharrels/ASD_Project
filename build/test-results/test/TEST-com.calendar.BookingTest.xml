@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.calendar.BookingTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-10-02T03:57:20" hostname="DESKTOP-780BEE1" time="0.026">
+<testsuite name="com.calendar.BookingTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-10-02T04:11:42" hostname="DESKTOP-780BEE1" time="0.038">
   <properties/>
-  <testcase name="testBookingWithSpecialCharacters()" classname="com.calendar.BookingTest" time="0.002"/>
+  <testcase name="testBookingWithSpecialCharacters()" classname="com.calendar.BookingTest" time="0.003"/>
   <testcase name="testBookingCreationWithAllParameters()" classname="com.calendar.BookingTest" time="0.002"/>
   <testcase name="testBookingSetters()" classname="com.calendar.BookingTest" time="0.004"/>
-  <testcase name="testBookingEquality()" classname="com.calendar.BookingTest" time="0.003"/>
+  <testcase name="testBookingEquality()" classname="com.calendar.BookingTest" time="0.006"/>
   <testcase name="testBookingDefaultConstructor()" classname="com.calendar.BookingTest" time="0.002"/>
-  <testcase name="testBookingBooleanFeatures()" classname="com.calendar.BookingTest" time="0.001"/>
-  <testcase name="testBookingValidTimeRange()" classname="com.calendar.BookingTest" time="0.001"/>
-  <testcase name="testBookingCapacityBoundaries()" classname="com.calendar.BookingTest" time="0.002"/>
+  <testcase name="testBookingBooleanFeatures()" classname="com.calendar.BookingTest" time="0.003"/>
+  <testcase name="testBookingValidTimeRange()" classname="com.calendar.BookingTest" time="0.003"/>
+  <testcase name="testBookingCapacityBoundaries()" classname="com.calendar.BookingTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

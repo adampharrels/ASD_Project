@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.calendar.CalendarServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-10-02T03:57:20" hostname="DESKTOP-780BEE1" time="0.029">
+<testsuite name="com.calendar.CalendarServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-10-02T04:11:42" hostname="DESKTOP-780BEE1" time="0.043">
   <properties/>
-  <testcase name="testGetAllRoomsReturnsEmptyList()" classname="com.calendar.CalendarServiceTest" time="0.011"/>
+  <testcase name="testGetAllRoomsReturnsEmptyList()" classname="com.calendar.CalendarServiceTest" time="0.018"/>
   <testcase name="testIsDatabaseConnected()" classname="com.calendar.CalendarServiceTest" time="0.008"/>
-  <testcase name="testGetAllBookingsReturnsEmptyList()" classname="com.calendar.CalendarServiceTest" time="0.009"/>
+  <testcase name="testGetAllBookingsReturnsEmptyList()" classname="com.calendar.CalendarServiceTest" time="0.015"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
