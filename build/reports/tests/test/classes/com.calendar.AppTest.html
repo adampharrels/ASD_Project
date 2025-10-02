@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - AppTest</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>AppTest</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.calendar.html">com.calendar</a> &gt; AppTest</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">3</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.589s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">testGetStatusWhenDatabaseConnected()</td>
+<td class="success">0.531s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testGetStatusWhenDatabaseDisconnected()</td>
+<td class="success">0.026s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">testHomeRedirection()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2025-10-02T13:57:19.863+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : 4 mappings in org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+2025-10-02T13:57:19.868+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-10-02T13:57:19.869+10:00 DEBUG 40584 --- [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-10-02T13:57:19.874+10:00  INFO 40584 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2025-10-02T13:57:19.874+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-10-02T13:57:19.875+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected AcceptHeaderLocaleResolver
+2025-10-02T13:57:19.875+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected FixedThemeResolver
+2025-10-02T13:57:19.875+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4b56b517
+2025-10-02T13:57:19.876+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.support.SessionFlashMapManager@1124dd79
+2025-10-02T13:57:19.876+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-10-02T13:57:19.876+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-10-02T13:57:19.958+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : GET &quot;/api/status&quot;, parameters={}
+2025-10-02T13:57:19.961+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
+2025-10-02T13:57:19.974+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-10-02T13:57:19.975+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=connected, timestamp=Thu Oct 02 13:57:19 AEST 2025}]
+2025-10-02T13:57:19.981+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed 200 OK
+2025-10-02T13:57:20.134+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : 4 mappings in org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+2025-10-02T13:57:20.136+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-10-02T13:57:20.137+10:00 DEBUG 40584 --- [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-10-02T13:57:20.138+10:00  INFO 40584 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2025-10-02T13:57:20.138+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-10-02T13:57:20.138+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected AcceptHeaderLocaleResolver
+2025-10-02T13:57:20.138+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected FixedThemeResolver
+2025-10-02T13:57:20.138+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4738131e
+2025-10-02T13:57:20.138+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.support.SessionFlashMapManager@3b576ee3
+2025-10-02T13:57:20.138+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-10-02T13:57:20.138+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-10-02T13:57:20.139+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : GET &quot;/&quot;, parameters={}
+2025-10-02T13:57:20.140+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#home()
+2025-10-02T13:57:20.141+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'text/plain', given [*/*] and supported [text/plain, */*, application/json, application/*+json]
+2025-10-02T13:57:20.141+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [&quot;redirect:/calendar.html&quot;]
+2025-10-02T13:57:20.141+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed 200 OK
+2025-10-02T13:57:20.164+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : 4 mappings in org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+2025-10-02T13:57:20.166+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-10-02T13:57:20.167+10:00 DEBUG 40584 --- [    Test worker] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-10-02T13:57:20.167+10:00  INFO 40584 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2025-10-02T13:57:20.168+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-10-02T13:57:20.168+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected AcceptHeaderLocaleResolver
+2025-10-02T13:57:20.168+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected FixedThemeResolver
+2025-10-02T13:57:20.168+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@62c53685
+2025-10-02T13:57:20.168+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Detected org.springframework.web.servlet.support.SessionFlashMapManager@29ba63f0
+2025-10-02T13:57:20.168+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-10-02T13:57:20.168+10:00  INFO 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-10-02T13:57:20.171+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : GET &quot;/api/status&quot;, parameters={}
+2025-10-02T13:57:20.171+10:00 DEBUG 40584 --- [    Test worker] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.calendar.App#getStatus()
+2025-10-02T13:57:20.173+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2025-10-02T13:57:20.174+10:00 DEBUG 40584 --- [    Test worker] m.m.a.RequestResponseBodyMethodProcessor : Writing [{database=disconnected, timestamp=Thu Oct 02 13:57:20 AEST 2025}]
+2025-10-02T13:57:20.177+10:00 DEBUG 40584 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed 200 OK
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.11</a> at 2025年10月2日 下午1:57:20</p>
+</div>
+</div>
+</body>
+</html>
