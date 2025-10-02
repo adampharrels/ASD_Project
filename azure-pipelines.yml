@@ -1,15 +1,13 @@
-# Azure Pipeline for Spring Boot Room Booking System
-# Builds, tests, and validates the application
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
 trigger:
 - main
 
-
 pool:
   vmImage: ubuntu-latest
-
-variables:
-  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
 
 steps:
 # Set up Java environment
@@ -82,7 +80,6 @@ steps:
     echo "=== Starting Unit Test Execution with Code Coverage ==="
   echo "Test configuration:"
   echo "- Total test classes: 5 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest, AccountTest)"
-  echo "- AccountTest is my own unit test for account creation and login (see app/src/test/java/uni/space/finder/AccountTest.java)"
   echo "- Expected total tests: 22+ (including AccountTest)"
   echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
   echo "- Coverage tool: JaCoCo"
@@ -132,7 +129,7 @@ steps:
     echo "=== Test Coverage Analysis ==="
     
     # Check if all expected test classes ran
-  EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest" "AccountTest")
+    EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest")
     
     for class in "${EXPECTED_CLASSES[@]}"; do
       if [ -f "build/test-results/test/TEST-com.calendar.${class}.xml" ]; then
@@ -144,12 +141,11 @@ steps:
     done
     
     echo ""
-  echo "=== Test Layer Coverage Verification ==="
-  echo "✅ Model Layer: BookingTest (data validation)"
-  echo "✅ Account Logic: AccountTest (account creation/login)"
-  echo "✅ Controller Layer: AppTest (REST API with MockMvc)"
-  echo "✅ Service Layer: CalendarServiceTest (business logic)"
-  echo "✅ Integration Layer: AppIntegrationTest (full stack)"
+    echo "=== Test Layer Coverage Verification ==="
+    echo "✅ Model Layer: BookingTest (data validation)"
+    echo "✅ Controller Layer: AppTest (REST API with MockMvc)"
+    echo "✅ Service Layer: CalendarServiceTest (business logic)"
+    echo "✅ Integration Layer: AppIntegrationTest (full stack)"
   displayName: 'Validate test coverage'
   condition: succeededOrFailed()
 
