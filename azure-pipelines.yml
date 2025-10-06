@@ -43,6 +43,19 @@ steps:
 - task: Cache@2
   displayName: 'Cache Gradle dependencies'
   inputs:
+    key: 'gradle | "$(Agent.OS)" | **/gradle-wrapper.properties'
+    path: $(GRADLE_USER_HOME)
+
+# Run unit tests with detailed reporting
+- script: |
+    echo "=== Starting Unit Test Execution ==="
+    echo "Test configuration:"
+    echo "- Total test classes: 4 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest)"
+    echo "- Expected total tests: 21"
+    echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
+    echo ""
+    
+    # Run tests with detailed output and continue on failure
     ./gradlew clean test --info --continue
     
     echo ""
@@ -64,56 +77,9 @@ steps:
       echo "❌ ERROR: No test result files found"
     fi
     
-    echo ""
-    echo "=== Code Coverage Report Generation ==="
-    if [ -f "build/reports/jacoco/test/html/index.html" ]; then
-      echo "✅ JaCoCo HTML coverage report generated successfully"
-      echo "📊 Coverage report location: build/reports/jacoco/test/html/index.html"
-    else
-      echo "❌ ERROR: JaCoCo coverage report not found"
-    fi
-    
-    if [ -f "build/reports/jacoco/test/jacocoTestReport.xml" ]; then
-      echo "✅ JaCoCo XML coverage report generated successfully"
-    else
-      echo "❌ ERROR: JaCoCo XML coverage report not found"
-    fi
   displayName: 'Run comprehensive unit tests'
   continueOnError: false
-    echo "=== Test Execution Summary ==="
-    if [ -f "build/test-results/test/TEST-*.xml" ]; then
-      # Count total tests from XML files
-      TOTAL_TESTS=$(grep -h "tests=" build/test-results/test/TEST-*.xml | sed 's/.*tests="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
-      FAILED_TESTS=$(grep -h "failures=" build/test-results/test/TEST-*.xml | sed 's/.*failures="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
-      echo "Total tests executed: $TOTAL_TESTS"
-      echo "Failed tests: $FAILED_TESTS"
-      
-      if [ "$FAILED_TESTS" -gt 0 ]; then
-        echo "⚠️  WARNING: $FAILED_TESTS test(s) failed!"
-      else
-        echo "✅ All tests passed successfully!"
-      fi
-    else
-      echo "❌ ERROR: No test result files found"
-    fi
-    
-    echo ""
-    echo "=== Code Coverage Report Generation ==="
-    if [ -f "build/reports/jacoco/test/html/index.html" ]; then
-      echo "✅ JaCoCo HTML coverage report generated successfully"
-      echo "📊 Coverage report location: build/reports/jacoco/test/html/index.html"
-    else
-      echo "❌ ERROR: JaCoCo coverage report not found"
-    fi
-    
-      echo "✅ JaCoCo XML coverage report generated successfully"
-    else
-      echo "❌ ERROR: JaCoCo XML coverage report not found"
-    codeCoverageTool: 'None'
-    summaryFileLocation: ''
-    reportDirectory: ''
-    additionalCodeCoverageFiles: ''
-    failIfCoverageEmpty: true
+# Validate test coverage and results
 - script: |
     echo "=== Test Coverage Analysis ==="
     # Check if all expected test classes ran
@@ -158,21 +124,12 @@ steps:
     contents: |
       **/build/reports/tests/**
       **/build/test-results/**
-      **/build/reports/jacoco/**
     targetFolder: '$(Build.ArtifactStagingDirectory)/test-artifacts'
     flattenFolders: false
   continueOnError: true
 
-# Publish Code Coverage Results
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage results'
-  condition: succeededOrFailed()
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '**/build/reports/jacoco/test/jacocoTestReport.xml'
-    reportDirectory: '**/build/reports/jacoco/test/html'
-    additionalCodeCoverageFiles: '**/build/jacoco/test.exec'
-    failIfCoverageEmpty: false
+# Code Coverage disabled - JaCoCo removed
+# - task: PublishCodeCoverageResults@1
 
 # Generate comprehensive test and coverage summary report
 - script: |
@@ -191,7 +148,7 @@ steps:
     - **Total Test Classes:** 4
     - **Total Tests:** 21
     - **Test Frameworks:** JUnit 5, Mockito, Spring Test
-    - **Coverage Tool:** JaCoCo
+    - **Coverage Tool:** None
     - **Database:** H2 in-memory for integration tests
     
     ## Test Coverage by Layer
@@ -203,37 +160,11 @@ steps:
     ## Code Coverage Analysis
     EOF
     
-    # Add coverage information if available
-    if [ -f "build/reports/jacoco/test/jacocoTestReport.xml" ]; then
-      echo "### Coverage Metrics" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      
-      # Extract coverage percentages from XML (basic extraction)
-      if command -v xmllint >/dev/null 2>&1; then
-        INSTRUCTION_COVERAGE=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml 2>/dev/null || echo "N/A")
-        INSTRUCTION_TOTAL=$(xmllint --xpath "string(//report/counter[@type='INSTRUCTION']/@missed)" build/reports/jacoco/test/jacocoTestReport.xml 2>/dev/null || echo "N/A")
-        BRANCH_COVERAGE=$(xmllint --xpath "string(//report/counter[@type='BRANCH']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml 2>/dev/null || echo "N/A")
-        LINE_COVERAGE=$(xmllint --xpath "string(//report/counter[@type='LINE']/@covered)" build/reports/jacoco/test/jacocoTestReport.xml 2>/dev/null || echo "N/A")
-        
-        echo "- **Instruction Coverage:** $INSTRUCTION_COVERAGE instructions covered" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-        echo "- **Branch Coverage:** $BRANCH_COVERAGE branches covered" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-        echo "- **Line Coverage:** $LINE_COVERAGE lines covered" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      else
-        echo "- **Coverage Report:** Generated successfully (detailed metrics in HTML report)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      fi
-      
-      echo "" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      echo "### Coverage by Package" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      echo "- **com.calendar:** All application classes covered" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      echo "- **Model classes:** BookingTest provides comprehensive model coverage" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      echo "- **Controller classes:** AppTest covers all REST endpoints" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      echo "- **Service classes:** CalendarServiceTest covers business logic" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-      
-    else
-      echo "⚠️ **Coverage Report:** Not generated (check build logs)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-    fi
-    
+    # Add test results information
     echo "" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     echo "## Test Results" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
+        
+
     
     # Add test results to summary
     if [ -d "build/test-results/test" ]; then
@@ -258,13 +189,11 @@ steps:
     
     echo "" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     echo "## Available Reports" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-    echo "- [📊 Code Coverage Report (HTML)](test-artifacts/build/reports/jacoco/test/html/index.html)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     echo "- [🧪 Test Report (HTML)](test-artifacts/build/reports/tests/test/index.html)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-    echo "- [📄 Coverage XML](test-artifacts/build/reports/jacoco/test/jacocoTestReport.xml)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     echo "- [📦 Build Artifacts](room-booking-app)" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     
-    echo "Comprehensive test and coverage summary report generated successfully"
-  displayName: 'Generate test and coverage summary'
+    echo "Test summary report generated successfully"
+  displayName: 'Generate test summary'
   condition: succeededOrFailed()
 
 # Build the application JAR
@@ -391,14 +320,7 @@ steps:
     
     echo ""
     echo "=== 📊 CODE COVERAGE SUMMARY ==="
-    if [ -f "build/reports/jacoco/test/html/index.html" ]; then
-      echo "  ✅ Coverage Report Generated Successfully"
-      echo "  📊 HTML Report: build/reports/jacoco/test/html/index.html"
-      echo "  📄 XML Report: build/reports/jacoco/test/jacocoTestReport.xml"
-      echo "  🎯 Coverage published to Azure DevOps Code Coverage tab"
-    else
-      echo "  ❌ Coverage Report Not Found"
-    fi
+    echo "  ℹ️  Code coverage disabled (JaCoCo removed)"
     
     echo ""
     echo "=== 📦 BUILD ARTIFACTS ==="
