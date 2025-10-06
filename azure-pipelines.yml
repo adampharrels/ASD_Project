@@ -1,15 +1,15 @@
-# Azure Pipeline for Spring Boot Room Booking System
-# Builds, tests, and validates the application
-
-trigger:
-- main
-
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yam    ## Test Suite Overview
+    - **Total Test Classes:** 5
+    - **Total Tests:** 22+ (including AccountTest)
+    - **Test Frameworks:** JUnit 5, Mockito, Spring Test
+    - **Coverage Tool:** None
+    - **Database:** H2 in-memory for integration tests- main
 
 pool:
   vmImage: ubuntu-latest
-
-variables:
-  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
 
 steps:
 # Set up Java environment
@@ -48,10 +48,38 @@ steps:
 
 # Run unit tests with detailed reporting
 - script: |
+    if [ -f "gradlew" ]; then
+      chmod +x gradlew
+      echo "gradlew is now executable"
+    else
+      echo "gradlew file not found in repository!"
+      exit 1
+    fi
+  displayName: 'Make gradlew executable'
+
+# Verify environment before build
+- script: |
+    echo "=== Environment Verification ==="
+    echo "JAVA_HOME: $JAVA_HOME"
+    echo "PATH: $PATH"
+    echo "Java version:"
+    java -version
+    echo "Gradle wrapper version:"
+    ./gradlew --version
+    echo "Current directory contents:"
+    ls -la
+  displayName: 'Verify build environment'
+
+# Clean and compile the project
+- script: ./gradlew clean compileJava
+  displayName: 'Clean and compile Java code'
+
+# Run unit tests with detailed reporting
+- script: |
     echo "=== Starting Unit Test Execution ==="
     echo "Test configuration:"
-    echo "- Total test classes: 4 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest)"
-    echo "- Expected total tests: 21"
+    echo "- Total test classes: 5 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest, AccountTest)"
+    echo "- Expected total tests: 22+ (including AccountTest)"
     echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
     echo ""
     
@@ -83,7 +111,7 @@ steps:
 - script: |
     echo "=== Test Coverage Analysis ==="
     # Check if all expected test classes ran
-    EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest")
+    EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest" "AccountTest")
     
     for class in "${EXPECTED_CLASSES[@]}"; do
       if [ -f "build/test-results/test/TEST-com.calendar.${class}.xml" ]; then
@@ -137,28 +165,41 @@ steps:
     mkdir -p $(Build.ArtifactStagingDirectory)/test-summary
     
     # Create detailed test and coverage summary
-    cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
-    # Unit Test & Code Coverage Report
+  cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
+  # Unit Test & Code Coverage Report
     
-    **Build:** $(Build.BuildNumber)  
-    **Date:** $(date)  
-    **Branch:** $(Build.SourceBranchName)  
+  **Build:** $(Build.BuildNumber)  
+  **Date:** $(date)  
+  **Branch:** $(Build.SourceBranchName)  
     
+<<<<<<< HEAD
     ## Test Suite Overview
     - **Total Test Classes:** 4
     - **Total Tests:** 21
     - **Test Frameworks:** JUnit 5, Mockito, Spring Test
     - **Coverage Tool:** None
     - **Database:** H2 in-memory for integration tests
+=======
+  ## Test Suite Overview
+  - **Total Test Classes:** 5
+  - **Total Tests:** 22+ (including AccountTest)
+  - **Test Frameworks:** JUnit 5, Mockito, Spring Test
+  - **Coverage Tool:** JaCoCo
+  - **Database:** H2 in-memory for integration tests
+>>>>>>> 15806c05ced5cde6c563c28ba7a033713ec66f77
     
-    ## Test Coverage by Layer
-    1. **Model Layer** (BookingTest): Data validation and integrity
-    2. **Controller Layer** (AppTest): REST API functionality with MockMvc  
-    3. **Service Layer** (CalendarServiceTest): Business logic and database operations
-    4. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+  ## My Contribution
+  - **AccountTest**: Custom unit test for account creation and login logic (see `app/src/test/java/uni/space/finder/AccountTest.java`).
     
-    ## Code Coverage Analysis
-    EOF
+  ## Test Coverage by Layer
+  1. **Model Layer** (BookingTest): Data validation and integrity
+  2. **Account Logic** (AccountTest): Account creation and login (my part)
+  3. **Controller Layer** (AppTest): REST API functionality with MockMvc  
+  4. **Service Layer** (CalendarServiceTest): Business logic and database operations
+  5. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+    
+  ## Code Coverage Analysis
+  EOF
     
     # Add test results information
     echo "" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
