@@ -1,15 +1,15 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yam    ## Test Suite Overview
-    - **Total Test Classes:** 5
-    - **Total Tests:** 22+ (including AccountTest)
-    - **Test Frameworks:** JUnit 5, Mockito, Spring Test
-    - **Coverage Tool:** None
-    - **Database:** H2 in-memory for integration tests- main
+# Azure Pipeline for Spring Boot Room Booking System
+# Builds, tests, and validates the application
+
+trigger:
+- main
+- Martin
 
 pool:
   vmImage: ubuntu-latest
+
+variables:
+  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
 
 steps:
 # Set up Java environment
@@ -164,48 +164,36 @@ steps:
     echo "=== Generating Test & Coverage Summary Report ==="
     mkdir -p $(Build.ArtifactStagingDirectory)/test-summary
     
-    # Create detailed test and coverage summary
-  cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
-  # Unit Test & Code Coverage Report
+    # Create detailed test summary
+    cat > $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md << EOF
+    # Unit Test Summary Report
     
-  **Build:** $(Build.BuildNumber)  
-  **Date:** $(date)  
-  **Branch:** $(Build.SourceBranchName)  
+    **Build:** $(Build.BuildNumber)  
+    **Date:** $(date)  
+    **Branch:** $(Build.SourceBranchName)  
     
-<<<<<<< HEAD
     ## Test Suite Overview
-    - **Total Test Classes:** 4
-    - **Total Tests:** 21
+    - **Total Test Classes:** 5
+    - **Total Tests:** 22+ (including AccountTest)
     - **Test Frameworks:** JUnit 5, Mockito, Spring Test
-    - **Coverage Tool:** None
+    - **Coverage Tool:** None (JaCoCo removed)
     - **Database:** H2 in-memory for integration tests
-=======
-  ## Test Suite Overview
-  - **Total Test Classes:** 5
-  - **Total Tests:** 22+ (including AccountTest)
-  - **Test Frameworks:** JUnit 5, Mockito, Spring Test
-  - **Coverage Tool:** JaCoCo
-  - **Database:** H2 in-memory for integration tests
->>>>>>> 15806c05ced5cde6c563c28ba7a033713ec66f77
     
-  ## My Contribution
-  - **AccountTest**: Custom unit test for account creation and login logic (see `app/src/test/java/uni/space/finder/AccountTest.java`).
     
-  ## Test Coverage by Layer
-  1. **Model Layer** (BookingTest): Data validation and integrity
-  2. **Account Logic** (AccountTest): Account creation and login (my part)
-  3. **Controller Layer** (AppTest): REST API functionality with MockMvc  
-  4. **Service Layer** (CalendarServiceTest): Business logic and database operations
-  5. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+    ## My Contribution
+    - **AccountTest**: Custom unit test for account creation and login logic (see app/src/test/java/uni/space/finder/AccountTest.java).
     
-  ## Code Coverage Analysis
-  EOF
+    ## Test Coverage by Layer
+    1. **Model Layer** (BookingTest): Data validation and integrity
+    2. **Account Logic** (AccountTest): Account creation and login validation
+    3. **Controller Layer** (AppTest): REST API functionality with MockMvc  
+    4. **Service Layer** (CalendarServiceTest): Business logic and database operations
+    5. **Integration Layer** (AppIntegrationTest): Full stack end-to-end testing
+    EOF
     
     # Add test results information
     echo "" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
     echo "## Test Results" >> $(Build.ArtifactStagingDirectory)/test-summary/test-coverage-summary.md
-        
-
     
     # Add test results to summary
     if [ -d "build/test-results/test" ]; then
