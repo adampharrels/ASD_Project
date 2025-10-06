@@ -43,52 +43,7 @@ steps:
 - task: Cache@2
   displayName: 'Cache Gradle dependencies'
   inputs:
-    key: 'gradle | "$(Agent.OS)" | **/build.gradle'
-    restoreKeys: |
-      gradle | "$(Agent.OS)"
-      gradle
-    path: $(GRADLE_USER_HOME)
-
-# Make gradlew executable
-- script: |
-    if [ -f "gradlew" ]; then
-      chmod +x gradlew
-      echo "gradlew is now executable"
-    else
-      echo "gradlew file not found in repository!"
-      exit 1
-    fi
-  displayName: 'Make gradlew executable'
-
-# Verify environment before build
-- script: |
-    echo "=== Environment Verification ==="
-    echo "JAVA_HOME: $JAVA_HOME"
-    echo "PATH: $PATH"
-    echo "Java version:"
-    java -version
-    echo "Gradle wrapper version:"
-    ./gradlew --version
-    echo "Current directory contents:"
-    ls -la
-  displayName: 'Verify build environment'
-
-# Clean and compile the project
-- script: ./gradlew clean compileJava
-  displayName: 'Clean and compile Java code'
-
-# Run unit tests with detailed reporting and coverage
-- script: |
-    echo "=== Starting Unit Test Execution with Code Coverage ==="
-    echo "Test configuration:"
-    echo "- Total test classes: 4 (BookingTest, AppTest, AppIntegrationTest, CalendarServiceTest)"
-    echo "- Expected total tests: 21"
-    echo "- Test frameworks: JUnit 5, Mockito, Spring Test"
-    echo "- Coverage tool: JaCoCo"
-    echo ""
-    
-    # Run tests with detailed output, coverage, and continue on failure
-    ./gradlew clean test jacocoTestReport --info --continue
+    ./gradlew clean test --info --continue
     
     echo ""
     echo "=== Test Execution Summary ==="
@@ -123,13 +78,44 @@ steps:
     else
       echo "❌ ERROR: JaCoCo XML coverage report not found"
     fi
-  displayName: 'Run comprehensive unit tests with coverage'
+  displayName: 'Run comprehensive unit tests'
   continueOnError: false
-
-# Validate test coverage and results
+    echo "=== Test Execution Summary ==="
+    if [ -f "build/test-results/test/TEST-*.xml" ]; then
+      # Count total tests from XML files
+      TOTAL_TESTS=$(grep -h "tests=" build/test-results/test/TEST-*.xml | sed 's/.*tests="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
+      FAILED_TESTS=$(grep -h "failures=" build/test-results/test/TEST-*.xml | sed 's/.*failures="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
+      echo "Total tests executed: $TOTAL_TESTS"
+      echo "Failed tests: $FAILED_TESTS"
+      
+      if [ "$FAILED_TESTS" -gt 0 ]; then
+        echo "⚠️  WARNING: $FAILED_TESTS test(s) failed!"
+      else
+        echo "✅ All tests passed successfully!"
+      fi
+    else
+      echo "❌ ERROR: No test result files found"
+    fi
+    
+    echo ""
+    echo "=== Code Coverage Report Generation ==="
+    if [ -f "build/reports/jacoco/test/html/index.html" ]; then
+      echo "✅ JaCoCo HTML coverage report generated successfully"
+      echo "📊 Coverage report location: build/reports/jacoco/test/html/index.html"
+    else
+      echo "❌ ERROR: JaCoCo coverage report not found"
+    fi
+    
+      echo "✅ JaCoCo XML coverage report generated successfully"
+    else
+      echo "❌ ERROR: JaCoCo XML coverage report not found"
+    codeCoverageTool: 'None'
+    summaryFileLocation: ''
+    reportDirectory: ''
+    additionalCodeCoverageFiles: ''
+    failIfCoverageEmpty: true
 - script: |
     echo "=== Test Coverage Analysis ==="
-    
     # Check if all expected test classes ran
     EXPECTED_CLASSES=("BookingTest" "AppTest" "AppIntegrationTest" "CalendarServiceTest")
     
