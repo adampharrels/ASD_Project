@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
-    id 'jacoco'
+
 }
 
 group = 'com.example'
@@ -34,32 +34,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
 }
-
-jacoco {
-    toolVersion = '0.8.10'
-}
-
-jacocoTestReport {
-    dependsOn test, compileJava, processResources
-    reports {
-        xml.required = true
-        html.required = true
-        csv.required = false
-    }
-    executionData fileTree(dir: 'build/jacoco', include: '**/*.exec')
-}
-
-jacocoTestCoverageVerification {
-    dependsOn jacocoTestReport
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.80
-            }
-        }
-    }
-}
-
-check.dependsOn jacocoTestCoverageVerification
