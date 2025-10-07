@@ -1,1 +1,3 @@
 0,testuser@example.com,pass123,Test,User,123456
+1, admin@student.uts.edu.au,admin12345,Admin,Account,123456
+2,adamin@student.uts.edu.au,@dMin1234,Admin,Account,12345
