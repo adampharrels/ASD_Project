@@ -12,8 +12,7 @@
     <nav class="nav">
       <a class="brand" href="home.html">UniSpace</a>
       <ul class="nav-links">
-        <li><a href="home.html">Reserve</a></li>
-        <li><a href="#">Events</a></li>
+        <li><a href="booking.html">Reserve</a></li>
       </ul>
       <div class="nav-spacer"></div>
       <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
@@ -24,6 +23,18 @@
   <main class="container card card-lg" style="max-width:500px;margin:2rem auto;">
     <h2>Profile</h2>
     <div id="profile-info" class="center" style="min-height:120px;">Loading profile...</div>
+    <div class="center" style="margin:1rem 0;">
+      <button id="showUpdateBtn" type="button" class="btn-primary">Edit</button>
+    </div>
+    <div class="center" style="margin:1rem 0;">
+      <form id="updateForm" style="display:none; margin-top:1rem;">
+        <label for="editName"><strong>Name:</strong></label>
+        <input type="text" id="editName" name="editName" style="width:70%" />
+        <button type="submit" class="btn-primary" style="margin-left:1rem;">Update</button>
+        <div id="updateMsg" style="margin-top:1rem;"></div>
+      </form>
+    </div>
+
   </main>
   <script src="js/home.js"></script>
   <script src="profile.js"></script>
