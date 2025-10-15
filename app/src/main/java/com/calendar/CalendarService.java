@@ -1,18 +1,18 @@
 package com.calendar;
 
-import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.*;
+import uni.space.finder.DatabaseSetup;
 
-@Service
 public class CalendarService {
     
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/asd";
-    private static final String USER = "root";
-    private static final String PASS = "";
+    public CalendarService() {
+        // Initialize H2 database when service is created
+        DatabaseSetup.initDatabase();
+    }
 
     public boolean isDatabaseConnected() {
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+        try (Connection conn = DatabaseSetup.getConnection()) {
             return conn != null && !conn.isClosed();
         } catch (SQLException e) {
             System.err.println("Database connection failed: " + e.getMessage());
@@ -26,7 +26,7 @@ public class CalendarService {
                       "r.capacity, r.speaker, r.whiteboard, r.monitor, r.hdmi_cable, r.image " +
                       "FROM booktime b JOIN room r ON b.room_id = r.room_id";
         
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DatabaseSetup.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
             
@@ -58,7 +58,7 @@ public class CalendarService {
         List<Map<String, Object>> rooms = new ArrayList<>();
         String query = "SELECT room_id, room_name, room_type, capacity, speaker, whiteboard, monitor, hdmi_cable, image FROM room";
         
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DatabaseSetup.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
             

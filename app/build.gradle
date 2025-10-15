@@ -28,8 +28,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.10.1'
     
-    // H2 Database (no setup required)
-    implementation 'com.h2database:h2:2.2.224'
+    // H2 Database (compatible version for Jetty 11)
+    implementation 'com.h2database:h2:2.1.214'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
