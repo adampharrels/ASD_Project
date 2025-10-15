@@ -29,17 +29,32 @@ public class DatabaseSetup {
                 sqlContent = sqlContent.replaceAll("tinyint\\(1\\)", "BOOLEAN");
                 sqlContent = sqlContent.replaceAll("int\\(\\d+\\)", "INT");
                 sqlContent = sqlContent.replaceAll("varchar\\((\\d+)\\)", "VARCHAR($1)");
+                sqlContent = sqlContent.replaceAll("(?i)START TRANSACTION;", "");
+                sqlContent = sqlContent.replaceAll("(?i)SET time_zone = \"\\+00:00\";", "");
+                sqlContent = sqlContent.replaceAll("(?i)COMMIT;", "");
+                // Remove MySQL backticks
+                sqlContent = sqlContent.replaceAll("`", "");
+                // Remove MySQL-specific datetime format
+                sqlContent = sqlContent.replaceAll("'0000-00-00 00:00:00'", "'1970-01-01 00:00:00'");
+                sqlContent = sqlContent.replaceAll("'0000-00-00 03:30:00'", "'1970-01-01 03:30:00'");
                 
                 // Execute SQL statements
                 String[] statements = sqlContent.split(";");
                 for (String statement : statements) {
                     statement = statement.trim();
-                    if (!statement.isEmpty() && !statement.startsWith("--") && !statement.startsWith("/*")) {
+                    if (!statement.isEmpty() && 
+                        !statement.startsWith("--") && 
+                        !statement.startsWith("/*") &&
+                        !statement.startsWith("/*!") &&
+                        !statement.toLowerCase().contains("set @") &&
+                        !statement.toLowerCase().contains("set sql_mode")) {
                         try {
+                            System.out.println("🔄 Executing: " + statement.substring(0, Math.min(50, statement.length())) + "...");
                             stmt.execute(statement);
                         } catch (SQLException e) {
                             // Skip non-critical errors (like duplicate inserts)
-                            if (!e.getMessage().contains("already exists")) {
+                            if (!e.getMessage().contains("already exists") && 
+                                !e.getMessage().contains("Duplicate key")) {
                                 System.err.println("⚠️  SQL Warning: " + e.getMessage());
                             }
                         }
@@ -47,8 +62,10 @@ public class DatabaseSetup {
                 }
             } else {
                 System.out.println("⚠️  asd.sql not found, creating tables manually...");
-                
-                // Fallback: create tables manually
+            }
+            
+            // Always try to create tables manually as fallback
+            try {
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS room (
                         room_id INT PRIMARY KEY,
@@ -62,6 +79,7 @@ public class DatabaseSetup {
                         image TEXT DEFAULT NULL
                     )
                 """);
+                System.out.println("✅ Created room table");
                 
                 stmt.execute("""
                     CREATE TABLE IF NOT EXISTS booktime (
@@ -71,6 +89,7 @@ public class DatabaseSetup {
                         end_Time TIMESTAMP NOT NULL
                     )
                 """);
+                System.out.println("✅ Created booktime table");
                 
                 // Insert sample data
                 stmt.execute("""
@@ -80,17 +99,37 @@ public class DatabaseSetup {
                     (3, 'CB07.02.010A', 'Online Learning Room', 2, false, false, true, true, 'Online_Learning_Room'),
                     (4, 'CB07.02.010B', 'Online Learning Room', 2, true, false, true, true, 'Online_Learning_Room')
                 """);
+                System.out.println("✅ Inserted room data");
                 
                 stmt.execute("""
                     INSERT INTO booktime VALUES 
-                    (1, 1, '2025-10-01 12:30:21', '2025-10-01 13:00:00'),
-                    (2, 4, '2025-10-01 14:24:00', '2025-10-01 15:30:00'),
-                    (3, 4, '2025-10-01 15:30:00', '2025-10-01 17:00:00'),
-                    (4, 2, '2025-10-02 15:16:48', '2025-10-02 16:16:48')
+                    (1, 1, '2025-10-15 09:00:00', '2025-10-15 10:00:00'),
+                    (2, 1, '2025-10-15 14:00:00', '2025-10-15 16:00:00'),
+                    (3, 2, '2025-10-15 11:00:00', '2025-10-15 12:00:00'),
+                    (4, 3, '2025-10-15 13:00:00', '2025-10-15 15:00:00'),
+                    (5, 4, '2025-10-15 10:00:00', '2025-10-15 11:00:00')
                 """);
+                System.out.println("✅ Inserted booking data");
+                
+            } catch (SQLException fallbackError) {
+                if (!fallbackError.getMessage().contains("already exists") && 
+                    !fallbackError.getMessage().contains("Duplicate key")) {
+                    System.err.println("⚠️  Fallback table creation warning: " + fallbackError.getMessage());
+                }
             }
             
-            System.out.println("✅ H2 Database initialized successfully!");
+            // Test the database
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as count FROM room");
+            if (rs.next()) {
+                int roomCount = rs.getInt("count");
+                System.out.println("✅ H2 Database initialized successfully! Found " + roomCount + " rooms.");
+            }
+            
+            rs = stmt.executeQuery("SELECT COUNT(*) as count FROM booktime");
+            if (rs.next()) {
+                int bookingCount = rs.getInt("count");
+                System.out.println("✅ Found " + bookingCount + " bookings in database.");
+            }
             
         } catch (Exception e) {
             System.err.println("❌ Database setup failed: " + e.getMessage());
