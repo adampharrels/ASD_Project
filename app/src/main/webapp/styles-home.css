@@ -1,3 +1,11 @@
+:root {
+  --bg: #fff;
+  --text: #111;
+}
+.dark-mode {
+  --bg: #0b1020;
+  --text: #e5e7eb;
+}
 /* Hide dropdown when .hidden is present */
 .profile-dropdown.hidden {
   display: none !important;
@@ -24,9 +32,7 @@
   pointer-events: auto;
   visibility: visible;
 }
-  display: none !important;
-  pointer-events: none;
-  visibility: hidden;
+/* Removed invalid stray rules */
 
 .profile-dropdown ul {
   list-style: none;
@@ -80,11 +86,11 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
-body{
+body {
   margin:0;
   font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  color:#111;
-  background:#fff;
+  color:var(--text);
+  background:var(--bg);
 }
 
 /* layout */

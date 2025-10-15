@@ -1,3 +1,8 @@
+// Apply theme from localStorage (run once at top)
+document.addEventListener('DOMContentLoaded', function() {
+  const isDark = localStorage.getItem('theme') === 'dark';
+  document.body.classList.toggle('dark-mode', isDark);
+});
 /* ========= Carousel ========= */
 function attachCarousel(section) {
   const row = section.querySelector('.cards-row');

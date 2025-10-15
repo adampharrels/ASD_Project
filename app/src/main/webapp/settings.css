@@ -1,0 +1,92 @@
+:root{
+  --bg:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --card:#ffffff;
+  --brand:#0d6efd;
+  --brand-600:#0b5ed7;
+  --danger:#ef4444;
+  --danger-700:#b91c1c;
+  --radius:14px;
+}
+
+.dark-mode {
+  --bg:#0b1020;
+  --text:#e5e7eb;
+  --card:#11162a;
+  --line:#27304a;
+  --muted:#93a0b7;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text)}
+
+.container{max-width:1000px; margin:0 auto; padding:0 16px}
+
+/* Header */
+.site-header{border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:5}
+.header-inner{display:flex; align-items:center; gap:20px; height:64px}
+.brand{font-weight:800; text-decoration:none; color:var(--text)}
+.topnav a{margin-right:14px; text-decoration:none; color:var(--text); opacity:.8}
+.topnav a.active{color:var(--brand); opacity:1}
+.profile-btn{margin-left:auto; width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:var(--card); display:grid; place-items:center; cursor:pointer}
+
+/* Page */
+.settings{padding:24px 0 56px}
+.settings h1{margin:0 0 16px}
+
+/* Cards */
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin-bottom:18px}
+.card h2{margin:0 0 8px}
+.subhead{margin:10px 0 8px}
+.divider{height:1px; background:var(--line); margin:8px 0 14px}
+
+/* Forms */
+.form-grid{display:grid; gap:14px; max-width:620px}
+.field .label{display:block; font-size:13px; margin-bottom:6px}
+input[type="text"], input[type="email"], input[type="password"], input[type="number"]{
+  width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px; background:var(--bg); color:var(--text);
+}
+
+.pw-wrap{position:relative}
+.eye{position:absolute; right:6px; top:6px; width:36px; height:32px; border:0; background:transparent; cursor:pointer}
+
+.rules{display:grid; gap:4px; list-style:none; padding:6px 0 0; margin:0; font-size:13px; color:var(--muted)}
+.rules li.valid{color:#16a34a}
+
+/* Preferences rows */
+.pref-row{display:flex; align-items:center; justify-content:space-between; padding:10px 0}
+.pref-title{font-weight:600}
+.pref-desc{color:var(--muted); font-size:13px; margin-top:2px}
+
+/* Switch */
+.switch{display:inline-flex; align-items:center; cursor:pointer}
+.switch input{display:none}
+.slider{width:48px; height:28px; background:#cfd6e5; border-radius:999px; position:relative; transition:.2s}
+.slider::after{content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:999px; background:#fff; transition:.2s}
+.switch input:checked + .slider{background:var(--brand)}
+.switch input:checked + .slider::after{transform:translateX(20px)}
+
+/* Danger zone */
+.danger{color:var(--danger)}
+.danger-grid{display:grid; gap:12px; max-width:620px}
+.checkline{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px}
+
+/* Buttons */
+.actions{margin-top:8px}
+.btn-primary{background:var(--brand); color:#fff; border:0; padding:10px 14px; border-radius:10px; cursor:pointer}
+.btn-primary:hover{background:var(--brand-600)}
+.btn-danger{background:var(--danger); color:#fff; border:0; padding:10px 14px; border-radius:10px; cursor:pointer}
+.btn-danger:disabled{opacity:.6; cursor:not-allowed}
+.btn-danger:hover:not(:disabled){background:var(--danger-700)}
+
+/* Toasts */
+.toasts{position:fixed; right:16px; bottom:16px; display:grid; gap:8px; z-index:20}
+.toast{background:var(--card); border:1px solid var(--line); padding:10px 12px; border-radius:10px; box-shadow:0 10px 24px rgba(0,0,0,.15)}
+
+/* Responsive */
+@media (max-width:768px){
+  .pref-row{align-items:flex-start; gap:16px}
+}
