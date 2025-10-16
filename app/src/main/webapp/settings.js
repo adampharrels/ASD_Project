@@ -57,11 +57,10 @@ $("#pwForm")?.addEventListener("submit", (e) => {
   if (nw.length < 8 || !/[a-z]/.test(nw) || !/[A-Z]/.test(nw) || !/\d/.test(nw))
     return toast("Password does not meet the requirements");
   // Send password change to backend
-  const email = localStorage.getItem("user.email"); // Assumes user email is stored in localStorage
   fetch("/changePassword", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, current: cur, newpw: nw })
+    body: JSON.stringify({ current: cur, newpw: nw })
   })
     .then(res => res.json())
     .then(data => {

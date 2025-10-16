@@ -6,32 +6,46 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.nio.file.*;
 import java.util.*;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class ChangePasswordServlet extends HttpServlet {
-    private static final String ACCOUNTS_FILE = "/Users/khuuthoainguyen/Documents/GitHub/ASD_Project/app/accounts.txt";
+    private static final String ACCOUNTS_FILE = "accounts.txt";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        JSONObject result = new JSONObject();
+        Map<String, Object> result = new HashMap<>();
+        Gson gson = new Gson();
         try {
             StringBuilder sb = new StringBuilder();
             String line;
             BufferedReader reader = request.getReader();
             while ((line = reader.readLine()) != null) sb.append(line);
-            JSONObject body = new JSONObject(sb.toString());
-            String email = body.optString("email");
-            String current = body.optString("current");
-            String newpw = body.optString("newpw");
-            if (email.isEmpty() || current.isEmpty() || newpw.isEmpty()) {
+            
+            // Get email from session instead of request body
+            HttpSession session = request.getSession(false);
+            if (session == null || session.getAttribute("email") == null) {
+                result.put("success", false);
+                result.put("message", "Not logged in");
+                response.getWriter().write(gson.toJson(result));
+                return;
+            }
+            String email = (String) session.getAttribute("email");
+            
+            JsonObject body = JsonParser.parseString(sb.toString()).getAsJsonObject();
+            String current = body.has("current") ? body.get("current").getAsString() : "";
+            String newpw = body.has("newpw") ? body.get("newpw").getAsString() : "";
+            if (current.isEmpty() || newpw.isEmpty()) {
                 result.put("success", false);
                 result.put("message", "Missing fields");
-                response.getWriter().write(result.toString());
+                response.getWriter().write(gson.toJson(result));
                 return;
             }
             List<String> lines = Files.readAllLines(Paths.get(ACCOUNTS_FILE));
@@ -69,7 +83,7 @@ public class ChangePasswordServlet extends HttpServlet {
             result.put("success", false);
             result.put("message", "Server error: " + ex.getMessage());
         }
-        response.getWriter().write(result.toString());
+        response.getWriter().write(gson.toJson(result));
     }
 }
 
