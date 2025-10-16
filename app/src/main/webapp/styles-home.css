@@ -21,16 +21,23 @@
   border-radius: 12px;
   box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12);
   padding: 0.5rem 0;
-  min-width: 180px;
+  min-width: 120px; /* Absolute minimum to prevent disappearing */
+  max-width: min(280px, calc(100vw - 32px)); /* Never exceed viewport */
+  width: max-content;
   font-family: inherit;
   font-size: 1rem;
   position: absolute;
-  right: 1rem;
-  top: 3.5rem;
+  right: 0;
+  top: calc(100% + 8px);
   z-index: 1000;
   animation: fadeIn 0.18s;
   pointer-events: auto;
   visibility: visible;
+  /* Smooth transitions during resize */
+  transition: all 0.15s ease-out;
+  /* Prevent content overflow */
+  overflow: hidden;
+  word-wrap: break-word;
 }
 /* Removed invalid stray rules */
 
@@ -50,7 +57,13 @@
   color: #222;
   text-decoration: none;
   border-radius: 0;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, padding 0.15s, font-size 0.15s, border-radius 0.15s, max-width 0.15s;
+  /* Ensure text doesn't overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* Allow flex shrinking */
+  box-sizing: border-box;
 }
 
 .profile-dropdown a:hover {
@@ -104,6 +117,12 @@ body {
 .nav-links{display:flex;list-style:none;margin:0;padding:0;gap:20px}
 .nav-links a{text-decoration:none;color:#111;opacity:.8}
 .nav-links a.active{color:var(--blue);opacity:1}
+.profile-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .profile-btn{
   border:0;background:#fff;width:40px;height:40px;border-radius:999px;
   display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.08);cursor:pointer
@@ -205,6 +224,100 @@ body {
   .qr-grid{grid-template-columns:1fr}
   .quick-actions{grid-template-columns:1fr}
   .carousel .cards-row{grid-auto-columns:80%}
+}
+
+/* Mobile dropdown positioning - adapts like the blue box */
+@media (max-width:768px){
+  .profile-dropdown {
+    /* Adapt to container like the blue box does */
+    right: 0;
+    left: auto;
+    min-width: 160px;
+    max-width: min(280px, calc(100vw - 32px));
+    width: auto;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
+  }
+  
+  .profile-dropdown a {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Ensure nav doesn't overflow */
+  .nav {
+    max-width: 100%;
+    overflow: visible;
+  }
+  
+  .dropdown-panel {
+    right: 0;
+    left: auto;
+    min-width: 180px;
+    max-width: min(280px, calc(100vw - 32px));
+  }
+}
+
+/* Extra small screens */
+@media (max-width:480px){
+  .profile-dropdown {
+    /* Scale down but stay visible like other elements */
+    min-width: max(120px, 80vw);
+    max-width: calc(100vw - 16px);
+    right: 8px;
+    border-radius: 10px;
+  }
+  
+  .profile-dropdown a {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+  
+  /* Better touch targets for mobile */
+  .profile-dropdown li:not(:last-child) {
+    border-bottom: 1px solid var(--gray-100);
+  }
+  
+  /* Ensure profile button stays visible */
+  .profile-btn {
+    min-width: 36px;
+    min-height: 36px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Ultra small screens - prevent disappearing */
+@media (max-width:320px){
+  .profile-dropdown {
+    min-width: max(100px, 70vw) !important;
+    max-width: calc(100vw - 8px) !important;
+    right: 4px !important;
+    border-radius: 8px;
+  }
+  
+  .profile-dropdown a {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Compact nav for very small screens */
+  .nav {
+    gap: 12px;
+  }
+  
+  .profile-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .profile-btn img {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* === Dropdown + Backdrop (global) === */
