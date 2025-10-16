@@ -1,3 +1,9 @@
+// Apply dark mode globally from localStorage 'theme'
+document.addEventListener('DOMContentLoaded', function() {
+  const theme = localStorage.getItem('theme') || 'light';
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-mode', isDark);
+});
 const form = document.getElementById('loginForm');
 const email = document.getElementById('email');
 const pwd = document.getElementById('password');

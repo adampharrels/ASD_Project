@@ -2,7 +2,7 @@
   --bg: #fff;
   --text: #111;
 }
-.dark-mode {
+:root.dark-mode {
   --bg: #0b1020;
   --text: #e5e7eb;
 }

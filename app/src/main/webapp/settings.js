@@ -1,15 +1,16 @@
 // Theme toggle logic with persistence
 const darkToggle = document.getElementById('toggleDark');
 function applyTheme() {
-  const isDark = localStorage.getItem('theme') === 'dark';
-  document.body.classList.toggle('dark-mode', isDark);
+  const theme = localStorage.getItem('theme') || 'light';
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-mode', isDark);
   if (darkToggle) darkToggle.checked = isDark;
 }
 applyTheme();
 if (darkToggle) {
   darkToggle.addEventListener('change', function() {
     const isDark = darkToggle.checked;
-    document.body.classList.toggle('dark-mode', isDark);
+  document.documentElement.classList.toggle('dark-mode', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 }
@@ -55,9 +56,23 @@ $("#pwForm")?.addEventListener("submit", (e) => {
   if (nw !== cf) return toast("New passwords do not match");
   if (nw.length < 8 || !/[a-z]/.test(nw) || !/[A-Z]/.test(nw) || !/\d/.test(nw))
     return toast("Password does not meet the requirements");
-  // TODO: call your API
-  toast("Password updated");
-  e.target.reset();
+  // Send password change to backend
+  const email = localStorage.getItem("user.email"); // Assumes user email is stored in localStorage
+  fetch("/changePassword", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, current: cur, newpw: nw })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        toast("Password updated");
+        e.target.reset();
+      } else {
+        toast(data.message || "Password update failed");
+      }
+    })
+    .catch(() => toast("Server error"));
 });
 
 /* ---------- Preferences toggles ---------- */

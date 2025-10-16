@@ -1,22 +1,21 @@
-:root{
-  --bg:#ffffff;
-  --text:#111827;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --card:#ffffff;
-  --brand:#0d6efd;
-  --brand-600:#0b5ed7;
-  --danger:#ef4444;
-  --danger-700:#b91c1c;
-  --radius:14px;
+:root {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+  --brand: #0d6efd;
+  --brand-600: #0b5ed7;
+  --danger: #ef4444;
+  --danger-700: #b91c1c;
+  --radius: 14px;
 }
-
-.dark-mode {
-  --bg:#0b1020;
-  --text:#e5e7eb;
-  --card:#11162a;
-  --line:#27304a;
-  --muted:#93a0b7;
+:root.dark-mode {
+  --bg: #0b1020;
+  --text: #e5e7eb;
+  --card: #11162a;
+  --line: #27304a;
+  --muted: #93a0b7;
 }
 
 *{box-sizing:border-box}

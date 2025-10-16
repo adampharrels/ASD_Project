@@ -1,7 +1,8 @@
-// Apply theme from localStorage (run once at top)
+// Apply dark mode globally from localStorage 'theme'
 document.addEventListener('DOMContentLoaded', function() {
-  const isDark = localStorage.getItem('theme') === 'dark';
-  document.body.classList.toggle('dark-mode', isDark);
+  const theme = localStorage.getItem('theme') || 'light';
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-mode', isDark);
 });
 /* ========= Carousel ========= */
 function attachCarousel(section) {

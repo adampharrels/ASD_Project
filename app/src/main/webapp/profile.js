@@ -1,3 +1,9 @@
+// Apply dark mode globally from localStorage 'theme'
+document.addEventListener('DOMContentLoaded', function() {
+  const theme = localStorage.getItem('theme') || 'light';
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-mode', isDark);
+});
 // profile.js
 // Fetch user profile info from backend and display on profile.html
 
