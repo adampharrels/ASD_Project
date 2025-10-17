@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch(error => {
         console.error('❌ Error loading available rooms:', error);
         roomsContainer.innerHTML = `
-          <div class="error">
+          <div class="room-error">
             <p>Unable to load available rooms</p>
             <button onclick="loadAvailableRooms()" class="btn-secondary">Retry</button>
           </div>
