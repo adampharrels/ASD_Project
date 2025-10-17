@@ -250,7 +250,7 @@
 }
 
 /* Dynamic room loading states */
-.loading, .no-rooms, .error {
+.loading, .no-rooms, .room-error {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -270,7 +270,7 @@
   color: var(--brand);
 }
 
-.error {
+.room-error {
   border-color: #ef4444;
   color: #dc2626;
 }
@@ -279,7 +279,7 @@
   border-color: var(--muted);
 }
 
-.no-rooms .btn-outline, .error .btn-secondary {
+.no-rooms .btn-outline, .room-error .btn-secondary {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   border: 1px solid currentColor;
@@ -291,7 +291,7 @@
   transition: all 0.2s ease;
 }
 
-.no-rooms .btn-outline:hover, .error .btn-secondary:hover {
+.no-rooms .btn-outline:hover, .room-error .btn-secondary:hover {
   background: currentColor;
   color: var(--panel);
 }
