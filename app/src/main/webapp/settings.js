@@ -103,23 +103,3 @@ toggleNotify?.addEventListener("change", e => {
   try{ localStorage.setItem("pref.notify", e.target.checked ? "1" : "0"); }catch{}
   toast(e.target.checked ? "Notifications on" : "Notifications off");
 });
-
-/* ---------- Danger Zone ---------- */
-const confirmBox = $("#confirmDeactivate");
-const pwDeactivate = $("#pwDeactivate");
-const btnDeactivate = $("#btnDeactivate");
-
-function updateDeactivateState(){
-  btnDeactivate.disabled = !(confirmBox.checked && pwDeactivate.value.trim().length > 0);
-}
-confirmBox?.addEventListener("change", updateDeactivateState);
-pwDeactivate?.addEventListener("input", updateDeactivateState);
-
-$("#deactivateForm")?.addEventListener("submit", (e) => {
-  e.preventDefault();
-  if (btnDeactivate.disabled) return;
-  // TODO: call API to deactivate
-  toast("Account deactivated (mock)");
-  e.target.reset();
-  updateDeactivateState();
-});
