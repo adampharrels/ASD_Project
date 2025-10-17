@@ -91,19 +91,30 @@ public class DatabaseSetup {
                 """);
                 System.out.println("✅ Created booktime table");
                 
-                // Insert sample data
+                // Insert sample data using MERGE to avoid duplicates
                 stmt.execute("""
-                    INSERT INTO room VALUES 
+                    MERGE INTO room (room_id, room_name, room_type, capacity, speaker, whiteboard, monitor, hdmi_cable, image) VALUES 
                     (1, 'CB06.06.112', 'Group Study Room', 8, true, true, true, true, 'Group_Study_Room'),
                     (2, 'CB06.06.113', 'Group Study Room', 8, false, false, true, true, 'Group_Study_Room'),
                     (3, 'CB07.02.010A', 'Online Learning Room', 2, false, false, true, true, 'Online_Learning_Room'),
-                    (4, 'CB07.02.010B', 'Online Learning Room', 2, true, false, true, true, 'Online_Learning_Room')
+                    (4, 'CB07.02.010B', 'Online Learning Room', 2, true, false, true, true, 'Online_Learning_Room'),
+                    (5, 'CB06.03.205', 'Group Study Room', 12, true, true, true, true, 'Group_Study_Room'),
+                    (6, 'CB06.03.206', 'Group Study Room', 10, false, true, true, true, 'Group_Study_Room'),
+                    (7, 'CB08.01.115', 'Lecture Room', 50, true, true, true, true, 'Lecture_Room'),
+                    (8, 'CB08.01.116', 'Lecture Room', 40, true, true, false, true, 'Lecture_Room'),
+                    (9, 'CB07.04.020A', 'Online Learning Room', 4, true, false, true, true, 'Online_Learning_Room'),
+                    (10, 'CB07.04.020B', 'Online Learning Room', 4, false, false, true, false, 'Online_Learning_Room'),
+                    (11, 'CB09.02.301', 'Conference Room', 16, true, true, true, true, 'Conference_Room'),
+                    (12, 'CB09.02.302', 'Conference Room', 20, true, true, true, true, 'Conference_Room'),
+                    (13, 'CB05.01.108', 'Computer Lab', 24, false, true, true, true, 'Computer_Lab'),
+                    (14, 'CB05.01.109', 'Computer Lab', 28, false, true, true, true, 'Computer_Lab'),
+                    (15, 'CB06.05.220', 'Group Study Room', 6, false, true, false, true, 'Group_Study_Room')
                 """);
                 System.out.println("✅ Inserted room data");
                 
-                // Insert sample bookings with current and future dates
+                // Insert sample bookings with current and future dates using MERGE
                 stmt.execute("""
-                    INSERT INTO booktime VALUES 
+                    MERGE INTO booktime (timeID, room_id, start_Time, end_Time) VALUES 
                     (1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00'),
                     (2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00'),
                     (3, 3, '2025-10-18 10:00:00', '2025-10-18 11:00:00'),
