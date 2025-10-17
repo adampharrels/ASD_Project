@@ -150,4 +150,89 @@ document.addEventListener('DOMContentLoaded', function() {
     handleResize();
     resizeTimeout = setTimeout(handleResize, 50); // Additional delay for final adjustment
   }
+
+  // Load available rooms from database
+  function loadAvailableRooms() {
+    const roomsContainer = document.getElementById('roomsRow');
+    if (!roomsContainer) return;
+
+    // Show loading state
+    roomsContainer.innerHTML = '<div class="loading">Loading available rooms...</div>';
+
+    fetch('/api/available-rooms')
+      .then(response => response.json())
+      .then(rooms => {
+        if (rooms.length === 0) {
+          roomsContainer.innerHTML = `
+            <div class="no-rooms">
+              <p>No rooms available in the next 30 minutes</p>
+              <p><a href="calendar.html" class="btn-outline">View full calendar</a></p>
+            </div>
+          `;
+          return;
+        }
+
+        // Clear loading and render rooms
+        roomsContainer.innerHTML = '';
+        
+        rooms.forEach(room => {
+          const roomCard = createRoomCard(room);
+          roomsContainer.appendChild(roomCard);
+        });
+
+        console.log(`✅ Loaded ${rooms.length} available rooms`);
+      })
+      .catch(error => {
+        console.error('❌ Error loading available rooms:', error);
+        roomsContainer.innerHTML = `
+          <div class="error">
+            <p>Unable to load available rooms</p>
+            <button onclick="loadAvailableRooms()" class="btn-secondary">Retry</button>
+          </div>
+        `;
+      });
+  }
+
+  function createRoomCard(room) {
+    const article = document.createElement('article');
+    article.className = 'room-card card';
+    
+    // Create equipment tags
+    const equipmentTags = room.equipment ? room.equipment.map(eq => 
+      `<span class="tag">${eq}</span>`
+    ).join('') : '<span class="tag">Basic Equipment</span>';
+
+    article.innerHTML = `
+      <img src="${room.image || 'assets/img/room-default.jpg'}" alt="${room.roomName} room photo" />
+      <div class="card-body">
+        <h4>${room.roomName}</h4>
+        <div class="tags">
+          ${equipmentTags}
+        </div>
+        <ul class="meta">
+          <li>Capacity: ${room.capacity}</li>
+          <li>${room.roomType}</li>
+          <li>${room.location}</li>
+          <li>Available: ${room.availableFor}</li>
+        </ul>
+        <div class="rating">★ ${room.rating || 4.9}</div>
+        <button class="btn-primary book-room" data-room-id="${room.roomId}">Book Now</button>
+      </div>
+    `;
+
+    // Add click handler for book button
+    const bookBtn = article.querySelector('.book-room');
+    bookBtn.addEventListener('click', () => {
+      // Redirect to booking page with room pre-selected
+      window.location.href = `booking.html?room=${room.roomId}`;
+    });
+
+    return article;
+  }
+
+  // Load rooms when page loads
+  loadAvailableRooms();
+
+  // Refresh rooms every 5 minutes
+  setInterval(loadAvailableRooms, 5 * 60 * 1000);
 });
