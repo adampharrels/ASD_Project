@@ -1,29 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Settings – UniSpace</title>
-  <link rel="stylesheet" href="styles-home.css" />
+  <title>UniSpace — Settings</title>
   <link rel="icon" href="assets/icons/favicon.svg" />
+  <link rel="stylesheet" href="settings.css" />
 </head>
 <body>
-  <header class="site-header container">
-    <nav class="nav">
-      <a class="brand" href="home.html">UniSpace</a>
-      <ul class="nav-links">
-        <li><a href="home.html">Reserve</a></li>
-        <li><a href="#">Events</a></li>
-      </ul>
-      <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
-        <img src="assets/icons/user.svg" alt="Profile" />
+  <!-- Header -->
+  <!-- Removed extra Switch Theme button. Use the toggle button in Preferences section for theme switching. -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/home.html">UniSpace</a>
+      <nav class="topnav">
+        <a href="/home.html">Reserve</a>
+        <a class="active" href="/settings.html">Settings</a>
+      </nav>
+      <button class="profile-btn" aria-label="Profile">
+        <img src="assets/icons/user.svg" alt="" />
       </button>
-    </nav>
+    </div>
   </header>
-  <main class="container card card-lg" style="max-width:500px;margin:2rem auto;">
-    <h2>Settings</h2>
-    <div class="center" style="color:#888;">Settings page coming soon.</div>
+
+  <main class="container settings">
+    <h1>Settings</h1>
+
+    <!-- Privacy & Security -->
+    <section class="card">
+      <h2>Privacy &amp; Security</h2>
+      <div class="divider"></div>
+
+      <h3 class="subhead">Change Password</h3>
+      <form id="pwForm" class="form-grid" novalidate>
+        <label class="field">
+          <span class="label">Current Password</span>
+          <div class="pw-wrap">
+            <input id="pwCurrent" type="password" autocomplete="current-password" required>
+            <button type="button" class="eye" data-target="#pwCurrent" aria-label="Show/Hide">👁</button>
+          </div>
+        </label>
+
+        <label class="field">
+          <span class="label">New Password</span>
+          <div class="pw-wrap">
+            <input id="pwNew" type="password" autocomplete="new-password" required minlength="8">
+            <button type="button" class="eye" data-target="#pwNew" aria-label="Show/Hide">👁</button>
+          </div>
+          <ul class="rules" id="pwRules">
+            <li data-rule="len">At least 8 characters</li>
+            <li data-rule="mix">Upper &amp; lower case</li>
+            <li data-rule="num">At least one number</li>
+          </ul>
+        </label>
+
+        <label class="field">
+          <span class="label">Confirm Password</span>
+          <div class="pw-wrap">
+            <input id="pwConfirm" type="password" autocomplete="new-password" required>
+            <button type="button" class="eye" data-target="#pwConfirm" aria-label="Show/Hide">👁</button>
+          </div>
+        </label>
+
+        <div class="actions">
+          <button class="btn-primary" type="submit">Update Password</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Preferences -->
+    <section class="card">
+      <h2>Preferences</h2>
+      <div class="divider"></div>
+
+      <div class="pref-row">
+        <div>
+          <div class="pref-title">Enable Dark Mode</div>
+          <div class="pref-desc">Adjust the interface for low-light environments.</div>
+        </div>
+        <label class="switch">
+          <input id="toggleDark" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="pref-row">
+        <div>
+          <div class="pref-title">Notifications</div>
+          <div class="pref-desc">Receive booking and reminder notifications.</div>
+        </div>
+        <label class="switch">
+          <input id="toggleNotify" type="checkbox" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Danger Zone -->
+    <section class="card">
+      <h2 class="danger">Danger Zone</h2>
+      <div class="divider"></div>
+
+      <h3 class="subhead">Delete Account</h3>
+      <form id="deactivateForm" class="danger-grid" novalidate>
+        <label class="field">
+          <span class="label">Current Password</span>
+          <input id="pwDeactivate" type="password" required>
+        </label>
+
+        <label class="checkline">
+          <input id="confirmDeactivate" type="checkbox">
+          <span>After clicking the deactivate button, your account will be deactivated.</span>
+        </label>
+
+        <div class="actions">
+          <button id="btnDeactivate" class="btn-danger" type="submit" disabled>Deactivate</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Toasts -->
+    <div id="toastHost" class="toasts" aria-live="polite" aria-atomic="true"></div>
   </main>
-  <script src="js/home.js"></script>
+
+  <script defer src="settings.js"></script>
 </body>
 </html>

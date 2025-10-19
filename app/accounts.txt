@@ -1,7 +1,2 @@
-0,adam@student.uts.edu.au,@daM1234,Adam,Nguyen,123123
-1,thoainguyen.khuu-1@student.uts.edu.au,Nguyen276$,Noah ,Khuu ,12767063
-<<<<<<< HEAD
-2,nathan.nourse@student.uts.edu.au,aKevya5@RMeRdrU,Nathan,Nourse,24791891
-=======
-2,testuser1759384376397@student.uts.edu.au,TestPass123!,Test,User,999999
->>>>>>> 9a29c3077e919568170c32816f2a0b95ff82aa53
+0,testuser@example.com,pass123,Test,User,123456
+1,admin@student.uts.edu.au,@dMin123,Adamin,Account,12345
