@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dropdown Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 0; }
+    .site-header { padding: 16px 0 8px; }
+    .nav { display: flex; align-items: center; gap: 24px; }
+    .nav-spacer { flex: 1; }
+    .brand { font-weight:800; text-decoration:none; color:#0d6efd; font-size:20px; }
+    .profile-menu-wrapper { position: relative; display: flex; align-items: center; }
+    .profile-btn { border: 0; background: #fff; width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.08); cursor: pointer; position: relative; z-index: 1100; }
+    .profile-btn img { width: 22px; height: 22px; }
+    .profile-dropdown { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12); padding: 0.5rem 0; min-width: 120px; max-width: min(280px, calc(100vw - 32px)); width: max-content; font-family: inherit; font-size: 1rem; position: absolute; right: 0; top: calc(100% + 8px); z-index: 1000; animation: fadeIn 0.18s; pointer-events: auto; visibility: visible; transition: all 0.15s ease-out; overflow: hidden; word-wrap: break-word; }
+    .profile-dropdown.hidden { display: none !important; }
+    .profile-dropdown ul { list-style: none; margin: 0; padding: 0; }
+    .profile-dropdown li { margin: 0; }
+    .profile-dropdown a { display: block; padding: 0.75rem 1.5rem; color: #222; text-decoration: none; border-radius: 0; transition: background 0.15s, color 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; box-sizing: border-box; }
+    .profile-dropdown a:hover { background: #f3f4f6; color: #0d6efd; }
+    .profile-dropdown li:last-child a { color: #d32f2f; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+  <header class="site-header container">
+    <nav class="nav">
+      <a class="brand" href="#">UniSpace</a>
+      <div class="nav-spacer"></div>
+      <div class="profile-menu-wrapper">
+        <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+          <img src="assets/icons/user.svg" alt="Profile" />
+        </button>
+        <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+          <ul>
+            <li><a role="menuitem" href="#" tabindex="0">Profile</a></li>
+            <li><a role="menuitem" href="#" tabindex="0">Settings</a></li>
+            <li><a role="menuitem" href="#" tabindex="0" style="color:#d32f2f">Log out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </nav>
+  </header>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const trigger = document.getElementById('profileBtn');
+      const dropdown = document.getElementById('profileDropdown');
+      if (!trigger || !dropdown) return;
+      function openDropdown() {
+        dropdown.classList.remove('hidden');
+        trigger.setAttribute('aria-expanded', 'true');
+        dropdown.querySelector('[role="menuitem"]')?.focus();
+      }
+      function closeDropdown() {
+        dropdown.classList.add('hidden');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+      trigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.contains('hidden') ? openDropdown() : closeDropdown();
+      });
+      document.addEventListener('click', function (e) {
+        if (!dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && e.target !== trigger) {
+          closeDropdown();
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeDropdown();
+      });
+    });
+  </script>
+</body>
+</html>
