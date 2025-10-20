@@ -160,6 +160,14 @@
 /* Ensure nav and profile icon layout matches home.html */
 .site-header.container {
   padding: 16px 0 8px;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Force remove any border-bottom from .site-header for settings page */
+.site-header {
+  border-bottom: none !important;
+  box-shadow: none !important;
 }
 .nav {
   display: flex;
@@ -422,7 +430,15 @@ body{margin:0; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,
 .container{max-width:1000px; margin:0 auto; padding:0 16px}
 
 /* Header */
-.site-header{border-bottom:1px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:5}
+.site-header{
+  /* border-bottom:1px solid var(--line); */
+  background:var(--bg);
+  position:sticky;
+  top:0;
+  z-index:5;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
 .header-inner{display:flex; align-items:center; gap:20px; height:64px}
 .brand{font-weight:800; text-decoration:none; color:var(--text)}
 .topnav a{margin-right:14px; text-decoration:none; color:var(--text); opacity:.8}
