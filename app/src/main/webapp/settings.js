@@ -1,28 +1,29 @@
-// Profile dropdown logic for HTML-based menu
+// Profile dropdown logic with blurred backdrop
 document.addEventListener('DOMContentLoaded', function () {
   const trigger = document.getElementById('profileBtn');
   const dropdown = document.getElementById('profileDropdown');
-  if (!trigger || !dropdown) return;
+  const backdrop = document.getElementById('dropdownBackdrop');
+  if (!trigger || !dropdown || !backdrop) return;
 
   function openDropdown() {
     dropdown.classList.remove('hidden');
+    backdrop.classList.remove('hidden');
     trigger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('no-scroll');
     dropdown.querySelector('[role="menuitem"]')?.focus();
   }
   function closeDropdown() {
     dropdown.classList.add('hidden');
+    backdrop.classList.add('hidden');
     trigger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
   }
   trigger.addEventListener('click', function (e) {
     e.stopPropagation();
     dropdown.classList.contains('hidden') ? openDropdown() : closeDropdown();
   });
-  document.addEventListener('click', function (e) {
-    if (!dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && e.target !== trigger) {
-      closeDropdown();
-    }
-  });
-  trigger.addEventListener('keydown', function (e) {
+  backdrop.addEventListener('click', closeDropdown);
+  document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeDropdown();
   });
 });
