@@ -148,8 +148,7 @@
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
         
         function makeBookingID() {
-            return (typeof crypto !== 'undefined' && crypto.randomUUID) 
-            ? crypto.randomUUID() 
+            return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() 
             : 'id-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
         }
 
@@ -169,7 +168,7 @@
             }
             
             // Create booking entry
-            const bookingID = makeBookingID;
+            const bookingID = makeBookingID();
             
             const bookingList = document.getElementById('booking-list');
 
@@ -185,6 +184,7 @@
                         <strong> ${room}</strong><br>
                         <small> ${new Date(date).toLocaleDateString()} at ${time}</small><br>
                         <small> Duration: ${duration} minutes</small>
+                        <small> BookingID: ${bookingID} </small>
                     </div>
                     <button onclick="this.parentElement.parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">❌</button>
                 </div>
@@ -194,7 +194,7 @@
             // Reset form
             this.reset();
             
-            alert('Room booked successfully!');
+            alert('Room booked successfully! Booking ID: ' + bookingID);
         });
     </script>
 </body>
