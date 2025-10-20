@@ -47,5 +47,50 @@
         </ul>
     </section>
 
+    <script>
+        (function()) {
+
+            const form = document.getElementById('booking-form');
+            const listing = document.getElementById('booking-list');
+            function pad(n){ return n.toString().padStart(2, '0'); }
+            function computeEndTime(dateStr, startTime, minutes) {
+                const start = new Date(dateStr + 'T' + startTime);
+                const end = new Date(start.getTime() + minutes * 60000);
+                return pad(end.getHours()) + ':' + pad(end.getMinutes());
+            }
+
+            form.addEventListener('submit', async function(event)) {
+                event.preventDefault();
+                const room = document.getElementById('room').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+                const duration = parseInt(document.getElementById('duration').value, 10);
+                if (!room || !date || !time || isNaN(duration)) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+                const endTime = computeEndTime(date, time, duration);
+
+                const booking = {
+                    timeID: date.now()
+                    roomId: parseInt(room.split('.')[1]) || 0,
+                    startTime: date + 'T' + time,
+                    endTime: date + 'T' + endTime,
+                    roomName: room,
+                    roomType: "",
+                    capacity: 20,
+                    speaker: false,
+                    whiteboard: false,
+                    monitor: false,
+                    hdmiCable: false,
+                    image: ""
+                };
+
+                const li = document.createElement('li');
+                li.textContent = `${booking.startTime} -> ${booking.endTime}  Room: ${booking.roomName}`;
+                 
+            }
+        }
+
 </body>
 </html>
