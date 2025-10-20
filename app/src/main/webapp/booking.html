@@ -86,17 +86,17 @@
 <body>
     <div class="booking-container">
         <div class="booking-header">
-            <h1>🏢 Room Booking</h1>
+            <h1> Room Booking</h1>
             <div class="nav-links">
-                <a href="home.html">🏠 Home</a>
-                <a href="calendar.html">📅 Calendar</a>
-                <a href="profile.html">👤 Profile</a>
+                <a href="home.html"> Home</a>
+                <a href="calendar.html"> Calendar</a>
+                <a href="profile.html"> Profile</a>
             </div>
         </div>
 
         <div class="booking-grid">
             <div class="section-card" id="room-selection">
-                <h2>📍 Book a New Room</h2>
+                <h2> Book a New Room</h2>
                 <form id="booking-form" method="POST" action="/book-room">
                     <label for="room">Room:</label>
                     <select id="room" name="room">
@@ -130,7 +130,7 @@
                         <option value="240">4 hours</option>
                     </select>
 
-                    <button type="submit">📅 Book Room</button>
+                    <button type="submit"> Book Room </button>
                 </form>
             </div>
 
@@ -147,6 +147,12 @@
         // Set minimum date to today
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
         
+        function makeBookingID() {
+            return (typeof crypto !== 'undefined' && crypto.randomUUID) 
+            ? crypto.randomUUID() 
+            : 'id-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+        }
+
         // Form submission handler
         document.getElementById('booking-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -163,8 +169,10 @@
             }
             
             // Create booking entry
-            const bookingList = document.getElementById('booking-list');
+            const bookingID = makeBookingID;
             
+            const bookingList = document.getElementById('booking-list');
+
             // Remove placeholder text if it exists
             if (bookingList.children.length === 1 && bookingList.children[0].style.fontStyle === 'italic') {
                 bookingList.innerHTML = '';
@@ -174,9 +182,9 @@
             listItem.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: start;">
                     <div>
-                        <strong>🏢 ${room}</strong><br>
-                        <small>📅 ${new Date(date).toLocaleDateString()} at ${time}</small><br>
-                        <small>⏱️ Duration: ${duration} minutes</small>
+                        <strong> ${room}</strong><br>
+                        <small> ${new Date(date).toLocaleDateString()} at ${time}</small><br>
+                        <small> Duration: ${duration} minutes</small>
                     </div>
                     <button onclick="this.parentElement.parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">❌</button>
                 </div>
@@ -186,7 +194,7 @@
             // Reset form
             this.reset();
             
-            alert('✅ Room booked successfully!');
+            alert('Room booked successfully!');
         });
     </script>
 </body>
