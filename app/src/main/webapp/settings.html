@@ -17,9 +17,18 @@
         <a href="/home.html">Reserve</a>
         <a class="active" href="/settings.html">Settings</a>
       </nav>
-      <button class="profile-btn" aria-label="Profile">
-        <img src="assets/icons/user.svg" alt="" />
-      </button>
+      <div class="profile-menu-wrapper">
+        <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+          <img src="assets/icons/user.svg" alt="Profile" />
+        </button>
+        <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+          <ul>
+            <li><a role="menuitem" href="profile.html">Profile</a></li>
+            <li><a role="menuitem" href="settings.html">Settings</a></li>
+            <li><a role="menuitem" href="#" style="color:#d32f2f">Log out</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
