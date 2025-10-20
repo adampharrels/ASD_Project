@@ -1,15 +1,16 @@
 // Theme toggle logic with persistence
 const darkToggle = document.getElementById('toggleDark');
 function applyTheme() {
-  const isDark = localStorage.getItem('theme') === 'dark';
-  document.body.classList.toggle('dark-mode', isDark);
+  const theme = localStorage.getItem('theme') || 'light';
+  const isDark = theme === 'dark';
+  document.documentElement.classList.toggle('dark-mode', isDark);
   if (darkToggle) darkToggle.checked = isDark;
 }
 applyTheme();
 if (darkToggle) {
   darkToggle.addEventListener('change', function() {
     const isDark = darkToggle.checked;
-    document.body.classList.toggle('dark-mode', isDark);
+  document.documentElement.classList.toggle('dark-mode', isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   });
 }
@@ -55,9 +56,22 @@ $("#pwForm")?.addEventListener("submit", (e) => {
   if (nw !== cf) return toast("New passwords do not match");
   if (nw.length < 8 || !/[a-z]/.test(nw) || !/[A-Z]/.test(nw) || !/\d/.test(nw))
     return toast("Password does not meet the requirements");
-  // TODO: call your API
-  toast("Password updated");
-  e.target.reset();
+  // Send password change to backend
+  fetch("/changePassword", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ current: cur, newpw: nw })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        toast("Password updated");
+        e.target.reset();
+      } else {
+        toast(data.message || "Password update failed");
+      }
+    })
+    .catch(() => toast("Server error"));
 });
 
 /* ---------- Preferences toggles ---------- */
@@ -88,24 +102,4 @@ toggleDark?.addEventListener("change", e => {
 toggleNotify?.addEventListener("change", e => {
   try{ localStorage.setItem("pref.notify", e.target.checked ? "1" : "0"); }catch{}
   toast(e.target.checked ? "Notifications on" : "Notifications off");
-});
-
-/* ---------- Danger Zone ---------- */
-const confirmBox = $("#confirmDeactivate");
-const pwDeactivate = $("#pwDeactivate");
-const btnDeactivate = $("#btnDeactivate");
-
-function updateDeactivateState(){
-  btnDeactivate.disabled = !(confirmBox.checked && pwDeactivate.value.trim().length > 0);
-}
-confirmBox?.addEventListener("change", updateDeactivateState);
-pwDeactivate?.addEventListener("input", updateDeactivateState);
-
-$("#deactivateForm")?.addEventListener("submit", (e) => {
-  e.preventDefault();
-  if (btnDeactivate.disabled) return;
-  // TODO: call API to deactivate
-  toast("Account deactivated (mock)");
-  e.target.reset();
-  updateDeactivateState();
 });

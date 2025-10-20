@@ -1,22 +1,19 @@
-:root{
-  --bg:#ffffff;
-  --text:#111827;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --card:#ffffff;
-  --brand:#0d6efd;
-  --brand-600:#0b5ed7;
-  --danger:#ef4444;
-  --danger-700:#b91c1c;
-  --radius:14px;
+:root {
+  --bg: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+  --brand: #0d6efd;
+  --brand-600: #0b5ed7;
+  --radius: 14px;
 }
-
-.dark-mode {
-  --bg:#0b1020;
-  --text:#e5e7eb;
-  --card:#11162a;
-  --line:#27304a;
-  --muted:#93a0b7;
+:root.dark-mode {
+  --bg: #0b1020;
+  --text: #e5e7eb;
+  --card: #11162a;
+  --line: #27304a;
+  --muted: #93a0b7;
 }
 
 *{box-sizing:border-box}
@@ -69,18 +66,10 @@ input[type="text"], input[type="email"], input[type="password"], input[type="num
 .switch input:checked + .slider{background:var(--brand)}
 .switch input:checked + .slider::after{transform:translateX(20px)}
 
-/* Danger zone */
-.danger{color:var(--danger)}
-.danger-grid{display:grid; gap:12px; max-width:620px}
-.checkline{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:14px}
-
 /* Buttons */
 .actions{margin-top:8px}
 .btn-primary{background:var(--brand); color:#fff; border:0; padding:10px 14px; border-radius:10px; cursor:pointer}
 .btn-primary:hover{background:var(--brand-600)}
-.btn-danger{background:var(--danger); color:#fff; border:0; padding:10px 14px; border-radius:10px; cursor:pointer}
-.btn-danger:disabled{opacity:.6; cursor:not-allowed}
-.btn-danger:hover:not(:disabled){background:var(--danger-700)}
 
 /* Toasts */
 .toasts{position:fixed; right:16px; bottom:16px; display:grid; gap:8px; z-index:20}

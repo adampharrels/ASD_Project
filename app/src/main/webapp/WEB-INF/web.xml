@@ -29,4 +29,12 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/api/logout</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>uni.space.finder.ChangePasswordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
 </web-app>

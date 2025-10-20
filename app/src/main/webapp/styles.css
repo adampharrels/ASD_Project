@@ -248,3 +248,75 @@
     max-width: 98vw;
   }
 }
+
+/* Dynamic room loading states */
+.loading, .no-rooms, .room-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 2px dashed var(--border);
+  color: var(--muted);
+  min-height: 200px;
+}
+
+.loading {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.room-error {
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+.no-rooms {
+  border-color: var(--muted);
+}
+
+.no-rooms .btn-outline, .room-error .btn-secondary {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.no-rooms .btn-outline:hover, .room-error .btn-secondary:hover {
+  background: currentColor;
+  color: var(--panel);
+}
+
+/* Enhanced room card animations */
+.room-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.room-card .book-room {
+  transition: all 0.2s ease;
+}
+
+.room-card .book-room:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(55, 81, 254, 0.3);
+}
