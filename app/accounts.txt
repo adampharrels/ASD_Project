@@ -1,7 +1,11 @@
 0,testuser@example.com,pass123,Test,User,123456
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 1,thoainguyen.khuu-1@student.uts.edu.au,Khuu123@,KHUU,NGUYEN,12767063
 2,adam@student.uts.edu.au,@daM1234,Adam,Nguyen,123
+=======
+1,nathan.nourse@student.uts.edu.au,yellowstone2187!,Nathan,Nourse,nathan.nourse@student.uts.edu.au
+>>>>>>> Stashed changes
 =======
 1,nathan.nourse@student.uts.edu.au,yellowstone2187!,Nathan,Nourse,nathan.nourse@student.uts.edu.au
 >>>>>>> Stashed changes
