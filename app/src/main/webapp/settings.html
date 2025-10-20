@@ -8,19 +8,29 @@
   <link rel="stylesheet" href="settings.css" />
 </head>
 <body>
-  <!-- Header -->
+  <!-- ...existing code... -->
   <!-- Removed extra Switch Theme button. Use the toggle button in Preferences section for theme switching. -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="/home.html">UniSpace</a>
-      <nav class="topnav">
-        <a href="/home.html">Reserve</a>
-        <a class="active" href="/settings.html">Settings</a>
-      </nav>
-      <button class="profile-btn" aria-label="Profile">
-        <img src="assets/icons/user.svg" alt="" />
-      </button>
-    </div>
+  <header class="site-header container" style="border-bottom:none !important; box-shadow:none !important;">
+    <nav class="nav">
+      <a class="brand" href="home.html">UniSpace</a>
+      <ul class="nav-links">
+        <li><a href="booking.html">Reserve</a></li>
+        <li><a class="active" href="calendar.html">Calendar</a></li>
+      </ul>
+      <div class="nav-spacer"></div>
+      <div class="profile-menu-wrapper">
+        <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+          <img src="assets/icons/user.svg" alt="Profile" />
+        </button>
+        <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+          <ul>
+            <li><a role="menuitem" href="profile.html" tabindex="0">Profile</a></li>
+            <li><a role="menuitem" href="settings.html" tabindex="0">Settings</a></li>
+            <li><a role="menuitem" href="#" tabindex="0" style="color:#d32f2f">Log out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </nav>
   </header>
 
   <main class="container settings">

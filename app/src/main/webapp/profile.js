@@ -89,4 +89,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   // Removed duplicate/old updateForm handler. All logic is handled inside the profile fetch block above.
+  // Profile dropdown logic for HTML-based menu (copied from home.js/settings.js)
+  const trigger = document.getElementById('profileBtn');
+  const dropdown = document.getElementById('profileDropdown');
+  if (!trigger || !dropdown) return;
+
+  function openDropdown() {
+    dropdown.classList.remove('hidden');
+    trigger.setAttribute('aria-expanded', 'true');
+    dropdown.querySelector('[role="menuitem"]')?.focus();
+  }
+  function closeDropdown() {
+    dropdown.classList.add('hidden');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+  trigger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    dropdown.classList.contains('hidden') ? openDropdown() : closeDropdown();
+  });
+  document.addEventListener('click', function (e) {
+    if (!dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && e.target !== trigger) {
+      closeDropdown();
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDropdown();
+  });
 });
