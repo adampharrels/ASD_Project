@@ -1,3 +1,50 @@
+/* Match nav/header/profile icon placement to home.html */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-spacer {
+  flex: 1;
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 20px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #111;
+  opacity: .8;
+}
+.nav-links a.active {
+  color: var(--brand);
+  opacity: 1;
+}
+.profile-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.profile-btn {
+  border: 0;
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  cursor: pointer;
+  position: relative;
+  z-index: 1100;
+}
+.profile-btn img {
+  width: 22px;
+  height: 22px;
+}
 /* Dropdown and backdrop styles for profile menu */
 .profile-menu-wrapper {
   position: relative;
