@@ -1,6 +1,7 @@
 package com.calendar;
 
 public class Booking {
+    private int bookingID;
     private int timeID;
     private int roomId;
     private String startTime;
@@ -14,8 +15,9 @@ public class Booking {
     private boolean hdmiCable;
     private String image;
 
-    public Booking(int timeID, int roomId, String startTime, String endTime, String roomName, String roomType, 
+    public Booking(int bookingID, int timeID, int roomId, String startTime, String endTime, String roomName, String roomType, 
                    int capacity, boolean speaker, boolean whiteboard, boolean monitor, boolean hdmiCable, String image) {
+        this.bookingID = bookingID;
         this.timeID = timeID;
         this.roomId = roomId;
         this.startTime = startTime;
