@@ -2,50 +2,192 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Room Booking</title>
-    <link rel="stylesheet" href="booking.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Room Booking - UniSpace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg);
+            min-height: 100vh;
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .booking-header h1 {
+            color: var(--brand);
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-links a:hover {
+            background: var(--panel);
+            color: var(--ink);
+        }
+        
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .booking-container {
+                padding: 1rem;
+            }
+        }
+        
+        .section-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-card h2 {
+            color: var(--brand);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+    </style>
 </head>
 <body>
+    <div class="booking-container">
+        <div class="booking-header">
+            <h1>🏢 Room Booking</h1>
+            <div class="nav-links">
+                <a href="home.html">🏠 Home</a>
+                <a href="calendar.html">📅 Calendar</a>
+                <a href="profile.html">👤 Profile</a>
+            </div>
+        </div>
 
-    <h1>Book a Room</h1>
+        <div class="booking-grid">
+            <div class="section-card" id="room-selection">
+                <h2>📍 Book a New Room</h2>
+                <form id="booking-form" method="POST" action="/book-room">
+                    <label for="room">Room:</label>
+                    <select id="room" name="room">
+                        <option value="">Select a room...</option>
+                        <option value="CB06.06.112">CB06.06.112 - Group Study Room (8 people)</option>
+                        <option value="CB06.06.113">CB06.06.113 - Group Study Room (8 people)</option>
+                        <option value="CB07.02.010A">CB07.02.010A - Online Learning Room (2 people)</option>
+                        <option value="CB07.02.010B">CB07.02.010B - Online Learning Room (2 people)</option>
+                        <option value="CB06.03.205">CB06.03.205 - Group Study Room (12 people)</option>
+                        <option value="CB06.03.206">CB06.03.206 - Group Study Room (10 people)</option>
+                        <option value="CB08.01.115">CB08.01.115 - Lecture Room (50 people)</option>
+                        <option value="CB08.01.116">CB08.01.116 - Lecture Room (40 people)</option>
+                        <option value="CB09.02.301">CB09.02.301 - Conference Room (16 people)</option>
+                        <option value="CB09.02.302">CB09.02.302 - Conference Room (20 people)</option>
+                    </select>
 
-    <section id="room-selection">
-        <h2>Select a Room</h2>
-        <form id="booking-form" method="POST" action="/book-room">
-            <label for="room">Room:</label>
-            <select id="room" name="room">
-                <option value="1.1">Building 1 - Room 1</option>
-                <option value="1.2">Building 1 - Room 2</option>
-                <option value="1.2">Building 1 - Room 3</option>
-                <option value="2.1">Building 2 - Room 1</option>
-                <option value="2.1">Building 2 - Room 2</option>
-                <option value="2.1">Building 2 - Room 3</option>
-                <option value="2.1">Building 2 - Room 4</option>
-                <option value="3.4">Building 3 - Room 1</option>
-                <option value="3.4">Building 3 - Room 2</option>
-                <option value="3.4">Building 3 - Room 3</option>
-                <option value="3.4">Building 3 - Room 4</option>
-                <option value="3.4">Building 3 - Room 5</option>
-            </select>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
+                    <label for="time">Start Time:</label>
+                    <input type="time" id="time" name="time" required>
 
-            <label for="time">Start Time:</label>
-            <input type="time" id="time" name="time" required>
+                    <label for="duration">Duration (minutes):</label>
+                    <select id="duration" name="duration" required>
+                        <option value="">Select duration...</option>
+                        <option value="30">30 minutes</option>
+                        <option value="60">1 hour</option>
+                        <option value="90">1.5 hours</option>
+                        <option value="120">2 hours</option>
+                        <option value="180">3 hours</option>
+                        <option value="240">4 hours</option>
+                    </select>
 
-            <label for="duration">Duration (minutes):</label>
-            <input type="number" id="duration" name="duration" min="15" max="240" required>
+                    <button type="submit">📅 Book Room</button>
+                </form>
+            </div>
 
-            <button type="submit">Book Room</button>
-        </form>
-    </section>
+            <div class="section-card" id="my-bookings">
+                <h2>📋 My Current Bookings</h2>
+                <ul id="booking-list">
+                    <li style="color: var(--muted); font-style: italic;">No bookings yet. Create your first booking!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-    <section id="my-bookings">
-        <h2>My Bookings</h2>
-        <ul id="booking-list">
-        </ul>
-    </section>
-
+    <script defer>
+        // Set minimum date to today
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        
+        // Form submission handler
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const room = formData.get('room');
+            const date = formData.get('date');
+            const time = formData.get('time');
+            const duration = formData.get('duration');
+            
+            if (!room || !date || !time || !duration) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create booking entry
+            const bookingList = document.getElementById('booking-list');
+            
+            // Remove placeholder text if it exists
+            if (bookingList.children.length === 1 && bookingList.children[0].style.fontStyle === 'italic') {
+                bookingList.innerHTML = '';
+            }
+            
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <strong>🏢 ${room}</strong><br>
+                        <small>📅 ${new Date(date).toLocaleDateString()} at ${time}</small><br>
+                        <small>⏱️ Duration: ${duration} minutes</small>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">❌</button>
+                </div>
+            `;
+            bookingList.appendChild(listItem);
+            
+            // Reset form
+            this.reset();
+            
+            alert('✅ Room booked successfully!');
+        });
+    </script>
 </body>
 </html>
