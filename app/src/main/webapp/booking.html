@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-home.css">
     <style>
         .booking-container {
             max-width: 1200px;
@@ -84,6 +85,30 @@
     </style>
 </head>
 <body>
+ <!-- Header / Top Nav - Same as home.html -->
+ <header class="site-header container">
+   <nav class="nav">
+     <a class="brand" href="home.html">UniSpace</a>
+     <ul class="nav-links">
+       <li><a class="nav-button active" href="booking.html">Reserve</a></li>
+       <li><a class="nav-button" href="#">Calendar</a></li>
+     </ul>
+     <div class="nav-spacer"></div>
+     <div class="profile-menu-wrapper">
+       <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+         <img src="assets/icons/user.svg" alt="Profile" />
+       </button>
+       <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+         <ul>
+           <li><a role="menuitem" href="profile.html" tabindex="0">Profile</a></li>
+           <li><a role="menuitem" href="settings.html" tabindex="0">Settings</a></li>
+           <li><a role="menuitem" href="#" tabindex="0" style="color:#d32f2f">Log out</a></li>
+         </ul>
+       </nav>
+     </div>
+   </nav>
+ </header>
+
     <div class="booking-container">
         <div class="booking-header">
             <h1>🏢 Room Booking</h1>
@@ -96,7 +121,7 @@
 
         <div class="booking-grid">
             <div class="section-card" id="room-selection">
-                <h2>📍 Book a New Room</h2>
+                <h2> Book a New Room</h2>
                 <form id="booking-form" method="POST" action="/book-room">
                     <label for="room">Room:</label>
                     <select id="room" name="room">
@@ -130,7 +155,7 @@
                         <option value="240">4 hours</option>
                     </select>
 
-                    <button type="submit">📅 Book Room</button>
+                    <button type="submit"> Book Room </button>
                 </form>
             </div>
 
@@ -147,6 +172,11 @@
         // Set minimum date to today
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
         
+        function makeBookingID() {
+            return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() 
+            : 'id-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+        }
+
         // Form submission handler
         document.getElementById('booking-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -163,8 +193,10 @@
             }
             
             // Create booking entry
-            const bookingList = document.getElementById('booking-list');
+            const bookingID = makeBookingID();
             
+            const bookingList = document.getElementById('booking-list');
+
             // Remove placeholder text if it exists
             if (bookingList.children.length === 1 && bookingList.children[0].style.fontStyle === 'italic') {
                 bookingList.innerHTML = '';
@@ -174,9 +206,10 @@
             listItem.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: start;">
                     <div>
-                        <strong>🏢 ${room}</strong><br>
-                        <small>📅 ${new Date(date).toLocaleDateString()} at ${time}</small><br>
-                        <small>⏱️ Duration: ${duration} minutes</small>
+                        <strong> ${room}</strong><br>
+                        <small> ${new Date(date).toLocaleDateString()} at ${time}</small><br>
+                        <small> Duration: ${duration} minutes</small>
+                        <small> BookingID: ${bookingID} </small>
                     </div>
                     <button onclick="this.parentElement.parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">❌</button>
                 </div>
@@ -186,8 +219,11 @@
             // Reset form
             this.reset();
             
-            alert('✅ Room booked successfully!');
+            alert('Room booked successfully! Booking ID: ' + bookingID);
         });
     </script>
+    
+    <!-- Profile Dropdown JS - Same as home.html -->
+    <script src="js/home.js"></script>
 </body>
 </html>
