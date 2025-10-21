@@ -386,86 +386,100 @@ body {
 /* lock scroll when menu is open */
 .no-scroll { overflow: hidden; }
 
-/* Dynamic Room Loading Styles */
-.loading {
+/* Available Rooms Styling */
+.loading-message {
   text-align: center;
   padding: 2rem;
   color: var(--gray-600);
   font-style: italic;
 }
 
-.no-rooms {
-  text-align: center;
-  padding: 3rem 2rem;
-  color: var(--gray-600);
-}
-
-.no-rooms p {
-  margin: 0.5rem 0;
-}
-
-.no-rooms .btn-outline {
-  margin-top: 1rem;
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: 2px solid var(--blue);
-  color: var(--blue);
-  text-decoration: none;
-  border-radius: var(--radius);
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.no-rooms .btn-outline:hover {
-  background: var(--blue);
-  color: white;
-}
-
-.room-error {
+.error-message {
   text-align: center;
   padding: 2rem;
   color: #dc3545;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  margin: 1rem 0;
 }
 
-.room-error .btn-secondary {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--gray-100);
-  border: 1px solid var(--gray-300);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.room-error .btn-secondary:hover {
-  background: var(--gray-300);
-}
-
-.book-room {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.75rem;
+.retry-btn {
   background: var(--blue);
   color: white;
   border: none;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-weight: 500;
+  margin-top: 0.5rem;
 }
 
-.book-room:hover {
+.retry-btn:hover {
   background: var(--blue-600);
-  transform: translateY(-1px);
 }
 
-/* Room card enhancements */
-.room-card .card-body {
-  position: relative;
-  padding-bottom: 4rem; /* Make space for button */
+.no-rooms-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--gray-600);
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-300);
 }
 
-.room-card .meta li:last-child {
-  color: var(--blue);
+.no-rooms-message h4 {
+  margin: 0 0 0.5rem;
+  color: var(--gray-700);
+}
+
+.no-rooms-message p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Room card enhancements for dynamic content */
+.room-card .availability-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
   font-weight: 600;
+}
+
+.room-card .book-now-btn {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.room-card .book-now-btn:hover {
+  background: var(--blue-600);
+}
+
+.room-card .equipment-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.room-card .equipment-item {
+  background: var(--gray-100);
+  color: var(--gray-700);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
 }
