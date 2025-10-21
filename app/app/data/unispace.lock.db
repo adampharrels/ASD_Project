@@ -1,6 +1,6 @@
 #FileLock
-#Tue Oct 21 18:33:35 AEDT 2025
-hostName=172.19.109.164
-id=19a05aff98d8a396c7d240a0d4a7074727953f2aa16
+#Wed Oct 22 00:35:14 AEDT 2025
+hostName=adams-mbp.modem
+id=19a06fb277b37ee456bde5f639877df668ea6163255
 method=file
-server=172.19.109.164\:51042
+server=192.168.0.183\:53599

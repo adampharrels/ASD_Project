@@ -189,27 +189,40 @@ public class DatabaseSetup {
                 """);
                 System.out.println("✅ Inserted room data");
                 
-                // Insert sample users using MERGE
+                // Insert sample users using MERGE (no explicit user_id to avoid auto-increment conflicts)
                 stmt.execute("""
-                    MERGE INTO users (user_id, username, email, full_name, student_id) VALUES 
-                    (1, 'adam_p', 'adam.pharrels@student.edu', 'Adam Pharrels', 'ST001'),
-                    (2, 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', 'ST002'),
-                    (3, 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', 'ST003'),
-                    (4, 'emma_d', 'emma.davis@student.edu', 'Emma Davis', 'ST004'),
-                    (5, 'john_s', 'john.smith@student.edu', 'John Smith', 'ST005')
+                    INSERT INTO users (username, email, full_name, student_id) 
+                    SELECT 'adam_p', 'adam.pharrels@student.edu', 'Adam Pharrels', 'ST001' 
+                    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'adam.pharrels@student.edu');
+                    
+                    INSERT INTO users (username, email, full_name, student_id) 
+                    SELECT 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', 'ST002' 
+                    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'sarah.jones@student.edu');
+                    
+                    INSERT INTO users (username, email, full_name, student_id) 
+                    SELECT 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', 'ST003' 
+                    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'mike.wilson@student.edu');
+                    
+                    INSERT INTO users (username, email, full_name, student_id) 
+                    SELECT 'emma_d', 'emma.davis@student.edu', 'Emma Davis', 'ST004' 
+                    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'emma.davis@student.edu');
+                    
+                    INSERT INTO users (username, email, full_name, student_id) 
+                    SELECT 'john_s', 'john.smith@student.edu', 'John Smith', 'ST005' 
+                    WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'john.smith@student.edu');
                 """);
                 System.out.println("✅ Inserted user data");
                 
-                // Insert sample bookings with memorable references using MERGE
+                // Insert sample bookings with memorable references using MERGE (no explicit timeID)
                 stmt.execute("""
-                    MERGE INTO booktime (timeID, booking_ref, room_id, user_id, start_Time, end_Time, booking_status) VALUES 
-                    (1, 'CB112-1017E-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
-                    (2, 'CB113-1017E-S', 2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
-                    (3, 'CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),
-                    (4, 'CB010B-1018A-M', 4, 3, '2025-10-18 14:00:00', '2025-10-18 15:00:00', 'COMPLETED'),
-                    (5, 'CB112-1021M-A2K', 1, 1, '2025-10-21 09:00:00', '2025-10-21 10:00:00', 'ACTIVE'),
-                    (6, 'CB205-1021A-S5X', 5, 2, '2025-10-21 14:00:00', '2025-10-21 16:00:00', 'ACTIVE'),
-                    (7, 'CB115-1022M-A7F', 7, 1, '2025-10-22 11:00:00', '2025-10-22 12:00:00', 'ACTIVE')
+                    MERGE INTO booktime (booking_ref, room_id, user_id, start_Time, end_Time, booking_status) VALUES 
+                    ('CB112-1017E-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
+                    ('CB113-1017E-S', 2, 1, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
+                    ('CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),
+                    ('CB010B-1018A-M', 4, 1, '2025-10-18 14:00:00', '2025-10-18 15:00:00', 'COMPLETED'),
+                    ('CB112-1021M-A2K', 1, 1, '2025-10-21 09:00:00', '2025-10-21 10:00:00', 'ACTIVE'),
+                    ('CB205-1021A-S5X', 5, 1, '2025-10-21 14:00:00', '2025-10-21 16:00:00', 'ACTIVE'),
+                    ('CB115-1022M-A7F', 7, 1, '2025-10-22 11:00:00', '2025-10-22 12:00:00', 'ACTIVE')
                 """);
                 System.out.println("✅ Inserted booking data");
                 

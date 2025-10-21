@@ -52,14 +52,10 @@ public class UserSync {
      * Sync all users from accounts.txt to database
      */
     public static void syncAllUsers() {
-        // Manually add the users from accounts.txt to database
+        // Skip UserSync for now since we have sample data in asd.sql
+        // This prevents primary key conflicts with auto-increment sequence
         System.out.println("🔄 Syncing users from accounts.txt to database...");
-        
-        addUserToDatabase("testuser@example.com", "Test", "User", "123456");
-        addUserToDatabase("adam@student.uts.edu.au", "Admin", "Adam", "123");
-        addUserToDatabase("adamadam@student.uts.edu.au", "Adam", "Adam", "123");
-        addUserToDatabase("amadam@student.uts.edu.au", "Adam", "Adam", "123");
-        
+        System.out.println("ℹ️  Skipping UserSync - sample data already exists in database");
         System.out.println("✅ User sync completed");
     }
 }

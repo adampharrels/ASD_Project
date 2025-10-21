@@ -53,29 +53,29 @@ CREATE TABLE IF NOT EXISTS booktime (
     INDEX idx_booking_ref (booking_ref)
 );
 
--- Insert sample users (H2 compatible - using INSERT with IF NOT EXISTS check)
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 1, 'admin_user', 'admins@student.uts.edu.au', 'Admin User', '123' 
+-- Insert sample users (H2 compatible - using INSERT with IF NOT EXISTS check, no explicit user_id)
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'admin_user', 'admins@student.uts.edu.au', 'Admin User', '123' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admins@student.uts.edu.au');
 
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 2, 'adam_p', 'adam.nguyen@student.edu', 'Adam Nguyen', '123123' 
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'adam_p', 'adam.nguyen@student.edu', 'Adam Nguyen', '123123' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'adam.nguyen@student.edu');
 
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 3, 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', '456789' 
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', '456789' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'sarah.jones@student.edu');
 
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 4, 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', '111003' 
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', '111003' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'mike.wilson@student.edu');
 
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 5, 'emma_d', 'emma.davis@student.edu', 'Emma Davis', '111004' 
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'emma_d', 'emma.davis@student.edu', 'Emma Davis', '111004' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'emma.davis@student.edu');
 
-INSERT INTO users (user_id, username, email, full_name, student_id) 
-SELECT 6, 'john_s', 'john.smith@student.edu', 'John Smith', '111005' 
+INSERT INTO users (username, email, full_name, student_id) 
+SELECT 'john_s', 'john.smith@student.edu', 'John Smith', '111005' 
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'john.smith@student.edu');
 
 -- Insert sample rooms (H2 compatible)
@@ -97,14 +97,14 @@ MERGE INTO room (room_id, room_name, room_type, capacity, speaker, whiteboard, m
 (15, 'CB06.05.220', 'Group Study Room', 6, false, true, false, true, 'Group_Study_Room', 'Building CB06, Level 5');
 
 -- Insert sample bookings with memorable booking references (H2 compatible)
-MERGE INTO booktime (timeID, booking_ref, room_id, user_id, start_time, end_time, booking_status) VALUES 
-(1, 'CB112-1017P-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
-(2, 'CB113-1017P-S', 2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
-(3, 'CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),
-(4, 'CB010B-1018P-M', 4, 3, '2025-10-18 14:00:00', '2025-10-18 15:00:00', 'COMPLETED'),
-(5, 'CB112-1021M-A', 1, 1, '2025-10-21 09:00:00', '2025-10-21 10:00:00', 'ACTIVE'),
-(6, 'CB205-1021P-S', 5, 2, '2025-10-21 14:00:00', '2025-10-21 16:00:00', 'ACTIVE'),
-(7, 'CB115-1022M-A', 7, 1, '2025-10-22 11:00:00', '2025-10-22 12:00:00', 'ACTIVE');
+MERGE INTO booktime (booking_ref, room_id, user_id, start_time, end_time, booking_status) VALUES 
+('CB112-1017P-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
+('CB113-1017P-S', 2, 1, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
+('CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),
+('CB010B-1018P-M', 4, 1, '2025-10-18 14:00:00', '2025-10-18 15:00:00', 'COMPLETED'),
+('CB112-1021M-A', 1, 1, '2025-10-21 09:00:00', '2025-10-21 10:00:00', 'ACTIVE'),
+('CB205-1021P-S', 5, 1, '2025-10-21 14:00:00', '2025-10-21 16:00:00', 'ACTIVE'),
+('CB115-1022M-A', 7, 1, '2025-10-22 11:00:00', '2025-10-22 12:00:00', 'ACTIVE');
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_booktime_room_status ON booktime(room_id, booking_status);
