@@ -161,9 +161,15 @@
 
             <div class="section-card" id="my-bookings">
                 <h2>📋 My Current Bookings</h2>
-                <ul id="booking-list">
-                    <li style="color: var(--muted); font-style: italic;">No bookings yet. Create your first booking!</li>
+                <div id="loading-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem;">
+                    🔄 Loading your bookings...
+                </div>
+                <ul id="booking-list" style="display: none;">
+                    <!-- Bookings will be loaded here -->
                 </ul>
+                <div id="no-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
+                    📋 No active bookings found. Create your first booking!
+                </div>
             </div>
         </div>
     </div>
@@ -172,13 +178,113 @@
         // Set minimum date to today
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
         
-        function makeBookingID() {
-            return (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() 
-            : 'id-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+        // Load user's current bookings when page loads
+        async function loadMyBookings() {
+            try {
+                const response = await fetch('/api/user-bookings?status=current');
+                if (!response.ok) {
+                    throw new Error('Failed to load bookings');
+                }
+                
+                const bookings = await response.json();
+                displayBookings(bookings);
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                document.getElementById('loading-bookings').style.display = 'none';
+                document.getElementById('no-bookings').innerHTML = '❌ Error loading bookings. Please refresh.';
+                document.getElementById('no-bookings').style.display = 'block';
+            }
         }
+        
+        function displayBookings(bookings) {
+            const loadingElement = document.getElementById('loading-bookings');
+            const bookingList = document.getElementById('booking-list');
+            const noBookingsElement = document.getElementById('no-bookings');
+            
+            loadingElement.style.display = 'none';
+            
+            if (bookings.length === 0) {
+                noBookingsElement.style.display = 'block';
+                bookingList.style.display = 'none';
+                return;
+            }
+            
+            bookingList.innerHTML = '';
+            bookingList.style.display = 'block';
+            noBookingsElement.style.display = 'none';
+            
+            bookings.forEach(booking => {
+                const listItem = document.createElement('li');
+                const startDate = new Date(booking.startTime);
+                const endDate = new Date(booking.endTime);
+                
+                // Calculate duration
+                const durationMs = endDate - startDate;
+                const durationMinutes = Math.round(durationMs / (1000 * 60));
+                
+                listItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                        <div>
+                            <strong style="color: var(--brand);">🏢 ${booking.roomName}</strong><br>
+                            <small style="color: var(--ink);">📅 ${startDate.toLocaleDateString()} at ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small><br>
+                            <small style="color: var(--muted);">⏱️ Duration: ${durationMinutes} minutes</small><br>
+                            <small style="color: var(--muted);">🎫 <strong>${booking.bookingRef || 'REF-' + booking.timeID}</strong></small><br>
+                            <small style="color: var(--muted);">📍 ${booking.roomType} • ${booking.capacity} people</small>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                            <span style="background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; text-align: center;">
+                                ${booking.bookingStatus}
+                            </span>
+                            <button onclick="cancelBooking(${booking.timeID}, this)" 
+                                    style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 11px;"
+                                    title="Cancel booking">
+                                ❌ Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+                bookingList.appendChild(listItem);
+            });
+        }
+        
+        // Cancel booking function
+        async function cancelBooking(bookingId, buttonElement) {
+            if (!confirm('Are you sure you want to cancel this booking?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/user-bookings?bookingId=${bookingId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    // Remove the booking from the UI
+                    buttonElement.closest('li').remove();
+                    
+                    // Check if no bookings left
+                    const bookingList = document.getElementById('booking-list');
+                    if (bookingList.children.length === 0) {
+                        bookingList.style.display = 'none';
+                        document.getElementById('no-bookings').style.display = 'block';
+                    }
+                    
+                    alert('✅ Booking cancelled successfully!');
+                } else {
+                    const error = await response.json();
+                    alert('❌ Failed to cancel booking: ' + (error.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error cancelling booking:', error);
+                alert('❌ Error cancelling booking. Please try again.');
+            }
+        }
+        
+        // Make cancelBooking globally available
+        window.cancelBooking = cancelBooking;
 
-        // Form submission handler
-        document.getElementById('booking-form').addEventListener('submit', function(e) {
+        // Form submission handler - Make real API call
+        document.getElementById('booking-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
@@ -192,35 +298,54 @@
                 return;
             }
             
-            // Create booking entry
-            const bookingID = makeBookingID();
+            // Disable submit button during request
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = '🔄 Booking...';
             
-            const bookingList = document.getElementById('booking-list');
-
-            // Remove placeholder text if it exists
-            if (bookingList.children.length === 1 && bookingList.children[0].style.fontStyle === 'italic') {
-                bookingList.innerHTML = '';
+            try {
+                // Convert FormData to URLSearchParams for proper servlet handling
+                const urlParams = new URLSearchParams();
+                urlParams.append('room', room);
+                urlParams.append('date', date);
+                urlParams.append('time', time);
+                urlParams.append('duration', duration);
+                
+                const response = await fetch('/book-room', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlParams
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Show success message with memorable booking reference
+                    alert(`✅ ${result.message}\n🎫 Booking Reference: ${result.bookingRef}\n📝 ${result.bookingRefDisplay || ''}`);
+                    
+                    // Reset form
+                    this.reset();
+                    
+                    // Reload bookings to show the new one
+                    await loadMyBookings();
+                } else {
+                    alert('❌ ' + (result.error || 'Failed to book room'));
+                }
+            } catch (error) {
+                console.error('Error booking room:', error);
+                alert('❌ Error booking room. Please try again.');
+            } finally {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
             }
-            
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: start;">
-                    <div>
-                        <strong> ${room}</strong><br>
-                        <small> ${new Date(date).toLocaleDateString()} at ${time}</small><br>
-                        <small> Duration: ${duration} minutes</small>
-                        <small> BookingID: ${bookingID} </small>
-                    </div>
-                    <button onclick="this.parentElement.parentElement.remove()" style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;">❌</button>
-                </div>
-            `;
-            bookingList.appendChild(listItem);
-            
-            // Reset form
-            this.reset();
-            
-            alert('Room booked successfully! Booking ID: ' + bookingID);
         });
+        
+        // Load bookings when page loads
+        document.addEventListener('DOMContentLoaded', loadMyBookings);
     </script>
     
     <!-- Profile Dropdown JS - Same as home.html -->
