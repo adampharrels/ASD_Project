@@ -4,19 +4,64 @@ import java.sql.*;
 import java.nio.file.*;
 
 public class DatabaseSetup {
-    private static final String DB_URL = "jdbc:h2:mem:asd;DB_CLOSE_DELAY=-1";
+    // H2 File-Based Database (persistent, no Docker needed)
+    private static final String DB_URL = "jdbc:h2:file:./data/unispace;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASS = "";
+    
+    // MySQL Database Configuration (if Docker is available)
+    private static final String MYSQL_DB_URL = "jdbc:mysql://localhost:3306/unispace?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String MYSQL_USER = "unispace_user";
+    private static final String MYSQL_PASS = "unispace_pass";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, USER, PASS);
+        try {
+            // Try to connect to MySQL first (if Docker is running)
+            return DriverManager.getConnection(MYSQL_DB_URL, MYSQL_USER, MYSQL_PASS);
+        } catch (SQLException e) {
+            System.out.println("⚠️  MySQL not available, using H2 file database: " + e.getMessage());
+            // Use H2 file-based database (persistent, no Docker needed)
+            return DriverManager.getConnection(DB_URL, USER, PASS);
+        }
     }
 
     public static void initDatabase() {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             
-            // Try to read the external asd.sql file from project root
+            // Check if we're using MySQL or H2
+            String dbUrl = conn.getMetaData().getURL();
+            boolean isMySQL = dbUrl.contains("mysql");
+            
+            System.out.println("🗄️  Database Type: " + (isMySQL ? "MySQL" : "H2"));
+            System.out.println("🔗 Database URL: " + dbUrl);
+            
+            if (isMySQL) {
+                // For MySQL, the schema is already created by init-db.sql in Docker
+                System.out.println("✅ Using MySQL database - schema managed by Docker");
+                
+                // Test connection and verify tables exist
+                ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as room_count FROM room");
+                if (rs.next()) {
+                    int roomCount = rs.getInt("room_count");
+                    System.out.println("✅ MySQL Database connected successfully! Found " + roomCount + " rooms.");
+                }
+                
+                rs = stmt.executeQuery("SELECT COUNT(*) as user_count FROM users");
+                if (rs.next()) {
+                    int userCount = rs.getInt("user_count");
+                    System.out.println("✅ Found " + userCount + " users in database.");
+                }
+                
+                rs = stmt.executeQuery("SELECT COUNT(*) as booking_count FROM booktime");
+                if (rs.next()) {
+                    int bookingCount = rs.getInt("booking_count");
+                    System.out.println("✅ Found " + bookingCount + " bookings in database.");
+                }
+                return;
+            }
+            
+            // H2 Fallback - Try to read the external asd.sql file from project root
             Path sqlPath = Paths.get(System.getProperty("user.dir")).getParent().resolve("asd.sql");
             
             if (Files.exists(sqlPath)) {
@@ -82,13 +127,44 @@ public class DatabaseSetup {
                 System.out.println("✅ Created room table");
                 
                 stmt.execute("""
-                    CREATE TABLE IF NOT EXISTS booktime (
-                        timeID INT PRIMARY KEY,
-                        room_id INT NOT NULL,
-                        start_Time TIMESTAMP NOT NULL,
-                        end_Time TIMESTAMP NOT NULL
+                    CREATE TABLE IF NOT EXISTS users (
+                        user_id INT AUTO_INCREMENT PRIMARY KEY,
+                        username VARCHAR(50) UNIQUE NOT NULL,
+                        email VARCHAR(100) UNIQUE NOT NULL,
+                        full_name VARCHAR(100) NOT NULL,
+                        student_id VARCHAR(20) UNIQUE,
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )
                 """);
+                System.out.println("✅ Created users table");
+                
+                stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS booktime (
+                        timeID INT AUTO_INCREMENT PRIMARY KEY,
+                        booking_ref VARCHAR(20) UNIQUE,
+                        room_id INT NOT NULL,
+                        user_id INT,
+                        start_Time TIMESTAMP NOT NULL,
+                        end_Time TIMESTAMP NOT NULL,
+                        booking_status VARCHAR(20) DEFAULT 'ACTIVE',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        cancelled_at TIMESTAMP NULL,
+                        FOREIGN KEY (room_id) REFERENCES room(room_id),
+                        FOREIGN KEY (user_id) REFERENCES users(user_id)
+                    )
+                """);
+                
+                // Add booking_ref column if it doesn't exist (migration for existing databases)
+                try {
+                    stmt.execute("ALTER TABLE booktime ADD COLUMN booking_ref VARCHAR(20) UNIQUE");
+                    System.out.println("✅ Added booking_ref column to existing booktime table");
+                } catch (SQLException e) {
+                    if (e.getMessage().contains("already exists") || e.getMessage().contains("Duplicate column")) {
+                        System.out.println("✅ booking_ref column already exists");
+                    } else {
+                        System.out.println("⚠️  Note: " + e.getMessage());
+                    }
+                }
                 System.out.println("✅ Created booktime table");
                 
                 // Insert sample data using MERGE to avoid duplicates
@@ -112,14 +188,27 @@ public class DatabaseSetup {
                 """);
                 System.out.println("✅ Inserted room data");
                 
-                // Insert sample bookings with current and future dates using MERGE
+                // Insert sample users using MERGE
                 stmt.execute("""
-                    MERGE INTO booktime (timeID, room_id, start_Time, end_Time) VALUES 
-                    (1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00'),
-                    (2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00'),
-                    (3, 3, '2025-10-18 10:00:00', '2025-10-18 11:00:00'),
-                    (4, 4, '2025-10-18 14:00:00', '2025-10-18 15:00:00'),
-                    (5, 1, '2025-10-18 09:00:00', '2025-10-18 10:00:00')
+                    MERGE INTO users (user_id, username, email, full_name, student_id) VALUES 
+                    (1, 'adam_p', 'adam.pharrels@student.edu', 'Adam Pharrels', 'ST001'),
+                    (2, 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', 'ST002'),
+                    (3, 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', 'ST003'),
+                    (4, 'emma_d', 'emma.davis@student.edu', 'Emma Davis', 'ST004'),
+                    (5, 'john_s', 'john.smith@student.edu', 'John Smith', 'ST005')
+                """);
+                System.out.println("✅ Inserted user data");
+                
+                // Insert sample bookings with memorable references using MERGE
+                stmt.execute("""
+                    MERGE INTO booktime (timeID, booking_ref, room_id, user_id, start_Time, end_Time, booking_status) VALUES 
+                    (1, 'CB112-1017E-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
+                    (2, 'CB113-1017E-S', 2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
+                    (3, 'CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),
+                    (4, 'CB010B-1018A-M', 4, 3, '2025-10-18 14:00:00', '2025-10-18 15:00:00', 'COMPLETED'),
+                    (5, 'CB112-1021M-A2K', 1, 1, '2025-10-21 09:00:00', '2025-10-21 10:00:00', 'ACTIVE'),
+                    (6, 'CB205-1021A-S5X', 5, 2, '2025-10-21 14:00:00', '2025-10-21 16:00:00', 'ACTIVE'),
+                    (7, 'CB115-1022M-A7F', 7, 1, '2025-10-22 11:00:00', '2025-10-22 12:00:00', 'ACTIVE')
                 """);
                 System.out.println("✅ Inserted booking data");
                 
