@@ -5,7 +5,8 @@ import java.nio.file.*;
 
 public class DatabaseSetup {
     // H2 File-Based Database (persistent, no Docker needed)
-    private static final String DB_URL = "jdbc:h2:file:./data/unispace;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE";
+    // Use absolute path to ensure consistent database access regardless of working directory
+    private static final String DB_URL = "jdbc:h2:file:" + System.getProperty("user.dir") + "/app/data/unispace;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE";
     private static final String USER = "sa";
     private static final String PASS = "";
     
@@ -231,6 +232,9 @@ public class DatabaseSetup {
                 int bookingCount = rs.getInt("count");
                 System.out.println("✅ Found " + bookingCount + " bookings in database.");
             }
+            
+            // Sync users from accounts.txt to database
+            UserSync.syncAllUsers();
             
         } catch (Exception e) {
             System.err.println("❌ Database setup failed: " + e.getMessage());

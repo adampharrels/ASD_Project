@@ -38,11 +38,13 @@ CREATE TABLE IF NOT EXISTS booktime (
     user_id INT,
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP NOT NULL,
-    booking_status ENUM('ACTIVE', 'COMPLETED', 'CANCELLED') DEFAULT 'ACTIVE',
+    booking_status ENUM('ACTIVE', 'CHECKED_IN', 'CHECKED_OUT', 'COMPLETED', 'CANCELLED') DEFAULT 'ACTIVE',
     purpose VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     cancelled_at TIMESTAMP NULL,
+    checked_in_at TIMESTAMP NULL,
+    checked_out_at TIMESTAMP NULL,
     FOREIGN KEY (room_id) REFERENCES room(room_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
     INDEX idx_room_time (room_id, start_time, end_time),
@@ -51,16 +53,33 @@ CREATE TABLE IF NOT EXISTS booktime (
     INDEX idx_booking_ref (booking_ref)
 );
 
--- Insert sample users
-INSERT IGNORE INTO users (user_id, username, email, full_name, student_id) VALUES 
-(1, 'adam_p', 'adam.nguyen@student.edu', 'Adam Nguyen', '123123'),
-(2, 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', '456789'),
-(3, 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', '111003'),
-(4, 'emma_d', 'emma.davis@student.edu', 'Emma Davis', '111004'),
-(5, 'john_s', 'john.smith@student.edu', 'John Smith', '111005');
+-- Insert sample users (H2 compatible - using INSERT with IF NOT EXISTS check)
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 1, 'admin_user', 'admins@student.uts.edu.au', 'Admin User', '123' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admins@student.uts.edu.au');
 
--- Insert sample rooms
-INSERT IGNORE INTO room (room_id, room_name, room_type, capacity, speaker, whiteboard, monitor, hdmi_cable, image, location) VALUES 
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 2, 'adam_p', 'adam.nguyen@student.edu', 'Adam Nguyen', '123123' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'adam.nguyen@student.edu');
+
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 3, 'sarah_j', 'sarah.jones@student.edu', 'Sarah Jones', '456789' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'sarah.jones@student.edu');
+
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 4, 'mike_w', 'mike.wilson@student.edu', 'Mike Wilson', '111003' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'mike.wilson@student.edu');
+
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 5, 'emma_d', 'emma.davis@student.edu', 'Emma Davis', '111004' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'emma.davis@student.edu');
+
+INSERT INTO users (user_id, username, email, full_name, student_id) 
+SELECT 6, 'john_s', 'john.smith@student.edu', 'John Smith', '111005' 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'john.smith@student.edu');
+
+-- Insert sample rooms (H2 compatible)
+MERGE INTO room (room_id, room_name, room_type, capacity, speaker, whiteboard, monitor, hdmi_cable, image, location) VALUES 
 (1, 'CB06.06.112', 'Group Study Room', 8, true, true, true, true, 'Group_Study_Room', 'Building CB06, Level 6'),
 (2, 'CB06.06.113', 'Group Study Room', 8, false, false, true, true, 'Group_Study_Room', 'Building CB06, Level 6'),
 (3, 'CB07.02.010A', 'Online Learning Room', 2, false, false, true, true, 'Online_Learning_Room', 'Building CB07, Level 2'),
@@ -77,8 +96,8 @@ INSERT IGNORE INTO room (room_id, room_name, room_type, capacity, speaker, white
 (14, 'CB05.01.109', 'Computer Lab', 28, false, true, true, true, 'Computer_Lab', 'Building CB05, Level 1'),
 (15, 'CB06.05.220', 'Group Study Room', 6, false, true, false, true, 'Group_Study_Room', 'Building CB06, Level 5');
 
--- Insert sample bookings with memorable booking references
-INSERT IGNORE INTO booktime (timeID, booking_ref, room_id, user_id, start_time, end_time, booking_status) VALUES 
+-- Insert sample bookings with memorable booking references (H2 compatible)
+MERGE INTO booktime (timeID, booking_ref, room_id, user_id, start_time, end_time, booking_status) VALUES 
 (1, 'CB112-1017P-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
 (2, 'CB113-1017P-S', 2, 2, '2025-10-17 17:00:00', '2025-10-17 18:00:00', 'COMPLETED'),
 (3, 'CB010A-1018M-A', 3, 1, '2025-10-18 10:00:00', '2025-10-18 11:00:00', 'COMPLETED'),

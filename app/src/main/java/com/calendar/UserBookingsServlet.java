@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import uni.space.finder.DatabaseSetup;
 import com.google.gson.Gson;
 
@@ -29,8 +30,13 @@ public class UserBookingsServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         
         try {
-            // For now, use default user (in real app, get from session/authentication)
-            int currentUserId = 1; // Default to Adam Pharrels
+            // Get current user from session
+            int currentUserId = getCurrentUserId(req);
+            if (currentUserId == -1) {
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                resp.getWriter().write("{\"error\":\"User not logged in or not found in database\"}");
+                return;
+            }
             String status = req.getParameter("status"); // "current", "past", or "all"
             
             List<Booking> bookings = getUserBookings(currentUserId, status);
@@ -157,6 +163,47 @@ public class UserBookingsServlet extends HttpServlet {
         } catch (SQLException e) {
             System.err.println("Error cancelling booking: " + e.getMessage());
             return false;
+        }
+    }
+    
+    /**
+     * Get current user ID from session and database
+     */
+    private int getCurrentUserId(HttpServletRequest req) {
+        try {
+            // Get user email from session
+            HttpSession session = req.getSession(false);
+            if (session == null || session.getAttribute("email") == null) {
+                System.err.println("❌ No session or email found");
+                return -1;
+            }
+            
+            String email = (String) session.getAttribute("email");
+            System.out.println("🔍 Looking up user ID for email: " + email);
+            
+            // Get user ID from database
+            String query = "SELECT user_id FROM users WHERE email = ?";
+            
+            try (Connection conn = DatabaseSetup.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(query)) {
+                
+                pstmt.setString(1, email);
+                ResultSet rs = pstmt.executeQuery();
+                
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    System.out.println("✅ Found user ID: " + userId + " for email: " + email);
+                    return userId;
+                } else {
+                    System.err.println("❌ User not found in database: " + email);
+                    return -1;
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error getting current user ID: " + e.getMessage());
+            e.printStackTrace();
+            return -1;
         }
     }
 }
