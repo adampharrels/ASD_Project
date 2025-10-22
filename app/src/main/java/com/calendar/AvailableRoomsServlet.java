@@ -36,29 +36,35 @@ public class AvailableRoomsServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Origin", "*");
         
         try {
-            List<Map<String, Object>> availableRooms = getAvailableRoomsNext30Minutes();
-            resp.getWriter().write(gson.toJson(availableRooms));
-            System.out.println("✅ Found " + availableRooms.size() + " rooms available in next 30 minutes");
+            List<Map<String, Object>> rooms = getAllAvailableRooms();
+            
+            Gson gson = new Gson();
+            String json = gson.toJson(rooms);
+            
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(json);
+            
+            System.out.println("✅ Found " + rooms.size() + " rooms available right now");
+            
         } catch (Exception e) {
-            System.err.println("❌ Error in AvailableRoomsServlet: " + e.getMessage());
+            System.err.println("❌ Error fetching available rooms: " + e.getMessage());
             e.printStackTrace();
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setStatus(500);
             resp.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
 
-    private List<Map<String, Object>> getAvailableRoomsNext30Minutes() {
+    private List<Map<String, Object>> getAllAvailableRooms() {
         List<Map<String, Object>> availableRooms = new ArrayList<>();
         
-        // Get current time and 30 minutes from now
+        // Get current time only (no time window restriction)
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime next30Min = now.plusMinutes(30);
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String currentTime = now.format(formatter);
-        String timeIn30Min = next30Min.format(formatter);
         
-        System.out.println("🔍 Checking availability from " + currentTime + " to " + timeIn30Min);
+        System.out.println("🔍 Checking all rooms available right now: " + currentTime);
         
         // First, let's check what rooms exist in total
         String countQuery = "SELECT COUNT(*) as total FROM room";
@@ -72,27 +78,27 @@ public class AvailableRoomsServlet extends HttpServlet {
             System.err.println("Error counting rooms: " + e.getMessage());
         }
         
-        // Check what bookings exist in the time window
-        String bookingQuery = "SELECT * FROM booktime WHERE start_Time < ? AND end_Time > ?";
+        // Check what bookings exist right now
+        String bookingQuery = "SELECT * FROM booktime WHERE start_Time <= ? AND end_Time > ?";
         try (Connection conn = DatabaseSetup.getConnection();
              PreparedStatement bookingStmt = conn.prepareStatement(bookingQuery)) {
-            bookingStmt.setString(1, timeIn30Min);
+            bookingStmt.setString(1, currentTime);
             bookingStmt.setString(2, currentTime);
             try (ResultSet bookingRs = bookingStmt.executeQuery()) {
                 int bookingCount = 0;
                 while (bookingRs.next()) {
                     bookingCount++;
-                    System.out.println("📅 Booking conflict: Room " + bookingRs.getInt("room_id") + 
+                    System.out.println("📅 Current booking: Room " + bookingRs.getInt("room_id") + 
                                      " from " + bookingRs.getString("start_Time") + 
                                      " to " + bookingRs.getString("end_Time"));
                 }
-                System.out.println("📊 Found " + bookingCount + " conflicting bookings");
+                System.out.println("📊 Found " + bookingCount + " active bookings right now");
             }
         } catch (SQLException e) {
             System.err.println("Error checking bookings: " + e.getMessage());
         }
         
-        // Query to find rooms that are NOT booked in the next 30 minutes
+        // Query to find rooms that are NOT currently booked
         String query = """
             SELECT DISTINCT r.room_id, r.room_name, r.room_type, r.capacity, 
                    r.speaker, r.whiteboard, r.monitor, r.hdmi_cable, r.image
@@ -100,11 +106,7 @@ public class AvailableRoomsServlet extends HttpServlet {
             WHERE r.room_id NOT IN (
                 SELECT DISTINCT b.room_id 
                 FROM booktime b 
-                WHERE (
-                    (b.start_Time <= ? AND b.end_Time > ?) OR
-                    (b.start_Time < ? AND b.end_Time >= ?) OR
-                    (b.start_Time >= ? AND b.start_Time < ?)
-                )
+                WHERE b.start_Time <= ? AND b.end_Time > ?
             )
             ORDER BY r.room_name
             """;
@@ -112,18 +114,12 @@ public class AvailableRoomsServlet extends HttpServlet {
         try (Connection conn = DatabaseSetup.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
-            // Set parameters for the query (check for any overlap with next 30 minutes)
+            // Set parameters for current time check
             pstmt.setString(1, currentTime);     // booking starts before or at current time
             pstmt.setString(2, currentTime);     // but ends after current time
-            pstmt.setString(3, timeIn30Min);     // OR booking starts before 30min mark
-            pstmt.setString(4, timeIn30Min);     // but ends at or after 30min mark
-            pstmt.setString(5, currentTime);     // OR booking starts within next 30 min
-            pstmt.setString(6, timeIn30Min);     // and before the 30min mark
             
-            System.out.println("🔍 Executing availability query with parameters:");
-            System.out.println("  P1,P2: " + currentTime);
-            System.out.println("  P3,P4: " + timeIn30Min);
-            System.out.println("  P5: " + currentTime + ", P6: " + timeIn30Min);
+            System.out.println("🔍 Executing availability query for current time:");
+            System.out.println("  Current time: " + currentTime);
             
             try (ResultSet rs = pstmt.executeQuery()) {
                 int roomCount = 0;
@@ -143,7 +139,7 @@ public class AvailableRoomsServlet extends HttpServlet {
                     // Add computed fields
                     room.put("location", getLocationFromRoomName(rs.getString("room_name")));
                     room.put("equipment", getEquipmentList(rs));
-                    room.put("availableFor", "30+ minutes"); // Since they're available for at least 30 min
+                    room.put("availableFor", "Available now"); // Since they're available right now
                     room.put("rating", 4.9); // Default rating
                     
                     availableRooms.add(room);

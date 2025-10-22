@@ -36,144 +36,74 @@
 
 
  <main>
-   <!-- Quick Reserve -->
-   <section class="container card card-lg quick-reserve">
-     <h2>Quick Reserve</h2>
-     <form class="qr-grid" action="#" method="get">
-       <label>
-         <span>Start date</span>
-         <input type="date" required />
-       </label>
-       <label>
-         <span>Start time</span>
-         <input type="time" required />
-       </label>
-       <label>
-         <span>Duration</span>
-         <select required>
-           <option value="">Select</option>
-           <option>30 mins</option>
-           <option>1 hr</option>
-           <option>2 hrs</option>
-           <option>3 hrs</option>
-         </select>
-       </label>
-       <label>
-         <span>Campus</span>
-         <select>
-           <option>Building 1</option>
-           <option>Building 2</option>
-         </select>
-       </label>
-       <label>
-         <span>Participants</span>
-         <input type="number" min="1" placeholder="e.g. 4" />
-       </label>
-       <label class="grid-span-2">
-         <span>Resources</span>
-         <select>
-           <option>UTS Building 1 – CB01.2.56 – Meeting Pod</option>
-           <option>CB06.06.112 – Group Study Room</option>
-         </select>
-       </label>
-       <div class="grid-span-2 center">
-         <button class="btn-primary" type="submit">Reserve</button>
+   <!-- Filter Section -->
+   <section class="container card card-lg filters-section">
+     <h2>Filter Rooms</h2>
+     <div class="filter-grid">
+       <div class="filter-group">
+         <span>Date & Time</span>
+         <div class="datetime-group">
+           <label>
+             Date
+             <input type="date" id="filterDate" />
+           </label>
+           <label>
+             Time
+             <input type="time" id="filterTime" />
+           </label>
+           <label>
+             Duration
+             <select id="filterDuration">
+               <option value="">Any Duration</option>
+               <option value="1">1 Hour</option>
+               <option value="2">2 Hours</option>
+               <option value="3">3 Hours</option>
+               <option value="4">4 Hours</option>
+             </select>
+           </label>
+         </div>
        </div>
-     </form>
+       <div class="filter-group">
+         <span>Equipment</span>
+         <div class="checkbox-group">
+           <label><input type="checkbox" id="filterSpeaker" /> Speaker</label>
+           <label><input type="checkbox" id="filterWhiteboard" /> Whiteboard</label>
+           <label><input type="checkbox" id="filterMonitor" /> Monitor</label>
+           <label><input type="checkbox" id="filterHDMI" /> HDMI Cable</label>
+         </div>
+       </div>
+       <div class="filter-group">
+         <span>Building</span>
+         <select id="filterBuilding">
+           <option value="">All Buildings</option>
+           <option value="CB05">CB05</option>
+           <option value="CB06">CB06</option>
+           <option value="CB07">CB07</option>
+           <option value="CB08">CB08</option>
+           <option value="CB09">CB09</option>
+         </select>
+       </div>
+       <div class="filter-group">
+         <button id="clearFilters" class="btn-secondary">Clear Filters</button>
+       </div>
+     </div>
    </section>
 
-
-   <!-- Quick Actions -->
-   <section class="container quick-actions">
-     <article class="card qa">
-       <h3>Quick Check In</h3>
-       <label>
-         <span>Booking ID</span>
-         <input type="text" placeholder="123456789" />
-       </label>
-       <button class="btn-secondary" type="button">Check In</button>
-     </article>
-
-
-     <article class="card qa">
-       <h3>Quick Check Out</h3>
-       <label>
-         <span>On-going room</span>
-         <input type="text" value="CB01.2.56 – Meeting Pod (37 mins remaining)" readonly />
-       </label>
-       <button class="btn-secondary" type="button">Leave</button>
-     </article>
-
-
-     <article class="card qa">
-       <h3>Room Cancellation</h3>
-       <label>
-         <span>Booking ID</span>
-         <input type="text" placeholder="123456789" />
-       </label>
-       <button class="btn-secondary btn-danger" type="button">Cancel</button>
-     </article>
-   </section>
-
-
+   <!-- Available Rooms -->
    <!-- Rooms available soon -->
    <section class="container section-head">
-     <h3>Room available in the next 30 minutes</h3>
+     <h3>Available Rooms</h3>
    </section>
    <section class="container carousel">
-     <button class="carousel-nav prev" aria-label="Previous">‹</button>
-
-
      <div class="cards-row" id="roomsRow">
-       <!-- Card 1 -->
-       <article class="room-card card">
-         <img src="assets/img/room1.jpg" alt="CB06.06.112 room photo" />
-         <div class="card-body">
-           <h4>CB06.06.112</h4>
-           <div class="tags">
-             <span class="tag">TV</span>
-             <span class="tag">Whiteboard</span>
-             <span class="tag">Monitor</span>
-             <span class="tag">HDMI Cable</span>
-           </div>
-           <ul class="meta">
-             <li>Capacity: 8</li>
-             <li>Group Study Room</li>
-             <li>Public area</li>
-           </ul>
-           <div class="rating">★ 4.9</div>
-         </div>
-       </article>
-
-
-       <!-- Card 2 -->
-       <article class="room-card card">
-         <img src="assets/img/room2.jpg" alt="CB06.06.113 room photo" />
-         <div class="card-body">
-           <h4>CB06.06.113</h4>
-           <div class="tags">
-             <span class="tag">TV</span>
-             <span class="tag">Whiteboard</span>
-             <span class="tag">Monitor</span>
-             <span class="tag">HDMI Cable</span>
-           </div>
-           <ul class="meta">
-             <li>Capacity: 8</li>
-             <li>Group Study Room</li>
-             <li>Public area</li>
-           </ul>
-           <div class="rating">★ 4.9</div>
-         </div>
-       </article>
+       <!-- Rooms will be loaded dynamically from the database via JavaScript -->
+       <div class="loading">Loading available rooms...</div>
      </div>
-
-
-     <button class="carousel-nav next" aria-label="Next">›</button>
    </section>
 
 
    <div class="container center">
-     <a class="btn-outline" href="#">View more</a>
+     <div id="roomsCount" class="rooms-count">Showing all available rooms</div>
    </div>
 
 

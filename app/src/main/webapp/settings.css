@@ -17,36 +17,9 @@
   --muted: #93a0b7;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text)}
+/* CSS reset and layout now come from styles-home.css for consistency */
 
-.container{max-width:1000px; margin:0 auto; padding:0 16px}
-
-/* Header */
-.site-header{
-  /* border-bottom:1px solid var(--line); */
-  background:var(--bg);
-  position:sticky;
-  top:0;
-  z-index:5;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-.nav{display:flex; align-items:center; gap:24px; height:64px}
-.brand{font-weight:800; text-decoration:none; color:var(--brand); font-size:20px}
-.nav-links{display:flex; list-style:none; margin:0; padding:0; gap:20px}
-.nav-links a{text-decoration:none; color:var(--text); opacity:.8; font-weight:500}
-.nav-links a.active{color:var(--brand); opacity:1; font-weight:600}
-.nav-spacer{flex:1}
-.profile-menu-wrapper{position:relative; display:flex; align-items:center}
-.profile-btn{width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:var(--card); display:grid; place-items:center; cursor:pointer}
-.profile-dropdown{position:absolute; top:calc(100% + 8px); right:0; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); min-width:200px; box-shadow:0 10px 24px rgba(0,0,0,.15); opacity:1; visibility:visible; transform:translateY(0); transition:all .2s ease; z-index:100}
-.profile-dropdown.hidden{opacity:0; visibility:hidden; transform:translateY(-10px)}
-.profile-dropdown ul{list-style:none; margin:0; padding:0}
-.profile-dropdown a{display:block; padding:12px 16px; text-decoration:none; color:var(--text); transition:background .15s ease}
-.profile-dropdown a:hover{background:var(--line)}
-.profile-dropdown .divider{height:1px; background:var(--line); margin:4px 0}
+/* Header styles now come from styles-home.css for consistency */
 
 /* Page */
 .settings{padding:24px 0 56px}

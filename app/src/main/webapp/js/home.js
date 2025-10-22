@@ -151,6 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeTimeout = setTimeout(handleResize, 50); // Additional delay for final adjustment
   }
 
+  // Global variable to store all rooms
+  let allRooms = [];
+
   // Load available rooms from database
   function loadAvailableRooms() {
     const roomsContainer = document.getElementById('roomsRow');
@@ -159,27 +162,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show loading state
     roomsContainer.innerHTML = '<div class="loading">Loading available rooms...</div>';
 
-    fetch('/api/available-rooms')
+    fetch('/api/available-rooms', {
+      credentials: 'include'
+    })
       .then(response => response.json())
       .then(rooms => {
+        allRooms = rooms; // Store all rooms globally
+        
         if (rooms.length === 0) {
           roomsContainer.innerHTML = `
             <div class="no-rooms">
-              <p>No rooms available in the next 30 minutes</p>
+              <p>No rooms available right now</p>
               <p><a href="calendar.html" class="btn-outline">View full calendar</a></p>
             </div>
           `;
+          updateRoomCount(0);
           return;
         }
 
-        // Clear loading and render rooms
-        roomsContainer.innerHTML = '';
-        
-        rooms.forEach(room => {
-          const roomCard = createRoomCard(room);
-          roomsContainer.appendChild(roomCard);
-        });
-
+        displayRooms(allRooms);
+        setupFilters();
         console.log(`✅ Loaded ${rooms.length} available rooms`);
       })
       .catch(error => {
@@ -193,6 +195,203 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
+  // Display filtered rooms
+  function displayRooms(rooms) {
+    const roomsContainer = document.getElementById('roomsRow');
+    if (!roomsContainer) return;
+
+    // Clear container and render rooms
+    roomsContainer.innerHTML = '';
+    
+    rooms.forEach(room => {
+      const roomCard = createRoomCard(room);
+      roomsContainer.appendChild(roomCard);
+    });
+
+    updateRoomCount(rooms.length);
+  }
+
+  // Update room count display
+  function updateRoomCount(count) {
+    const roomsCount = document.getElementById('roomsCount');
+    if (roomsCount) {
+      roomsCount.textContent = `Showing ${count} available room${count !== 1 ? 's' : ''}`;
+    }
+  }
+
+  // Setup filter event listeners
+  function setupFilters() {
+    // Equipment filters
+    const equipmentFilters = ['filterSpeaker', 'filterWhiteboard', 'filterMonitor', 'filterHDMI'];
+    equipmentFilters.forEach(filterId => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener('change', applyFilters);
+      }
+    });
+
+    // Building filter
+    const buildingFilter = document.getElementById('filterBuilding');
+    if (buildingFilter) {
+      buildingFilter.addEventListener('change', applyFilters);
+    }
+
+    // Date, time, and duration filters
+    const dateTimeFilters = ['filterDate', 'filterTime', 'filterDuration'];
+    dateTimeFilters.forEach(filterId => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener('change', applyFilters);
+      }
+    });
+
+    // Set default date to today
+    const dateFilter = document.getElementById('filterDate');
+    if (dateFilter && !dateFilter.value) {
+      const today = new Date();
+      dateFilter.value = today.toISOString().split('T')[0];
+      dateFilter.min = today.toISOString().split('T')[0]; // Prevent past dates
+    }
+
+    // Clear filters button
+    const clearFilters = document.getElementById('clearFilters');
+    if (clearFilters) {
+      clearFilters.addEventListener('click', () => {
+        equipmentFilters.forEach(filterId => {
+          const filter = document.getElementById(filterId);
+          if (filter) filter.checked = false;
+        });
+        if (buildingFilter) buildingFilter.value = '';
+        
+        // Clear date/time filters
+        dateTimeFilters.forEach(filterId => {
+          const filter = document.getElementById(filterId);
+          if (filter) {
+            if (filterId === 'filterDate') {
+              // Reset to today's date
+              const today = new Date();
+              filter.value = today.toISOString().split('T')[0];
+            } else {
+              filter.value = '';
+            }
+          }
+        });
+        
+        applyFilters();
+      });
+    }
+  }
+
+  // Apply filters to room list
+  function applyFilters() {
+    let filteredRooms = [...allRooms];
+
+    // Equipment filters
+    const speakerFilter = document.getElementById('filterSpeaker')?.checked;
+    const whiteboardFilter = document.getElementById('filterWhiteboard')?.checked;
+    const monitorFilter = document.getElementById('filterMonitor')?.checked;
+    const hdmiFilter = document.getElementById('filterHDMI')?.checked;
+
+    if (speakerFilter) filteredRooms = filteredRooms.filter(room => room.speaker);
+    if (whiteboardFilter) filteredRooms = filteredRooms.filter(room => room.whiteboard);
+    if (monitorFilter) filteredRooms = filteredRooms.filter(room => room.monitor);
+    if (hdmiFilter) filteredRooms = filteredRooms.filter(room => room.hdmiCable);
+
+    // Building filter
+    const buildingValue = document.getElementById('filterBuilding')?.value;
+    if (buildingValue) {
+      filteredRooms = filteredRooms.filter(room => 
+        room.roomName && room.roomName.startsWith(buildingValue)
+      );
+    }
+
+    // Date, Time, and Duration filters
+    const selectedDate = document.getElementById('filterDate')?.value;
+    const selectedTime = document.getElementById('filterTime')?.value;
+    const selectedDuration = document.getElementById('filterDuration')?.value;
+
+    if (selectedDate || selectedTime || selectedDuration) {
+      filteredRooms = filteredRooms.filter(room => {
+        return isRoomAvailableForDateTime(room, selectedDate, selectedTime, selectedDuration);
+      });
+    }
+
+    displayRooms(filteredRooms);
+  }
+
+  // Check if room is available for specific date/time/duration
+  function isRoomAvailableForDateTime(room, date, time, duration) {
+    // If no date/time filters are set, show all rooms
+    if (!date && !time && !duration) {
+      return true;
+    }
+
+    // For now, we'll do a basic simulation since we don't have a booking database
+    // In a real app, this would check against actual bookings
+    
+    // If date is specified, check if it's valid
+    if (date) {
+      const selectedDate = new Date(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      // Don't show rooms for past dates
+      if (selectedDate < today) {
+        return false;
+      }
+    }
+
+    // If time is specified, check basic availability
+    if (time) {
+      const [hours, minutes] = time.split(':').map(Number);
+      const currentTime = new Date();
+      const selectedDateTime = new Date();
+      selectedDateTime.setHours(hours, minutes, 0, 0);
+      
+      // For same-day bookings, don't show past times
+      if (date) {
+        const selectedDate = new Date(date);
+        const today = new Date();
+        if (selectedDate.toDateString() === today.toDateString() && selectedDateTime <= currentTime) {
+          return false;
+        }
+      }
+      
+      // Basic business hours check (8 AM to 10 PM)
+      if (hours < 8 || hours >= 22) {
+        return false;
+      }
+    }
+
+    // Simulate some rooms being booked (for demo purposes)
+    // In reality, this would check against a booking database
+    if (date && time && duration) {
+      const [hours] = time.split(':').map(Number);
+      const durationNum = parseInt(duration);
+      
+      // Simulate some popular times being unavailable for certain rooms
+      const roomHash = room.roomId ? room.roomId.toString() : room.roomName;
+      const dateTimeHash = `${date}-${hours}`;
+      
+      // Create some deterministic "unavailable" periods for demo
+      const unavailableSlots = [
+        'CB05.101-9', 'CB05.102-10', 'CB05.103-14', 'CB05.104-15',
+        'CB06.201-11', 'CB06.202-13', 'CB07.301-9', 'CB07.302-16'
+      ];
+      
+      if (unavailableSlots.includes(`${roomHash}-${hours}`)) {
+        return false;
+      }
+      
+      // Check if requested duration would conflict (simplified)
+      if (durationNum >= 3 && hours >= 16) { // Long bookings in evening
+        return Math.random() > 0.3; // 70% chance unavailable
+      }
+    }
+
+    return true; // Room is available
+  }
+
   function createRoomCard(room) {
     const article = document.createElement('article');
     article.className = 'room-card card';
@@ -202,8 +401,30 @@ document.addEventListener('DOMContentLoaded', function() {
       `<span class="tag">${eq}</span>`
     ).join('') : '<span class="tag">Basic Equipment</span>';
 
+    // Get current filter values to show contextual availability
+    const selectedDate = document.getElementById('filterDate')?.value;
+    const selectedTime = document.getElementById('filterTime')?.value;
+    const selectedDuration = document.getElementById('filterDuration')?.value;
+    
+    // Create availability message based on filters
+    let availabilityMsg = room.availableFor || 'Available now';
+    if (selectedDate || selectedTime || selectedDuration) {
+      const parts = [];
+      if (selectedDate) {
+        const date = new Date(selectedDate);
+        parts.push(date.toLocaleDateString());
+      }
+      if (selectedTime) {
+        parts.push(`at ${selectedTime}`);
+      }
+      if (selectedDuration) {
+        parts.push(`for ${selectedDuration} hour${selectedDuration !== '1' ? 's' : ''}`);
+      }
+      availabilityMsg = `Available ${parts.join(' ')}`;
+    }
+
     article.innerHTML = `
-      <img src="${room.image || 'assets/img/room-default.jpg'}" alt="${room.roomName} room photo" />
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop&auto=format" alt="${room.roomName} room photo" />
       <div class="card-body">
         <h4>${room.roomName}</h4>
         <div class="tags">
@@ -213,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li>Capacity: ${room.capacity}</li>
           <li>${room.roomType}</li>
           <li>${room.location}</li>
-          <li>Available: ${room.availableFor}</li>
+          <li class="availability">${availabilityMsg}</li>
         </ul>
         <div class="rating">★ ${room.rating || 4.9}</div>
         <button class="btn-primary book-room" data-room-id="${room.roomId}">Book Now</button>
@@ -223,8 +444,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handler for book button
     const bookBtn = article.querySelector('.book-room');
     bookBtn.addEventListener('click', () => {
-      // Redirect to booking page with room pre-selected
-      window.location.href = `booking.html?room=${room.roomId}`;
+      // Redirect to reservation review page with room pre-selected
+      window.location.href = `reservation-review.html?room=${room.roomId}`;
     });
 
     return article;

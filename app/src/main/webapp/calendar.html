@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles-home.css">
+    <link rel="icon" href="assets/icons/favicon.svg">
     <style>
-        body { font-family: Inter, Arial, sans-serif; margin: 20px; background: #fafbfd; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .brand { display: flex; align-items: center; gap: 12px; }
-        .brand .dot { width: 36px; height: 36px; border-radius: 10px; background: #3751FE; display: grid; place-items: center; color: #fff; font-weight: 800; }
-        .brand .name { font-weight: 800; font-size: 22px; color: #0f172a; }
+        /* Calendar-specific styles - don't override header styles */
+        .calendar-content { 
+            font-family: Inter, Arial, sans-serif; 
+            margin: 20px; 
+            background: #fafbfd; 
+        }
         
         .timeline-container { 
             background: white; 
@@ -304,9 +307,34 @@
     </style>
 </head>
 <body>
-    <h1>Room Booking Timeline</h1>
-    
-    <div class="room-filter">
+    <!-- Header / Top Nav - Same as other pages -->
+    <header class="site-header container">
+        <nav class="nav">
+            <a class="brand" href="home.html">UniSpace</a>
+            <ul class="nav-links">
+                <li><a class="nav-button" href="booking.html">Reserve</a></li>
+                <li><a class="nav-button active" href="calendar.html">Calendar</a></li>
+            </ul>
+            <div class="nav-spacer"></div>
+            <div class="profile-menu-wrapper">
+                <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+                    <img src="assets/icons/user.svg" alt="Profile" />
+                </button>
+                <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+                    <ul>
+                        <li><a role="menuitem" href="profile.html" tabindex="0">Profile</a></li>
+                        <li><a role="menuitem" href="settings.html" tabindex="0">Settings</a></li>
+                        <li><a role="menuitem" href="#" tabindex="0" style="color:#d32f2f">Log out</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </nav>
+    </header>
+
+    <div class="calendar-content">
+        <h1>Room Booking Timeline</h1>
+        
+        <div class="room-filter">
         <label>Filter by Room:</label>
         <select id="roomFilter">
             <option value="">All Rooms</option>
@@ -334,7 +362,10 @@
             </div>
         </div>
     </div>
+    </div>
 
     <script src="calendar.js"></script>
+    <!-- Profile Dropdown JS - Same as other pages -->
+    <script src="js/home.js"></script>
 </body>
 </html>
