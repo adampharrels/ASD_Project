@@ -32,6 +32,7 @@ public class CalendarService {
             
             while (rs.next()) {
                 Booking booking = new Booking(
+                    rs.getInt("bookingID"),
                     rs.getInt("timeID"),
                     rs.getInt("room_id"),
                     rs.getString("start_Time"),
