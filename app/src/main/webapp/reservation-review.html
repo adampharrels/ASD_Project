@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Reservation Review – UniSpace</title>
+ <link rel="stylesheet" href="styles-home.css" />
+ <link rel="icon" href="assets/icons/favicon.svg" />
+</head>
+<body>
+ <!-- Header / Top Nav -->
+ <header class="site-header container">
+   <nav class="nav">
+     <a class="brand" href="home.html">UniSpace</a>
+     <ul class="nav-links">
+       <li><a class="nav-button" href="booking.html">Reserve</a></li>
+       <li><a class="nav-button" href="calendar.html">Calendar</a></li>
+     </ul>
+     <div class="nav-spacer"></div>
+     <div class="profile-menu-wrapper">
+       <button id="profileBtn" class="profile-btn" aria-label="Profile" aria-haspopup="true" aria-expanded="false">
+         <img src="assets/icons/user.svg" alt="Profile" />
+       </button>
+       <nav id="profileDropdown" class="profile-dropdown hidden" role="menu">
+         <ul>
+           <li><a role="menuitem" href="profile.html" tabindex="0">Profile</a></li>
+           <li><a role="menuitem" href="settings.html" tabindex="0">Settings</a></li>
+           <li><a role="menuitem" href="#" onclick="logout()" tabindex="0" style="color:#d32f2f">Log out</a></li>
+         </ul>
+       </nav>
+     </div>
+   </nav>
+ </header>
+
+ <main>
+   <div class="container">
+     <div class="reservation-review-container">
+       <!-- Room Information -->
+       <div class="room-info-section">
+         <img id="roomImage" src="" alt="Room photo" class="room-image" />
+         <div class="room-details">
+           <h1 id="roomName">Loading...</h1>
+           <div class="room-tags" id="roomTags">
+             <!-- Equipment tags will be populated here -->
+           </div>
+           <div class="room-meta">
+             <p><strong>Capacity:</strong> <span id="roomCapacity">-</span></p>
+             <p><strong>Room Type:</strong> <span id="roomType">-</span></p>
+             <p><strong>Location:</strong> <span id="roomLocation">-</span></p>
+             <div class="rating">★ <span id="roomRating">4.9</span></div>
+           </div>
+         </div>
+       </div>
+
+       <!-- Reservation Details -->
+       <div class="reservation-details-section">
+         <h2>Reservation Review</h2>
+         
+         <div class="user-info">
+           <div class="info-row">
+             <label>Name:</label>
+             <span id="userName">Loading...</span>
+           </div>
+           <div class="info-row">
+             <label>Student ID:</label>
+             <span id="userStudentId">Loading...</span>
+           </div>
+           <div class="info-row">
+             <label>Student Email:</label>
+             <span id="userEmail">Loading...</span>
+           </div>
+         </div>
+
+         <div class="booking-info">
+           <div class="info-row">
+             <label>Date:</label>
+             <input type="date" id="bookingDate" required />
+           </div>
+           <div class="info-row">
+             <label>Start time:</label>
+             <input type="time" id="startTime" required />
+           </div>
+           <div class="info-row">
+             <label>End time:</label>
+             <input type="time" id="endTime" required />
+           </div>
+           <div class="info-row">
+             <label>Booking duration:</label>
+             <span id="bookingDuration">-</span>
+           </div>
+         </div>
+
+         <div class="terms-section">
+           <div class="terms-checkbox">
+             <input type="checkbox" id="termsAgreement" required />
+             <label for="termsAgreement">
+               By agreeing, I acknowledge that:
+               <ol>
+                 <li>I will keep the room clean and tidy after use.</li>
+                 <li>I will check in and check out at the reserved times.</li>
+                 <li>If I do not check in within 30 minutes of my reservation start time, the booking will be cancelled automatically and the room will be released for others to use.</li>
+               </ol>
+             </label>
+           </div>
+           
+           <div class="privacy-notice">
+             <p><strong>Privacy:</strong> The Privacy Notice explains how personal information collected will be used and managed.</p>
+             <p><strong>Rules & Condition:</strong> Visit the UTS Library for more information.</p>
+           </div>
+         </div>
+
+         <div class="action-buttons">
+           <button type="button" class="btn-secondary" onclick="goBack()">Back</button>
+           <button type="button" class="btn-primary" id="confirmBtn" onclick="confirmBooking()">Confirm</button>
+         </div>
+       </div>
+     </div>
+   </div>
+ </main>
+
+ <!-- Page JS -->
+ <script src="js/reservation-review.js"></script>
+</body>
+</html>

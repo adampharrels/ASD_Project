@@ -162,7 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show loading state
     roomsContainer.innerHTML = '<div class="loading">Loading available rooms...</div>';
 
-    fetch('/api/available-rooms')
+    fetch('/api/available-rooms', {
+      credentials: 'include'
+    })
       .then(response => response.json())
       .then(rooms => {
         allRooms = rooms; // Store all rooms globally
@@ -304,8 +306,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handler for book button
     const bookBtn = article.querySelector('.book-room');
     bookBtn.addEventListener('click', () => {
-      // Redirect to booking page with room pre-selected
-      window.location.href = `booking.html?room=${room.roomId}`;
+      // Redirect to reservation review page with room pre-selected
+      window.location.href = `reservation-review.html?room=${room.roomId}`;
     });
 
     return article;

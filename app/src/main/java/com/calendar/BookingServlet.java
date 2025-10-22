@@ -21,7 +21,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@WebServlet(name="BookingServlet", urlPatterns={"/book-room"})
+@WebServlet(name="BookingServlet", urlPatterns={"/api/booking"})
 public class BookingServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
@@ -29,13 +29,27 @@ public class BookingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
         
         try {
-            // Get form parameters
-            String roomName = req.getParameter("room");
-            String date = req.getParameter("date");
-            String time = req.getParameter("time");
-            String durationStr = req.getParameter("duration");
+            // Read JSON data from request body
+            StringBuilder requestBody = new StringBuilder();
+            String line;
+            while ((line = req.getReader().readLine()) != null) {
+                requestBody.append(line);
+            }
+            
+            // Parse JSON
+            JsonObject jsonData = gson.fromJson(requestBody.toString(), JsonObject.class);
+            
+            // Get data from JSON
+            String roomId = jsonData.has("roomId") ? jsonData.get("roomId").getAsString() : null;
+            String date = jsonData.has("date") ? jsonData.get("date").getAsString() : null;
+            String startTime = jsonData.has("startTime") ? jsonData.get("startTime").getAsString() : null;
+            String endTime = jsonData.has("endTime") ? jsonData.get("endTime").getAsString() : null;
             
             // Get current user from session
             int currentUserId = getCurrentUserId(req);
@@ -47,13 +61,13 @@ public class BookingServlet extends HttpServlet {
             
             // Debug: Print received parameters
             System.out.println("🔍 Booking request received:");
-            System.out.println("  Room: " + roomName);
+            System.out.println("  Room ID: " + roomId);
             System.out.println("  Date: " + date);
-            System.out.println("  Time: " + time);
-            System.out.println("  Duration: " + durationStr);
+            System.out.println("  Start Time: " + startTime);
+            System.out.println("  End Time: " + endTime);
             
             // Validate input with detailed error messages
-            if (roomName == null || roomName.trim().isEmpty()) {
+            if (roomId == null || roomId.trim().isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 resp.getWriter().write("{\"error\":\"Room selection is required\"}");
                 return;
@@ -63,39 +77,34 @@ public class BookingServlet extends HttpServlet {
                 resp.getWriter().write("{\"error\":\"Date selection is required\"}");
                 return;
             }
-            if (time == null || time.trim().isEmpty()) {
+            if (startTime == null || startTime.trim().isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().write("{\"error\":\"Time selection is required\"}");
+                resp.getWriter().write("{\"error\":\"Start time selection is required\"}");
                 return;
             }
-            if (durationStr == null || durationStr.trim().isEmpty()) {
+            if (endTime == null || endTime.trim().isEmpty()) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                resp.getWriter().write("{\"error\":\"Duration selection is required\"}");
+                resp.getWriter().write("{\"error\":\"End time selection is required\"}");
                 return;
             }
             
-            int duration = Integer.parseInt(durationStr);
-            
-            // Calculate end time
-            LocalTime startTime = LocalTime.parse(time);
-            LocalTime endTime = startTime.plusMinutes(duration);
+            // Parse roomId as integer
+            int roomIdInt = Integer.parseInt(roomId);
             
             // Format times for database (timestamp format)
-            String startTimeStr = startTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-            String endTimeStr = endTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-            String dateTimeStr = date + " " + startTimeStr + ":00";
-            String endDateTimeStr = date + " " + endTimeStr + ":00";
+            String startDateTimeStr = date + " " + startTime + ":00";
+            String endDateTimeStr = date + " " + endTime + ":00";
             
-            // Get room ID from room name
-            int roomId = getRoomIdByName(roomName);
-            if (roomId == -1) {
+            // Get room name from room ID for booking reference
+            String roomName = getRoomNameById(roomIdInt);
+            if (roomName == null) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 resp.getWriter().write("{\"error\":\"Room not found: " + roomName + "\"}");
                 return;
             }
             
             // Check if room is available
-            if (!isRoomAvailable(roomId, dateTimeStr, endDateTimeStr)) {
+            if (!isRoomAvailable(roomIdInt, startDateTimeStr, endDateTimeStr)) {
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
                 resp.getWriter().write("{\"error\":\"Room is not available at the selected time\"}");
                 return;
@@ -105,11 +114,11 @@ public class BookingServlet extends HttpServlet {
             String userFullName = getUserFullName(currentUserId);
             
             // Generate memorable booking reference
-            LocalDateTime startDateTime = LocalDateTime.parse(dateTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime startDateTime = LocalDateTime.parse(startDateTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String bookingRef = BookingIdGenerator.generateBookingRef(roomName, startDateTime, userFullName);
             
             // Create booking in database with memorable reference
-            int bookingId = createBookingWithRef(roomId, currentUserId, dateTimeStr, endDateTimeStr, bookingRef);
+            int bookingId = createBookingWithRef(roomIdInt, currentUserId, startDateTimeStr, endDateTimeStr, bookingRef);
             
             if (bookingId > 0) {
                 JsonObject response = new JsonObject();
@@ -120,12 +129,12 @@ public class BookingServlet extends HttpServlet {
                 response.addProperty("bookingRefDisplay", BookingIdGenerator.formatBookingRefForDisplay(bookingRef));
                 response.addProperty("room", roomName);
                 response.addProperty("date", date);
-                response.addProperty("time", time);
-                response.addProperty("duration", duration);
+                response.addProperty("startTime", startTime);
+                response.addProperty("endTime", endTime);
                 response.addProperty("userFullName", userFullName);
                 
                 resp.getWriter().write(gson.toJson(response));
-                System.out.println("✅ Room booking created: " + roomName + " on " + dateTimeStr + " (Ref: " + bookingRef + ") for user: " + userFullName);
+                System.out.println("✅ Room booking created: " + roomName + " on " + startDateTimeStr + " (Ref: " + bookingRef + ") for user: " + userFullName);
             } else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().write("{\"error\":\"Failed to create booking in database\"}");
@@ -166,6 +175,29 @@ public class BookingServlet extends HttpServlet {
         }
         
         return -1; // Room not found
+    }
+    
+    private String getRoomNameById(int roomId) {
+        String query = "SELECT room_name FROM room WHERE room_id = ?";
+        
+        try (Connection conn = DatabaseSetup.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setInt(1, roomId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                String roomName = rs.getString("room_name");
+                System.out.println("✅ Found room name " + roomName + " for room ID: " + roomId);
+                return roomName;
+            } else {
+                System.out.println("❌ Room not found in database for ID: " + roomId);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting room name: " + e.getMessage());
+        }
+        
+        return null; // Room not found
     }
     
     private boolean isRoomAvailable(int roomId, String startTime, String endTime) {
