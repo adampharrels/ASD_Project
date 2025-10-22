@@ -41,6 +41,29 @@
      <h2>Filter Rooms</h2>
      <div class="filter-grid">
        <div class="filter-group">
+         <span>Date & Time</span>
+         <div class="datetime-group">
+           <label>
+             Date
+             <input type="date" id="filterDate" />
+           </label>
+           <label>
+             Time
+             <input type="time" id="filterTime" />
+           </label>
+           <label>
+             Duration
+             <select id="filterDuration">
+               <option value="">Any Duration</option>
+               <option value="1">1 Hour</option>
+               <option value="2">2 Hours</option>
+               <option value="3">3 Hours</option>
+               <option value="4">4 Hours</option>
+             </select>
+           </label>
+         </div>
+       </div>
+       <div class="filter-group">
          <span>Equipment</span>
          <div class="checkbox-group">
            <label><input type="checkbox" id="filterSpeaker" /> Speaker</label>

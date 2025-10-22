@@ -206,7 +206,7 @@ body {
 }
 .filter-grid{
   display:grid;
-  grid-template-columns:1fr 1fr auto;
+  grid-template-columns:1fr 1fr 1fr auto;
   gap:24px;
   align-items:end
 }
@@ -241,6 +241,31 @@ body {
   height:16px;
   margin:0;
   accent-color: #1976d2;
+}
+.datetime-group{
+  display:flex;
+  flex-direction:column;
+  gap:12px
+}
+.datetime-group label{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  font-size:14px;
+  font-weight:500;
+  color: #333333 !important;
+}
+.datetime-group input[type="date"],
+.datetime-group input[type="time"]{
+  width:100%;
+  padding:12px 16px;
+  border-radius:8px;
+  border: 1px solid #ddd;
+  outline:0;
+  background:#fff;
+  color:#333;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .filter-group select{
   width:100%;
@@ -372,6 +397,12 @@ body {
 
 .meta li {
   margin-bottom: 4px;
+}
+
+.meta .availability {
+  color: #1976d2 !important;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .rating {
