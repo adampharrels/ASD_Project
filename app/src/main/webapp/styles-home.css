@@ -32,7 +32,7 @@
   border-radius: 12px;
   box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12);
   padding: 0.5rem 0;
-  min-width: 120px; /* Absolute minimum to prevent disappearing */
+  min-width: 200px; /* Match settings page width */
   max-width: min(280px, calc(100vw - 32px)); /* Never exceed viewport */
   width: max-content;
   font-family: inherit;

@@ -33,25 +33,7 @@
             font-size: 2rem;
         }
         
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-        
-        .nav-links a:hover {
-            background: var(--panel);
-            color: var(--ink);
-        }
+        /* Removed conflicting .nav-links styles that were affecting the header navigation */
         
         .booking-grid {
             display: grid;
@@ -91,7 +73,7 @@
      <a class="brand" href="home.html">UniSpace</a>
      <ul class="nav-links">
        <li><a class="nav-button active" href="booking.html">Reserve</a></li>
-       <li><a class="nav-button" href="#">Calendar</a></li>
+       <li><a class="nav-button" href="calendar.html">Calendar</a></li>
      </ul>
      <div class="nav-spacer"></div>
      <div class="profile-menu-wrapper">
@@ -110,15 +92,6 @@
  </header>
 
     <div class="booking-container">
-        <div class="booking-header">
-            <h1>🏢 Room Booking</h1>
-            <div class="nav-links">
-                <a href="home.html">🏠 Home</a>
-                <a href="calendar.html">📅 Calendar</a>
-                <a href="profile.html">👤 Profile</a>
-            </div>
-        </div>
-
         <div class="booking-grid">
             <div class="section-card" id="room-selection">
                 <h2> Book a New Room</h2>
