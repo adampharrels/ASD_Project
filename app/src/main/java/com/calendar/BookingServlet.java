@@ -7,6 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import uni.space.finder.DatabaseSetup;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,6 +28,17 @@ import java.time.format.DateTimeFormatter;
 @WebServlet(name="BookingServlet", urlPatterns={"/api/booking"})
 public class BookingServlet extends HttpServlet {
     private final Gson gson = new Gson();
+    private final List<Booking> bookings = Collections.synchronizedList(new ArrayList<>());
+    private final AtomicInteger bookingIdCounter = new AtomicInteger(0);
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        synchronized (bookings) {
+            response.getWriter().write(gson.toJson(bookings));
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -363,8 +378,12 @@ public class BookingServlet extends HttpServlet {
             System.err.println("❌ Error auto-creating user: " + e.getMessage());
             e.printStackTrace();
         }
+
         
         return -1;
     }
 }
+
+
+        
 

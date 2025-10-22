@@ -1,4 +1,4 @@
-/* ensure full-height so centering works */
+ensure full-height so centering works
 html, body {
     height: 100%;
 }
@@ -37,14 +37,24 @@ h1, h2 {
     min-height: calc(100vh - 64px);
 }
 
+.section-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--panel, #fff);
+    border-radius: 8px;
+    padding: 1.25rem;
+    /* valid rgba with 4 arguments */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
 
 #my-bookings, .my-bookings, .my-bookings-card {
     width: 100%;
-    max-width: 800px;
-    background-color: #fff;
+    max-width: none;
+    background-color: transparent;
     border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0, 0.08);
-    padding: 1.25rem;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 form {
@@ -98,10 +108,13 @@ li {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    align-items: start;
 }
 
 .booking-wrapper, .history-wrapper {
+    width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
 }
@@ -123,4 +136,10 @@ li {
 .history-table tbody td {
     padding: 8px 10px;
     border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+    .booking-grid {
+        grid-template-columns: 1fr;
+    }
 }

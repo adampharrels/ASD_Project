@@ -67,6 +67,50 @@
         }
     </style>
 </head>
+
+<script>
+    async function loadBookingsHistory() {
+        const tbody = document.querySelector("#history-table tbody");
+        if (!tbody) return;
+        tbody.innnerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+        try {
+            const res = await fetch(new URL('/book-room', window.location.origin));
+            if (!res.ok) throw new Error('Fetch failed: ' + res.status);
+            const entries = await res.json();
+            if (!Array.isArray(entries) || entries.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">No past bookings found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = '';
+            entries.forEach(b => {
+                const start = b.startTime ? new Date(b.startTime) : null;
+                const end = b.endTime ? new Date(b.endTime) : null;
+                const date = start ? start.toLocaleDateString() : '';
+                const time = start && end ? `${start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : '';
+                const duration = (start && end) ? Math.round((end - start)/60000) + ' min' : '';
+                const ref = b.bookingRef || b.bookingID || '';
+                const status = b.bookingStatus || '';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${b.roomName || b.roomId || ''}</td>
+                    <td>${date}</td>
+                    <td>${time}</td>
+                    <td>${duration}</td>
+                    <td><strong>${ref}</strong></td>
+                    <td>${status}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        } catch (error) {
+            tbody.innerHTML = '<tr><td colspan="6"> style="text-align:center;color:#c00">Error loading booking history</td></tr>';
+            console.error(err);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        loadBookingsHistory();
+    });
+</script>
+
 <body>
  <!-- Header / Top Nav - Same as home.html -->
  <header class="site-header container">
@@ -94,46 +138,10 @@
 
     <div class="booking-container">
         <div class="booking-grid">
-            <div class="section-card" id="room-selection">
-                <!-- <h2> Book a New Room</h2>
-                <form id="booking-form" method="POST" action="/book-room">
-                    <label for="room">Room:</label>
-                    <select id="room" name="room">
-                        <option value="">Select a room...</option>
-                        <option value="CB06.06.112">CB06.06.112 - Group Study Room (8 people)</option>
-                        <option value="CB06.06.113">CB06.06.113 - Group Study Room (8 people)</option>
-                        <option value="CB07.02.010A">CB07.02.010A - Online Learning Room (2 people)</option>
-                        <option value="CB07.02.010B">CB07.02.010B - Online Learning Room (2 people)</option>
-                        <option value="CB06.03.205">CB06.03.205 - Group Study Room (12 people)</option>
-                        <option value="CB06.03.206">CB06.03.206 - Group Study Room (10 people)</option>
-                        <option value="CB08.01.115">CB08.01.115 - Lecture Room (50 people)</option>
-                        <option value="CB08.01.116">CB08.01.116 - Lecture Room (40 people)</option>
-                        <option value="CB09.02.301">CB09.02.301 - Conference Room (16 people)</option>
-                        <option value="CB09.02.302">CB09.02.302 - Conference Room (20 people)</option>
-                    </select>
-
-                    <label for="date">Date:</label>
-                    <input type="date" id="date" name="date" required>
-
-                    <label for="time">Start Time:</label>
-                    <input type="time" id="time" name="time" required>
-
-                    <label for="duration">Duration (minutes):</label>
-                    <select id="duration" name="duration" required>
-                        <option value="">Select duration...</option>
-                        <option value="30">30 minutes</option>
-                        <option value="60">1 hour</option>
-                        <option value="90">1.5 hours</option>
-                        <option value="120">2 hours</option>
-                        <option value="180">3 hours</option>
-                        <option value="240">4 hours</option>
-                    </select>
-
-                    <button type="submit"> Book Room </button>
-                </form>
-            </div> -->
-            <div class="booking-wrapper">
-                <section id="my-bookings">
+            
+                   
+            
+                <section id="my-bookings" class="section-card">
                     <div class="section-card">
                         <h2>📋 My Current Bookings</h2>
                         <div id="loading-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem;">
@@ -147,11 +155,9 @@
                         </div>
                     </div>
                 </section>
-            </div>
 
-            <div class="history-wrapper">
-                <section id="booking-history">
-                    <div class="section-card history-card">
+            
+                <section id="booking-history" class="section-card">
                         <h2> Booking History </h2>
                             <div style="overflow:auto">
                                 <table id="history-table" class="history-table" aria-describedby="history=caption">
@@ -172,8 +178,7 @@
                             </div>
                             <div id="no-history" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
                                 No past bookings found.
-                            </div>"
-                    </div>
+                            </div>
                 </section>
             </div>
         </div>
@@ -210,29 +215,42 @@
                 const end = new Date(b.endTime);
                 const durationMin = Math.round((end - start) / 60000);
                 const tr = document.createElement('tr');
+                tr.innerHTM = `
+                    <td>${b.roomName}</td>
+                    <td>${start.toLocaleDateString()}</td>
+                    <td>${start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+                    <td>${durationMin} minutes</td>
+                    <td><strong>${b.bookingRef || 'REF-' + b.timeID}</strong></td>
+                    <td>${b.bookingStatus}</td>
+                `;
+                table.appendChild(tr);
             });
         }
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookings();
+            //loadBookingsHistory();
+        });
+
     </script>
 
-    <script defer>
-        // Set minimum date to today
-        document.getElementById('date').min = new Date().toISOString().split('T')[0];
-        
-        // Load user's current bookings when page loads
+    <script>
+        // Load current bookings and history; robust to network errors and avoids runtime typos
+        async function fetchJson(url) {
+            const res = await fetch(url, { credentials: 'same-origin' });
+            if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+            return res.json();
+        }
+
         async function loadMyBookings() {
             try {
-                const response = await fetch('/api/user-bookings?status=current');
-                if (!response.ok) {
-                    throw new Error('Failed to load bookings');
-                }
-                
-                const bookings = await response.json();
-                displayBookings(bookings);
-            } catch (error) {
-                console.error('Error loading bookings:', error);
+                const bookings = await fetchJson('/api/user-bookings?status=current');
+                displayBookings(bookings || []);
+            } catch (err) {
+                console.error('Error loading bookings:', err);
                 document.getElementById('loading-bookings').style.display = 'none';
-                document.getElementById('no-bookings').innerHTML = '❌ Error loading bookings. Please refresh.';
-                document.getElementById('no-bookings').style.display = 'block';
+                const noEl = document.getElementById('no-bookings');
+                noEl.textContent = '❌ Error loading bookings. Please refresh.';
+                noEl.style.display = 'block';
             }
         }
         
@@ -240,152 +258,184 @@
             const loadingElement = document.getElementById('loading-bookings');
             const bookingList = document.getElementById('booking-list');
             const noBookingsElement = document.getElementById('no-bookings');
-            
             loadingElement.style.display = 'none';
-            
-            if (bookings.length === 0) {
+            if (!Array.isArray(bookings) || bookings.length === 0) {
                 noBookingsElement.style.display = 'block';
                 bookingList.style.display = 'none';
                 return;
             }
-            
             bookingList.innerHTML = '';
             bookingList.style.display = 'block';
             noBookingsElement.style.display = 'none';
-            
             bookings.forEach(booking => {
-                const listItem = document.createElement('li');
-                const startDate = new Date(booking.startTime);
-                const endDate = new Date(booking.endTime);
-                
-                // Calculate duration
-                const durationMs = endDate - startDate;
-                const durationMinutes = Math.round(durationMs / (1000 * 60));
-                
-                listItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: start; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
-                        <div>
-                            <strong style="color: var(--brand);">🏢 ${booking.roomName}</strong><br>
-                            <small style="color: var(--ink);">📅 ${startDate.toLocaleDateString()} at ${startDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small><br>
-                            <small style="color: var(--muted);">⏱️ Duration: ${durationMinutes} minutes</small><br>
-                            <small style="color: var(--muted);">🎫 <strong>${booking.bookingRef || 'REF-' + booking.timeID}</strong></small><br>
-                            <small style="color: var(--muted);">📍 ${booking.roomType} • ${booking.capacity} people</small>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                            <span style="background: #10b981; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; text-align: center;">
-                                ${booking.bookingStatus}
-                            </span>
-                            <button onclick="cancelBooking(${booking.timeID}, this)" 
-                                    style="background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 11px;"
-                                    title="Cancel booking">
-                                ❌ Cancel
-                            </button>
-                        </div>
+                const start = new Date(booking.startTime);
+                const end = new Date(booking.endTime);
+                const minutes = Math.round((end - start) / 60000);
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:start;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+                    <div>
+                        <strong>🏢 ${booking.roomName || booking.roomId}</strong><br>
+                        <small>📅 ${start.toLocaleDateString()} • ${start.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</small><br>
+                        <small>⏱ ${minutes} min • ${booking.capacity || ''}p</small><br>
+                        <small>🎫 <strong>${booking.bookingRef || ('REF-' + (booking.timeID || booking.bookingID || ''))}</strong></small>
                     </div>
-                `;
-                bookingList.appendChild(listItem);
-            });
-        }
-        
-        // Cancel booking function
-        async function cancelBooking(bookingId, buttonElement) {
-            if (!confirm('Are you sure you want to cancel this booking?')) {
-                return;
-            }
-            
-            try {
-                const response = await fetch(`/api/user-bookings?bookingId=${bookingId}`, {
-                    method: 'DELETE'
+                    <div style="display:flex;flex-direction:column;gap:0.25rem;">
+                        <span style="background:#10b981;color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;">${booking.bookingStatus || 'Active'}</span>
+                    </div>
+                    </div>`;
+                bookingList.appendChild(li);
                 });
-                
-                if (response.ok) {
-                    // Remove the booking from the UI
-                    buttonElement.closest('li').remove();
-                    
-                    // Check if no bookings left
-                    const bookingList = document.getElementById('booking-list');
-                    if (bookingList.children.length === 0) {
-                        bookingList.style.display = 'none';
-                        document.getElementById('no-bookings').style.display = 'block';
-                    }
-                    
-                    alert('✅ Booking cancelled successfully!');
-                } else {
-                    const error = await response.json();
-                    alert('❌ Failed to cancel booking: ' + (error.error || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error cancelling booking:', error);
-                alert('❌ Error cancelling booking. Please try again.');
             }
-        }
-        
-        // Make cancelBooking globally available
-        window.cancelBooking = cancelBooking;
 
-        // Form submission handler - Make real API call
-        document.getElementById('booking-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const room = formData.get('room');
-            const date = formData.get('date');
-            const time = formData.get('time');
-            const duration = formData.get('duration');
-            
-            if (!room || !date || !time || !duration) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            // Disable submit button during request
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
-            submitButton.disabled = true;
-            submitButton.textContent = '🔄 Booking...';
-            
-            try {
-                // Convert FormData to URLSearchParams for proper servlet handling
-                const urlParams = new URLSearchParams();
-                urlParams.append('room', room);
-                urlParams.append('date', date);
-                urlParams.append('time', time);
-                urlParams.append('duration', duration);
-                
-                const response = await fetch('/book-room', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: urlParams
-                });
-                
-                const result = await response.json();
-                
-                if (response.ok && result.success) {
-                    // Show success message with memorable booking reference
-                    alert(`✅ ${result.message}\n🎫 Booking Reference: ${result.bookingRef}\n📝 ${result.bookingRefDisplay || ''}`);
-                    
-                    // Reset form
-                    this.reset();
-                    
-                    // Reload bookings to show the new one
-                    await loadMyBookings();
-                } else {
-                    alert('❌ ' + (result.error || 'Failed to book room'));
+            async function loadBookingHistory() {
+                try {
+                const history = await fetchJson('/api/user-bookings?status=past');
+                displayHistory(history || []);
+                } catch (err) {
+                console.error('Error loading booking history:', err);
+                const noHistory = document.getElementById('no-history');
+                if (noHistory) {
+                    noHistory.textContent = 'Error loading booking history. Please refresh.';
+                    noHistory.style.display = 'block';
                 }
-            } catch (error) {
-                console.error('Error booking room:', error);
-                alert('❌ Error booking room. Please try again.');
-            } finally {
-                // Re-enable submit button
-                submitButton.disabled = false;
-                submitButton.textContent = originalText;
+                }
             }
+
+            function displayHistory(entries) {
+                const tbody = document.querySelector('#history-table tbody');
+                const noHistory = document.getElementById('no-history');
+                if (!tbody) return;
+                tbody.innerHTML = '';
+                if (!Array.isArray(entries) || entries.length === 0) {
+                if (noHistory) noHistory.style.display = 'block';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#666">No history</td></tr>';
+                return;
+                }
+                if (noHistory) noHistory.style.display = 'none';
+                entries.forEach(b => {
+                const start = b.startTime ? new Date(b.startTime) : null;
+                const end = b.endTime ? new Date(b.endTime) : null;
+                const date = start ? start.toLocaleDateString() : '';
+                const time = start && end ? `${start.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}–${end.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}` : '';
+                const duration = (start && end) ? Math.round((end - start)/60000) + ' min' : '';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${b.roomName || b.roomId || ''}</td>
+                    <td>${date}</td>
+                    <td>${time}</td>
+                    <td>${duration}</td>
+                    <td>${b.bookingRef || b.bookingID || ''}</td>
+                    <td>${b.bookingStatus || ''}</td>
+                `;
+                tbody.appendChild(tr);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+            loadMyBookings();
+            loadBookingHistory();
         });
-        
-        // Load bookings when page loads
-        document.addEventListener('DOMContentLoaded', loadMyBookings);
+        </script>
+        <script>
+            async function cancelBooking(bookingId, buttonElement) {
+                if (!confirm('Are you sure you want to cancel this booking?')) {
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`/api/user-bookings?bookingId=${bookingId}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (response.ok) {
+                        // Remove the booking from the UI
+                        buttonElement.closest('li').remove();
+                        
+                        // Check if no bookings left
+                        const bookingList = document.getElementById('booking-list');
+                        if (bookingList.children.length === 0) {
+                            bookingList.style.display = 'none';
+                            document.getElementById('no-bookings').style.display = 'block';
+                        }
+                        
+                        alert('✅ Booking cancelled successfully!');
+                    } else {
+                        const error = await response.json();
+                        alert('❌ Failed to cancel booking: ' + (error.error || 'Unknown error'));
+                    }
+                } catch (error) {
+                    console.error('Error cancelling booking:', error);
+                    alert('❌ Error cancelling booking. Please try again.');
+                }
+            }
+            
+            // Make cancelBooking globally available
+            window.cancelBooking = cancelBooking;
+
+            // Form submission handler - Make real API call
+            document.getElementById('booking-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const room = formData.get('room');
+                const date = formData.get('date');
+                const time = formData.get('time');
+                const duration = formData.get('duration');
+                
+                if (!room || !date || !time || !duration) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                // Disable submit button during request
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.textContent = '🔄 Booking...';
+                
+                try {
+                    // Convert FormData to URLSearchParams for proper servlet handling
+                    const urlParams = new URLSearchParams();
+                    urlParams.append('room', room);
+                    urlParams.append('date', date);
+                    urlParams.append('time', time);
+                    urlParams.append('duration', duration);
+                    
+                    const response = await fetch('/book-room', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: urlParams
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok && result.success) {
+                        // Show success message with memorable booking reference
+                        alert(`✅ ${result.message}\n🎫 Booking Reference: ${result.bookingRef}\n📝 ${result.bookingRefDisplay || ''}`);
+                        
+                        // Reset form
+                        this.reset();
+                        
+                        // Reload bookings to show the new one
+                        await loadMyBookings();
+                    } else {
+                        alert('❌ ' + (result.error || 'Failed to book room'));
+                    }
+                } catch (error) {
+                    console.error('Error booking room:', error);
+                    alert('❌ Error booking room. Please try again.');
+                } finally {
+                    // Re-enable submit button
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                }
+            });
+            
+            // Load bookings when page loads
+            document.addEventListener('DOMContentLoaded', loadMyBookings);
     </script>
     
     <!-- Profile Dropdown JS - Same as home.html -->
