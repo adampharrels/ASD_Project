@@ -2843,7 +2843,11 @@ Caused by: java.lang.ClassNotFoundException: org.h2.mvstore.Chunk$PositionCompar
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
 	... 12 more
 >>>>>>> b8e96553bfd6ec2d672d2505b1aee1f79e353b8c
+<<<<<<< HEAD
 2025-10-22 17:33:49 jdbc[3]: exception
+=======
+2025-10-22 17:23:41 jdbc[3]: exception
+>>>>>>> 64834ac5277828c916ad4e265d2e46769d651c98
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Duplicate column name "BOOKING_REF"; SQL statement:
 ALTER TABLE booktime ADD COLUMN booking_ref VARCHAR(20) UNIQUE [42121-214]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:502)
@@ -2899,12 +2903,20 @@ ALTER TABLE booktime ADD COLUMN booking_ref VARCHAR(20) UNIQUE [42121-214]
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.runTask(AdaptiveExecutionStrategy.java:412)
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.consumeTask(AdaptiveExecutionStrategy.java:381)
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.tryProduce(AdaptiveExecutionStrategy.java:268)
+<<<<<<< HEAD
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.lambda$new$0(AdaptiveExecutionStrategy.java:138)
 	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:407)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:894)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1038)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-10-22 17:33:49 jdbc[3]: exception
+=======
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.produce(AdaptiveExecutionStrategy.java:190)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:894)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1038)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-10-22 17:23:41 jdbc[3]: exception
+>>>>>>> 64834ac5277828c916ad4e265d2e46769d651c98
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "TIMEID" contains null values; SQL statement:
     MERGE INTO booktime (booking_ref, room_id, user_id, start_Time, end_Time, booking_status) VALUES
     ('CB112-1017E-A', 1, 1, '2025-10-17 16:30:00', '2025-10-17 17:30:00', 'COMPLETED'),
@@ -2962,8 +2974,15 @@ org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "TIMEID" contains null values; S
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.runTask(AdaptiveExecutionStrategy.java:412)
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.consumeTask(AdaptiveExecutionStrategy.java:381)
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.tryProduce(AdaptiveExecutionStrategy.java:268)
+<<<<<<< HEAD
 	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.lambda$new$0(AdaptiveExecutionStrategy.java:138)
 	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:407)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:894)
 	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1038)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+=======
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.produce(AdaptiveExecutionStrategy.java:190)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:894)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1038)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+>>>>>>> 64834ac5277828c916ad4e265d2e46769d651c98
