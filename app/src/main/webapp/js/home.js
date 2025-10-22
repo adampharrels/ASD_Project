@@ -444,8 +444,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handler for book button
     const bookBtn = article.querySelector('.book-room');
     bookBtn.addEventListener('click', () => {
-      // Redirect to reservation review page with room pre-selected
-      window.location.href = `reservation-review.html?room=${room.roomId}`;
+      // Build reservation URL with pre-selected filters
+      let reservationUrl = `reservation-review.html?room=${room.roomId}`;
+      
+      // Add date/time parameters if they're set
+      const params = new URLSearchParams();
+      if (selectedDate) params.append('date', selectedDate);
+      if (selectedTime) params.append('time', selectedTime);
+      if (selectedDuration) params.append('duration', selectedDuration);
+      
+      if (params.toString()) {
+        reservationUrl += '&' + params.toString();
+      }
+      
+      window.location.href = reservationUrl;
     });
 
     return article;

@@ -5,8 +5,25 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const roomId = urlParams.get('room');
   const date = urlParams.get('date');
-  const startTime = urlParams.get('startTime');
-  const endTime = urlParams.get('endTime');
+  const time = urlParams.get('time');
+  const duration = urlParams.get('duration');
+  
+  // Calculate start and end times from time and duration
+  let startTime = time;
+  let endTime = null;
+  
+  if (time && duration) {
+    const [hours, minutes] = time.split(':').map(Number);
+    const durationHours = parseInt(duration);
+    
+    const endDate = new Date();
+    endDate.setHours(hours, minutes, 0, 0);
+    endDate.setHours(endDate.getHours() + durationHours);
+    
+    const endHours = String(endDate.getHours()).padStart(2, '0');
+    const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
+    endTime = `${endHours}:${endMinutes}`;
+  }
   
   // Load room data and user session data
   loadRoomData(roomId);
@@ -94,6 +111,8 @@ function loadUserData() {
   })
     .then(response => response.json())
     .then(user => {
+      console.log('User session data received:', user);
+      
       if (user.error || !user.success) {
         console.error('User not logged in:', user.error);
         // Instead of redirecting immediately, show an error message
@@ -109,9 +128,23 @@ function loadUserData() {
         return;
       }
       
-      document.getElementById('userName').textContent = user.fullName || user.username;
-      document.getElementById('userStudentId').textContent = user.studentId || 'N/A';
-      document.getElementById('userEmail').textContent = user.email;
+      // Populate user information with real data from session
+      const displayName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || user.email?.split('@')[0] || 'Unknown User';
+      const studentId = user.studentId || 'No Student ID';
+      const email = user.email || 'No email provided';
+      
+      document.getElementById('userName').textContent = displayName;
+      document.getElementById('userStudentId').textContent = studentId;
+      document.getElementById('userEmail').textContent = email;
+      
+      console.log('User data populated:', { 
+        displayName, 
+        studentId, 
+        email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        fullName: user.fullName
+      });
     })
     .catch(error => {
       console.error('Error loading user data:', error);
@@ -126,6 +159,13 @@ function setDefaultBookingTimes() {
   const startTimeInput = document.getElementById('startTime');
   const endTimeInput = document.getElementById('endTime');
   
+  console.log('Setting default booking times...');
+  console.log('Current values:', {
+    date: dateInput.value,
+    startTime: startTimeInput.value,
+    endTime: endTimeInput.value
+  });
+  
   // Set default date to today if not set
   if (!dateInput.value) {
     const today = new Date();
@@ -133,14 +173,25 @@ function setDefaultBookingTimes() {
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     dateInput.value = `${year}-${month}-${day}`;
+    console.log('Set default date:', dateInput.value);
   }
   
   // Set default times if not set
   if (!startTimeInput.value) {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(Math.ceil(now.getMinutes() / 30) * 30).padStart(2, '0');
-    startTimeInput.value = `${hours}:${minutes}`;
+    let hours = now.getHours();
+    let minutes = Math.ceil(now.getMinutes() / 30) * 30;
+    
+    // Handle minute overflow
+    if (minutes >= 60) {
+      hours += 1;
+      minutes = 0;
+    }
+    
+    const hoursStr = String(hours).padStart(2, '0');
+    const minutesStr = String(minutes).padStart(2, '0');
+    startTimeInput.value = `${hoursStr}:${minutesStr}`;
+    console.log('Set default start time:', startTimeInput.value);
   }
   
   if (!endTimeInput.value) {
@@ -152,8 +203,15 @@ function setDefaultBookingTimes() {
       const endHours = String(endDate.getHours()).padStart(2, '0');
       const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
       endTimeInput.value = `${endHours}:${endMinutes}`;
+      console.log('Set default end time:', endTimeInput.value);
     }
   }
+  
+  console.log('Final booking times:', {
+    date: dateInput.value,
+    startTime: startTimeInput.value,
+    endTime: endTimeInput.value
+  });
 }
 
 function calculateDuration() {
