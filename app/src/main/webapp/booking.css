@@ -1,12 +1,50 @@
+/* ensure full-height so centering works */
+html, body {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;    /* stack header then content */
+    align-items: center;     /* vertical center */
+    justify-content: flex-start; /* horizontal center */
     font-family: Arial, sans-serif;
-    padding: 20px;
     background-color: #f2f2f2;
     color: #333;
 }
 
 h1, h2 {
     color: #2c3e50;
+}
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px; /* adjust if your header is taller */
+    z-index: 1000;
+    background: var(--panel, #fff);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    align-self: stretch;
+}
+.booking-container {
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    padding: 2rem;
+    padding-top: calc(2rem + 64px); /* leave room for header */
+    min-height: calc(100vh - 64px);
+}
+
+
+#my-bookings, .my-bookings, .my-bookings-card {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0, 0.08);
+    padding: 1.25rem;
 }
 
 form {

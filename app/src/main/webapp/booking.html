@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles-home.css">
+    <link rel="stylesheet" href="booking.css">
     <style>
         .booking-container {
             max-width: 1200px;
@@ -131,21 +132,87 @@
                     <button type="submit"> Book Room </button>
                 </form>
             </div> -->
+            <div class="booking-wrapper">
+                <section id="my-bookings">
+                    <div class="section-card">
+                        <h2>📋 My Current Bookings</h2>
+                        <div id="loading-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem;">
+                            🔄 Loading your bookings...
+                        </div>
+                        <ul id="booking-list" style="display: none;">
+                            <!-- Bookings will be loaded here -->
+                        </ul>
+                        <div id="no-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
+                            📋 No active bookings found. Create your first booking!
+                        </div>
+                    </div>
+                </section>
+            </div>
 
-            <div class="section-card" id="my-bookings">
-                <h2>📋 My Current Bookings</h2>
-                <div id="loading-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem;">
-                    🔄 Loading your bookings...
-                </div>
-                <ul id="booking-list" style="display: none;">
-                    <!-- Bookings will be loaded here -->
-                </ul>
-                <div id="no-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
-                    📋 No active bookings found. Create your first booking!
-                </div>
+            <div class="history-wrapper">
+                <section id="booking-history">
+                    <div class="section-card history-card">
+                        <h2> Booking History </h2>
+                            <div style="overflow:auto">
+                                <table id="history-table" class="history-table" aria-describedby="history=caption">
+                                    <thead>
+                                        <tr>
+                                            <th>Room</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Duration</th>
+                                            <th>Booking Ref</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- history rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="no-history" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
+                                No past bookings found.
+                            </div>"
+                    </div>
+                </section>
             </div>
         </div>
     </div>
+
+    <script defer>
+        async function loadBookings() {
+            try {
+                const response = await fetch('/api/user-bookings?status=past');
+                if (!response.ok) {
+                    throw new Error('Failed to load booking history');
+                }
+                
+                const bookings = await response.json();
+                displayBookingHistory(bookings);
+            } catch (error) {
+                console.error('Error loading booking history:', error);
+                document.getElementById('no-history').innerHTML = 'Error loading booking history. Please refresh.';
+                document.getElementById('no-history').style.display = 'block';
+            }
+        }
+
+        function displayHistory(entries) {
+            const table = document.querySelector("#history-table tbody");
+            const noHistory = document.getElementbyId("no-history");
+            table.innerHTM = '';
+            if (!entries || entries.length === 0) {
+                noHistory.style.display = 'block';
+                return;
+            }
+            noHistory.style.display = 'none';
+            entries.forEach(b => {
+                const start = new Date(b.startTime);
+                const end = new Date(b.endTime);
+                const durationMin = Math.round((end - start) / 60000);
+                const tr = document.createElement('tr');
+            });
+        }
+    </script>
 
     <script defer>
         // Set minimum date to today
