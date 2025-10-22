@@ -151,6 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeTimeout = setTimeout(handleResize, 50); // Additional delay for final adjustment
   }
 
+  // Global variable to store all rooms
+  let allRooms = [];
+
   // Load available rooms from database
   function loadAvailableRooms() {
     const roomsContainer = document.getElementById('roomsRow');
@@ -162,24 +165,21 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/api/available-rooms')
       .then(response => response.json())
       .then(rooms => {
+        allRooms = rooms; // Store all rooms globally
+        
         if (rooms.length === 0) {
           roomsContainer.innerHTML = `
             <div class="no-rooms">
-              <p>No rooms available in the next 30 minutes</p>
+              <p>No rooms available right now</p>
               <p><a href="calendar.html" class="btn-outline">View full calendar</a></p>
             </div>
           `;
+          updateRoomCount(0);
           return;
         }
 
-        // Clear loading and render rooms
-        roomsContainer.innerHTML = '';
-        
-        rooms.forEach(room => {
-          const roomCard = createRoomCard(room);
-          roomsContainer.appendChild(roomCard);
-        });
-
+        displayRooms(allRooms);
+        setupFilters();
         console.log(`✅ Loaded ${rooms.length} available rooms`);
       })
       .catch(error => {
@@ -193,6 +193,87 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
+  // Display filtered rooms
+  function displayRooms(rooms) {
+    const roomsContainer = document.getElementById('roomsRow');
+    if (!roomsContainer) return;
+
+    // Clear container and render rooms
+    roomsContainer.innerHTML = '';
+    
+    rooms.forEach(room => {
+      const roomCard = createRoomCard(room);
+      roomsContainer.appendChild(roomCard);
+    });
+
+    updateRoomCount(rooms.length);
+  }
+
+  // Update room count display
+  function updateRoomCount(count) {
+    const roomsCount = document.getElementById('roomsCount');
+    if (roomsCount) {
+      roomsCount.textContent = `Showing ${count} available room${count !== 1 ? 's' : ''}`;
+    }
+  }
+
+  // Setup filter event listeners
+  function setupFilters() {
+    // Equipment filters
+    const equipmentFilters = ['filterSpeaker', 'filterWhiteboard', 'filterMonitor', 'filterHDMI'];
+    equipmentFilters.forEach(filterId => {
+      const filter = document.getElementById(filterId);
+      if (filter) {
+        filter.addEventListener('change', applyFilters);
+      }
+    });
+
+    // Building filter
+    const buildingFilter = document.getElementById('filterBuilding');
+    if (buildingFilter) {
+      buildingFilter.addEventListener('change', applyFilters);
+    }
+
+    // Clear filters button
+    const clearFilters = document.getElementById('clearFilters');
+    if (clearFilters) {
+      clearFilters.addEventListener('click', () => {
+        equipmentFilters.forEach(filterId => {
+          const filter = document.getElementById(filterId);
+          if (filter) filter.checked = false;
+        });
+        if (buildingFilter) buildingFilter.value = '';
+        applyFilters();
+      });
+    }
+  }
+
+  // Apply filters to room list
+  function applyFilters() {
+    let filteredRooms = [...allRooms];
+
+    // Equipment filters
+    const speakerFilter = document.getElementById('filterSpeaker')?.checked;
+    const whiteboardFilter = document.getElementById('filterWhiteboard')?.checked;
+    const monitorFilter = document.getElementById('filterMonitor')?.checked;
+    const hdmiFilter = document.getElementById('filterHDMI')?.checked;
+
+    if (speakerFilter) filteredRooms = filteredRooms.filter(room => room.speaker);
+    if (whiteboardFilter) filteredRooms = filteredRooms.filter(room => room.whiteboard);
+    if (monitorFilter) filteredRooms = filteredRooms.filter(room => room.monitor);
+    if (hdmiFilter) filteredRooms = filteredRooms.filter(room => room.hdmiCable);
+
+    // Building filter
+    const buildingValue = document.getElementById('filterBuilding')?.value;
+    if (buildingValue) {
+      filteredRooms = filteredRooms.filter(room => 
+        room.roomName && room.roomName.startsWith(buildingValue)
+      );
+    }
+
+    displayRooms(filteredRooms);
+  }
+
   function createRoomCard(room) {
     const article = document.createElement('article');
     article.className = 'room-card card';
@@ -203,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ).join('') : '<span class="tag">Basic Equipment</span>';
 
     article.innerHTML = `
-      <img src="${room.image || 'assets/img/room-default.jpg'}" alt="${room.roomName} room photo" />
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=250&fit=crop&auto=format" alt="${room.roomName} room photo" />
       <div class="card-body">
         <h4>${room.roomName}</h4>
         <div class="tags">
