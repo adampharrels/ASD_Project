@@ -111,6 +111,32 @@
     });
 </script>
 
+<script>
+  // open existing rating modal if present
+  function openRatingsPanel() {
+    const modal = document.getElementById('rating-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.dataset.bookingId = ''; // optional: no booking pre-selected
+    } else {
+      // fallback: scroll to history section or navigate to a ratings section
+      const el = document.getElementById('booking-history') || document.querySelector('#history-table');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // open modal if URL contains #ratings
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#ratings') {
+      openRatingsPanel();
+      // remove hash so repeated loads won't reopen unexpectedly
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    // expose for other scripts if needed
+    window.openRatingsPanel = openRatingsPanel;
+  });
+</script>
+
 <body>
  <!-- Header / Top Nav - Same as home.html -->
  <header class="site-header container">
@@ -169,6 +195,7 @@
                                             <th>Duration</th>
                                             <th>Booking Ref</th>
                                             <th>Status</th>
+                                            <th>Rate</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -288,6 +315,91 @@
                 });
             }
 
+            // Rating modal & handlers
+            function openRatingModal(bookingId, roomLabel) {
+                const modal = document.getElementById('rating-modal');
+                if (!modal) return;
+                modal.querySelector('.rating-room').textContent = roomLabel || 'Room';
+                modal.dataset.bookingId = bookingId;
+                modal.classList.remove('hidden');
+            }
+
+            function closeRatingModal() {
+                const modal = document.getElementById('rating-modal');
+                if (!modal) return;
+                modal.classList.add('hidden');
+                modal.dataset.bookingId = '';
+                modal.querySelector('textarea').value = '';
+                modal.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+            }
+
+            async function submitRating(event) {
+                event.preventDefault();
+                const modal = document.getElementById('rating-modal');
+                if (!modal) return;
+                const bookingId = modal.dataset.bookingId;
+                const rating = Array.from(modal.querySelectorAll('input[name="rating"]')).find(i => i.checked)?.value;
+                const comment = modal.querySelector('textarea').value.trim();
+                if (!rating) { alert('Please choose a rating (1-5).'); return; }
+
+                try {
+                    const payload = { bookingId, rating: Number(rating), comment };
+                    const resp = await fetch('/api/rate-room', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!resp.ok) {
+                        const text = await resp.text().catch(()=>'');
+                        throw new Error(`Server ${resp.status} ${text}`);
+                    }
+                    alert('Thanks — your rating has been submitted.');
+                    closeRatingModal();
+                    // optional: refresh bookings to show rating state
+                    if (typeof loadMyBookings === 'function') loadMyBookings();
+                    } catch (err) {
+                    console.error('Failed to submit rating', err);
+                    alert('Failed to submit rating. Try again later.');
+                    }
+                }
+
+                // expose functions for inline onclick handlers
+                window.openRatingModal = openRatingModal;
+                window.closeRatingModal = closeRatingModal;
+                window.submitRating = submitRating;
+
+                </script>
+
+                <div id="rating-modal" class="hidden" aria-hidden="true" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1200;">
+                    <div style="background:rgba(0,0,0,0.45);position:absolute;inset:0;" onclick="closeRatingModal()"></div>
+                    <div role="dialog" aria-modal="true" style="position:relative;background:#fff;border-radius:8px;padding:1rem;max-width:520px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+                        <button type="button" onclick="closeRatingModal()" style="position:absolute;right:8px;top:8px;border:none;background:none;font-size:18px;cursor:pointer">✕</button>
+                        <h3 style="margin-top:0">Rate <span class="rating-room">Room</span></h3>
+                        <form id="rating-form" onsubmit="submitRating(event)">
+                        <div style="display:flex;gap:0.5rem;margin:0.5rem 0;">
+                            <label style="display:inline-flex;align-items:center;gap:6px"><input type="radio" name="rating" value="1">1</label>
+                            <label style="display:inline-flex;align-items:center;gap:6px"><input type="radio" name="rating" value="2">2</label>
+                            <label style="display:inline-flex;align-items:center;gap:6px"><input type="radio" name="rating" value="3">3</label>
+                            <label style="display:inline-flex;align-items:center;gap:6px"><input type="radio" name="rating" value="4">4</label>
+                            <label style="display:inline-flex;align-items:center;gap:6px"><input type="radio" name="rating" value="5">5</label>
+                        </div>
+                        <div style="margin:0.5rem 0;">
+                            <textarea placeholder="Optional comment" style="width:100%;min-height:80px;padding:6px;border:1px solid #ddd;border-radius:6px;"></textarea>
+                        </div>
+                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;">
+                            <button type="button" onclick="closeRatingModal()" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;color:#000;cursor:pointer">Cancel</button>
+                            <button type="submit" style="padding:8px 12px;border-radius:6px;border:none;background:#2563eb;color:#fff;cursor:pointer">Submit rating</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                <style>
+                    /* simple helpers */
+                    .hidden { display:none !important; }
+                    .btn-rate { padding:6px 10px;border-radius:6px;border:1px solid #2563eb;background:#fff;color:#2563eb;cursor:pointer; }
+                    .btn-rate:hover { background:#f0f7ff; }
+                </style>
+        <script>
             async function loadBookingHistory() {
                 try {
                 const history = await fetchJson('/api/user-bookings?status=past');
@@ -320,14 +432,56 @@
                 const time = start && end ? `${start.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}–${end.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}` : '';
                 const duration = (start && end) ? Math.round((end - start)/60000) + ' min' : '';
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${b.roomName || b.roomId || ''}</td>
-                    <td>${date}</td>
-                    <td>${time}</td>
-                    <td>${duration}</td>
-                    <td>${b.bookingRef || b.bookingID || ''}</td>
-                    <td>${b.bookingStatus || ''}</td>
-                `;
+
+                // Room
+                    const tdRoom = document.createElement('td');
+                    tdRoom.textContent = b.roomName || b.roomId || '';
+                    tr.appendChild(tdRoom);
+
+                    // Date
+                    const tdDate = document.createElement('td');
+                    tdDate.textContent = date;
+                    tr.appendChild(tdDate);
+
+                    // Time
+                    const tdTime = document.createElement('td');
+                    tdTime.textContent = time;
+                    tr.appendChild(tdTime);
+
+                    // Duration
+                    const tdDuration = document.createElement('td');
+                    tdDuration.textContent = duration;
+                    tr.appendChild(tdDuration);
+
+                    // Booking Ref
+                    const tdRef = document.createElement('td');
+                    tdRef.innerHTML = `<strong>${b.bookingRef || b.bookingID || ''}</strong>`;
+                    tr.appendChild(tdRef);
+
+                    // Status
+                    const tdStatus = document.createElement('td');
+                    tdStatus.textContent = b.bookingStatus || '';
+                    tr.appendChild(tdStatus);
+
+                    // Rate button column
+                    const tdRate = document.createElement('td');
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'btn-rate';
+                    btn.textContent = 'Rate';
+                    const bookingId = b.bookingID || b.timeID || b.id || '';
+                    const roomLabel = b.roomName || b.roomId || '';
+                    btn.addEventListener('click', () => {
+                        // openRatingModal is provided elsewhere in the page
+                        if (typeof openRatingModal === 'function') {
+                            openRatingModal(bookingId, roomLabel);
+                        } else {
+                            // fallback: open generic modal
+                            openRatingsPanel?.();
+                        }
+                    });
+                    tdRate.appendChild(btn);
+                    tr.appendChild(tdRate);
                 tbody.appendChild(tr);
                 });
             }
@@ -438,7 +592,112 @@
             document.addEventListener('DOMContentLoaded', loadMyBookings);
     </script>
     
+    // ...existing code...
+<!-- rating modal markup: add a container with class "past-ratings" -->
+<div id="rating-modal" class="hidden" aria-hidden="true" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1200;">
+  <div style="background:rgba(0,0,0,0.45);position:absolute;inset:0;" onclick="closeRatingModal()"></div>
+  <div role="dialog" aria-modal="true" style="position:relative;background:#fff;border-radius:8px;padding:1rem;max-width:520px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+    <button type="button" onclick="closeRatingModal()" style="position:absolute;right:8px;top:8px;border:none;background:none;font-size:18px;cursor:pointer">✕</button>
+    <h3 style="margin-top:0">Rate <span class="rating-room">Room</span></h3>
+
+    <div style="margin-bottom:0.5rem">
+      <strong>Past ratings</strong>
+      <div class="past-ratings" style="margin-top:0.5rem;color:#333"></div>
+    </div>
+
+    <form id="rating-form" onsubmit="submitRating(event)">
+      <div style="display:flex;gap:0.5rem;margin:0.5rem 0;">
+        <label><input type="radio" name="rating" value="1">1</label>
+        <label><input type="radio" name="rating" value="2">2</label>
+        <label><input type="radio" name="rating" value="3">3</label>
+        <label><input type="radio" name="rating" value="4">4</label>
+        <label><input type="radio" name="rating" value="5">5</label>
+      </div>
+      <div style="margin:0.5rem 0;">
+        <textarea placeholder="Optional comment" style="width:100%;min-height:80px;padding:6px;border:1px solid #ddd;border-radius:6px;"></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:0.5rem;">
+        <button type="button" onclick="closeRatingModal()" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;color:#000;cursor:pointer">Cancel</button>
+        <button type="submit" style="padding:8px 12px;border-radius:6px;border:none;background:#2563eb;color:#fff;cursor:pointer">Submit rating</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+    <script>
+    // ...existing code...
+
+    function renderPastRatings(container, list) {
+    if (!container) return;
+    if (!Array.isArray(list) || list.length === 0) {
+        container.innerHTML = '<div style="color:#666">No ratings yet</div>';
+        return;
+    }
+    container.innerHTML = list.map(r => {
+        const date = new Date(r.createdAt).toLocaleString();
+        const comment = r.comment ? `<div style="color:#444;margin-top:4px">${escapeHtml(r.comment)}</div>` : '';
+        return `<div style="border-bottom:1px solid #eee;padding:6px 0">⭐ ${r.rating} <small style="color:#666;margin-left:8px">${date}</small>${comment}</div>`;
+    }).join('');
+    }
+
+    function escapeHtml(s) {
+    if (!s) return '';
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function openRatingModal(bookingId, roomLabel) {
+    const modal = document.getElementById('rating-modal');
+    if (!modal) return;
+    modal.querySelector('.rating-room').textContent = roomLabel || 'Room';
+    modal.dataset.bookingId = bookingId || '';
+    modal.classList.remove('hidden');
+
+    const pastContainer = modal.querySelector('.past-ratings');
+    pastContainer.innerHTML = 'Loading…';
+    fetch(`/api/ratings?bookingId=${encodeURIComponent(bookingId)}`)
+        .then(r => {
+        if (!r.ok) throw new Error('Failed to load ratings');
+        return r.json();
+        })
+        .then(list => renderPastRatings(pastContainer, list))
+        .catch(err => {
+        console.error(err);
+        pastContainer.innerHTML = '<div style="color:#c00">Error loading ratings</div>';
+        });
+    }
+
+    async function submitRating(e) {
+    e.preventDefault();
+    const modal = document.getElementById('rating-modal');
+    const bookingId = modal.dataset.bookingId;
+    const rating = modal.querySelector('input[name="rating"]:checked')?.value;
+    const comment = modal.querySelector('textarea').value.trim();
+    if (!rating) { alert('Please select a rating'); return; }
+
+    try {
+        const res = await fetch('/api/ratings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: Number(bookingId), rating: Number(rating), comment })
+        });
+        if (!res.ok) throw new Error('Failed to submit rating');
+        // refresh past ratings
+        openRatingModal(bookingId, modal.querySelector('.rating-room').textContent);
+    } catch (err) {
+        console.error(err);
+        alert('Failed to submit rating');
+    }
+    }
+
+    // make functions available if other code uses them
+    window.openRatingModal = openRatingModal;
+    window.submitRating = submitRating;
+    </script>
+
+
+
     <!-- Profile Dropdown JS - Same as home.html -->
     <script src="js/home.js"></script>
+
 </body>
 </html>

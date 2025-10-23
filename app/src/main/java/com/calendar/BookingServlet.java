@@ -8,8 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import uni.space.finder.DatabaseSetup;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
@@ -164,6 +167,48 @@ public class BookingServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("{\"error\":\"Internal server error: " + e.getMessage() + "\"}");
         }
+
+        resp.setContentType("application/json");
+        String room = req.getParameter("room");
+        String date = req.getParameter("date");   // expected yyyy-MM-dd
+        String time = req.getParameter("time");   // expected HH:mm
+        String duration = req.getParameter("duration"); // minutes
+
+        if (room == null || date == null || time == null || duration == null) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("{\"error\":\"missing_fields\"}");
+            return;
+        }
+
+        try (Connection conn = DatabaseSetup.getConnection();
+            PreparedStatement ps = conn.prepareStatement(
+                "INSERT INTO booktime (room_id, start_time, end_time, booking_ref, booking_status) VALUES (?, ?, ?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
+
+            java.time.LocalDateTime start = java.time.LocalDateTime.parse(date + "T" + time);
+            java.time.LocalDateTime end = start.plusMinutes(Long.parseLong(duration));
+            String bookingRef = (room.replaceAll("[^A-Za-z0-9]", "").toUpperCase() + "-" + (System.currentTimeMillis() % 10000));
+
+            ps.setString(1, room);
+            ps.setString(2, start.toString());
+            ps.setString(3, end.toString());
+            ps.setString(4, bookingRef);
+            ps.setString(5, "ACTIVE");
+            ps.executeUpdate();
+            ResultSet keys = ps.getGeneratedKeys();
+            long id = -1;
+            if (keys.next()) id = keys.getLong(1);
+                    Map<String, Object> out = new HashMap<>();
+                    out.put("success", true);
+                    out.put("bookingId", id);
+                    out.put("bookingRef", bookingRef);
+                    resp.getWriter().write(new com.google.gson.Gson().toJson(out));
+                } catch (Exception e) {
+                    resp.setStatus(500);
+                    resp.getWriter().write("{\"error\":\"server_error\"}");
+                    e.printStackTrace();
+                }
+        
     }
     
     private int getRoomIdByName(String roomName) {

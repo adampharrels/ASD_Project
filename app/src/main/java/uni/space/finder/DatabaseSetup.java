@@ -232,6 +232,18 @@ public class DatabaseSetup {
                     System.err.println("⚠️  Fallback table creation warning: " + fallbackError.getMessage());
                 }
             }
+            try (Connection conn1 = getConnection(); Statement s = conn1.createStatement()) {
+            
+            s.execute("CREATE TABLE IF NOT EXISTS ratings (" +
+                    "id IDENTITY PRIMARY KEY, " +
+                    "booking_id BIGINT NOT NULL, " +
+                    "rating INT NOT NULL, " +
+                    "comment VARCHAR(2000), " +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                    ")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
             
             // Test the database
             ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as count FROM room");
