@@ -153,6 +153,7 @@ public class BookingServlet extends HttpServlet {
                 
                 resp.getWriter().write(gson.toJson(response));
                 System.out.println("✅ Room booking created: " + roomName + " on " + startDateTimeStr + " (Ref: " + bookingRef + ") for user: " + userFullName);
+                return;
             } else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 resp.getWriter().write("{\"error\":\"Failed to create booking in database\"}");

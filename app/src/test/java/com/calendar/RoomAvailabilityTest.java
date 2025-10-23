@@ -37,7 +37,7 @@ public class RoomAvailabilityTest {
     private AvailableRoomsServlet servlet;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         stringWriter = new StringWriter();
         writer = new PrintWriter(stringWriter);

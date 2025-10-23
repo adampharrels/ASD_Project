@@ -173,7 +173,9 @@ public class BookingSystemTest {
     @Test
     @DisplayName("Should handle OPTIONS requests for CORS preflight")
     void testOptionsRequestHandling() throws Exception {
-        servlet.doOptions(request, response);
+        java.lang.reflect.Method m = BookingServlet.class.getDeclaredMethod("doOptions", jakarta.servlet.http.HttpServletRequest.class, jakarta.servlet.http.HttpServletResponse.class);
+        m.setAccessible(true);
+        m.invoke(servlet, request, response);
         
         verify(response).setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
         verify(response).setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
