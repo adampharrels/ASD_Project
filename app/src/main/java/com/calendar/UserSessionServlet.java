@@ -38,17 +38,20 @@ public class UserSessionServlet extends HttpServlet {
         if (session != null && session.getAttribute("email") != null) {
             // User is logged in
             String userEmail = (String) session.getAttribute("email");
-            String username = (String) session.getAttribute("username");
+            String firstName = (String) session.getAttribute("firstName");
+            String lastName = (String) session.getAttribute("lastName");
             String fullName = (String) session.getAttribute("fullName");
             String studentId = (String) session.getAttribute("studentId");
             
             response.put("success", true);
             response.put("email", userEmail);
-            response.put("username", username != null ? username : extractUsernameFromEmail(userEmail));
+            response.put("firstName", firstName);
+            response.put("lastName", lastName);
+            response.put("username", extractUsernameFromEmail(userEmail));
             response.put("fullName", fullName != null ? fullName : extractNameFromEmail(userEmail));
             response.put("studentId", studentId);
 
-            System.out.println("✅ User session found: " + userEmail);
+            System.out.println("✅ User session found: " + fullName + " (Email: " + userEmail + ", StudentId: " + studentId + ")");
         } else {
             // No session or user not logged in
             response.put("success", false);

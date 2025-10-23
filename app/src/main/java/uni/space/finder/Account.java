@@ -89,4 +89,23 @@ public class Account {
         }
         return false;
     }
+    
+    // Get account by email
+    public static Account getAccountByEmail(String email) {
+        loadAccounts();
+        for (Account a : accounts) {
+            if (a.email.equalsIgnoreCase(email)) {
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    // Getters for account properties
+    public int getId() { return id; }
+    public String getEmail() { return email; }
+    public String getFirst() { return first; }
+    public String getLast() { return last; }
+    public String getSid() { return sid; }
+    public String getFullName() { return first + " " + last; }
 }

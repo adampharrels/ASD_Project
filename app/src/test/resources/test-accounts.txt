@@ -1,0 +1,6 @@
+# Test Accounts for Integration Testing
+# Format: email,password,fullName
+testuser@example.com,pass123,Test User
+admin@unispace.edu,admin123,Admin User
+student@unispace.edu,student123,John Student
+professor@unispace.edu,prof123,Dr. Jane Professor
