@@ -6,7 +6,8 @@ import java.nio.file.*;
 public class DatabaseSetup {
     // H2 File-Based Database (persistent, no Docker needed)
     // Use absolute path to ensure consistent database access regardless of working directory
-    private static final String DB_URL = "jdbc:h2:file:" + System.getProperty("user.dir") + "/app/data/unispace;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE";
+    // Removed AUTO_SERVER to fix NetworkConnectionInfo class loading error
+    private static final String DB_URL = "jdbc:h2:file:" + System.getProperty("user.dir") + "/app/data/unispace;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASS = "";
     

@@ -44,13 +44,26 @@ public class RatingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("🔍 RatingServlet: Received POST request");
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        
         try (BufferedReader br = req.getReader()) {
-            Map<?, ?> data = gson.fromJson(br, Map.class);
+            String requestBody = br.lines().collect(java.util.stream.Collectors.joining());
+            System.out.println("📝 Rating request body: " + requestBody);
+            
+            Map<?, ?> data = gson.fromJson(requestBody, Map.class);
             Number bookingIdN = (Number) data.get("bookingId");
             Number ratingN = (Number) data.get("rating");
             String comment = data.get("comment") == null ? null : data.get("comment").toString();
+            
+            System.out.println("🔍 Parsed data - bookingId: " + bookingIdN + ", rating: " + ratingN + ", comment: " + comment);
+            
             if (bookingIdN == null || ratingN == null) {
+                System.err.println("❌ Missing fields - bookingId: " + bookingIdN + ", rating: " + ratingN);
                 resp.setStatus(400);
                 resp.getWriter().write("{\"error\":\"missing_fields\"}");
                 return;
@@ -63,12 +76,18 @@ public class RatingServlet extends HttpServlet {
                 ps.setLong(1, bookingId);
                 ps.setInt(2, rating);
                 ps.setString(3, comment);
-                ps.executeUpdate();
+                int rows = ps.executeUpdate();
+                System.out.println("✅ Rating saved successfully! Rows affected: " + rows);
                 resp.getWriter().write("{\"success\":true}");
+            } catch (SQLException e) {
+                System.err.println("❌ Database error saving rating: " + e.getMessage());
+                e.printStackTrace();
+                throw e;
             }
         } catch (Exception e) {
+            System.err.println("❌ Error in RatingServlet: " + e.getMessage());
             resp.setStatus(500);
-            resp.getWriter().write("{\"error\":\"server_error\"}");
+            resp.getWriter().write("{\"error\":\"server_error\",\"message\":\"" + e.getMessage() + "\"}");
             e.printStackTrace();
         }
     }
