@@ -140,7 +140,7 @@ public class AvailableRoomsServlet extends HttpServlet {
                     room.put("location", getLocationFromRoomName(rs.getString("room_name")));
                     room.put("equipment", getEquipmentList(rs));
                     room.put("availableFor", "Available now"); // Since they're available right now
-                    room.put("rating", 4.9); // Default rating
+                    room.put("rating", getRoomAverageRating(rs.getInt("room_id"))); // Get actual rating from database
                     
                     availableRooms.add(room);
                     System.out.println("✅ Available room: " + rs.getString("room_name"));
@@ -176,7 +176,7 @@ public class AvailableRoomsServlet extends HttpServlet {
                     room.put("location", getLocationFromRoomName(rs.getString("room_name")));
                     room.put("equipment", getEquipmentList(rs));
                     room.put("availableFor", "Available (fallback)");
-                    room.put("rating", 4.9);
+                    room.put("rating", getRoomAverageRating(rs.getInt("room_id"))); // Get actual rating from database
                     
                     availableRooms.add(room);
                     System.out.println("🔄 Fallback room: " + rs.getString("room_name"));
@@ -212,5 +212,36 @@ public class AvailableRoomsServlet extends HttpServlet {
         }
         
         return equipment;
+    }
+    
+    /**
+     * Calculate the average rating for a specific room.
+     * Ratings are stored per booking, so we need to JOIN through booktime table.
+     * @param roomId The room ID to get the average rating for
+     * @return The average rating (0.0 if no ratings exist)
+     */
+    private double getRoomAverageRating(int roomId) {
+        String query = "SELECT AVG(r.rating) as avg_rating " +
+                       "FROM ratings r " +
+                       "INNER JOIN booktime b ON r.booking_id = b.timeID " +
+                       "WHERE b.room_id = ?";
+        
+        try (Connection conn = DatabaseSetup.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            
+            pstmt.setInt(1, roomId);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                double avgRating = rs.getDouble("avg_rating");
+                // If no ratings exist, AVG returns NULL and getDouble returns 0
+                return avgRating > 0 ? Math.round(avgRating * 10.0) / 10.0 : 0.0;
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("❌ Error fetching rating for room " + roomId + ": " + e.getMessage());
+        }
+        
+        return 0.0; // Default to 0 if no ratings or error
     }
 }
