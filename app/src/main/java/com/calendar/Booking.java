@@ -52,6 +52,9 @@ public class Booking {
     }
 
     // Getters and setters for existing fields
+    public int getBookingID() { return bookingID; }
+    public void setBookingID(int bookingID) { this.bookingID = bookingID; }
+    
     public int getTimeID() { return timeID; }
     public void setTimeID(int timeID) { this.timeID = timeID; }
     
