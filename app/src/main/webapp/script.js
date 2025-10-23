@@ -27,7 +27,9 @@ form.addEventListener('submit', (e)=>{
     emailErr.style.display='block'; ok=false;
   } else { emailErr.style.display='none'; }
 
-  if((pwd.value||'').length < 8){
+  // Only check if password is not empty (length validation removed for login)
+  if(!pwd.value || pwd.value.trim().length === 0){
+    pwdErr.textContent = 'Password is required.';
     pwdErr.style.display='block'; ok=false;
   } else { pwdErr.style.display='none'; }
 

@@ -167,48 +167,6 @@ public class BookingServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().write("{\"error\":\"Internal server error: " + e.getMessage() + "\"}");
         }
-
-        resp.setContentType("application/json");
-        String room = req.getParameter("room");
-        String date = req.getParameter("date");   // expected yyyy-MM-dd
-        String time = req.getParameter("time");   // expected HH:mm
-        String duration = req.getParameter("duration"); // minutes
-
-        if (room == null || date == null || time == null || duration == null) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("{\"error\":\"missing_fields\"}");
-            return;
-        }
-
-        try (Connection conn = DatabaseSetup.getConnection();
-            PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO booktime (room_id, start_time, end_time, booking_ref, booking_status) VALUES (?, ?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS)) {
-
-            java.time.LocalDateTime start = java.time.LocalDateTime.parse(date + "T" + time);
-            java.time.LocalDateTime end = start.plusMinutes(Long.parseLong(duration));
-            String bookingRef = (room.replaceAll("[^A-Za-z0-9]", "").toUpperCase() + "-" + (System.currentTimeMillis() % 10000));
-
-            ps.setString(1, room);
-            ps.setString(2, start.toString());
-            ps.setString(3, end.toString());
-            ps.setString(4, bookingRef);
-            ps.setString(5, "ACTIVE");
-            ps.executeUpdate();
-            ResultSet keys = ps.getGeneratedKeys();
-            long id = -1;
-            if (keys.next()) id = keys.getLong(1);
-                    Map<String, Object> out = new HashMap<>();
-                    out.put("success", true);
-                    out.put("bookingId", id);
-                    out.put("bookingRef", bookingRef);
-                    resp.getWriter().write(new com.google.gson.Gson().toJson(out));
-                } catch (Exception e) {
-                    resp.setStatus(500);
-                    resp.getWriter().write("{\"error\":\"server_error\"}");
-                    e.printStackTrace();
-                }
-        
     }
     
     private int getRoomIdByName(String roomName) {
@@ -371,7 +329,7 @@ public class BookingServlet extends HttpServlet {
                 } else {
                     System.err.println("❌ User not found in database: " + email);
                     // Auto-create user in database if they can log in but aren't in DB
-                    return createUserFromEmail(email);
+                    return createUserFromSession(req);
                 }
             }
             
@@ -383,27 +341,67 @@ public class BookingServlet extends HttpServlet {
     }
     
     /**
-     * Create user in database from email (auto-sync for logged-in users)
+     * Create user in database from session data (auto-sync for logged-in users)
      */
-    private int createUserFromEmail(String email) {
+    private int createUserFromSession(HttpServletRequest req) {
         try {
-            String username = email.split("@")[0];
-            String fullName = "User"; // Default name since we don't have it from session
+            HttpSession session = req.getSession(false);
+            if (session == null) {
+                System.err.println("❌ No session found when trying to create user");
+                return -1;
+            }
             
-            // Insert user into database
+            String email = (String) session.getAttribute("email");
+            String fullName = (String) session.getAttribute("fullName");
+            String studentId = (String) session.getAttribute("studentId");
+            
+            String username = email.split("@")[0];
+            
+            // Use defaults if not in session
+            if (fullName == null || fullName.trim().isEmpty()) {
+                String firstName = (String) session.getAttribute("firstName");
+                String lastName = (String) session.getAttribute("lastName");
+                if (firstName != null && lastName != null) {
+                    fullName = firstName + " " + lastName;
+                } else {
+                    fullName = username; // Use email username as fallback
+                }
+            }
+            
+            System.out.println("🆕 Creating user in database: " + email + " (Full name: " + fullName + ", Student ID: " + studentId + ")");
+            
+            // Insert user into database - handle duplicate student_id gracefully
             String insertQuery = "INSERT INTO users (username, email, full_name, student_id) VALUES (?, ?, ?, ?)";
             String selectQuery = "SELECT user_id FROM users WHERE email = ?";
+            String checkStudentIdQuery = "SELECT COUNT(*) FROM users WHERE student_id = ?";
             
             try (Connection conn = DatabaseSetup.getConnection()) {
-                // Insert user
+                // Check if student_id is already taken
+                boolean studentIdExists = false;
+                if (studentId != null && !studentId.trim().isEmpty()) {
+                    try (PreparedStatement checkStmt = conn.prepareStatement(checkStudentIdQuery)) {
+                        checkStmt.setString(1, studentId);
+                        ResultSet rs = checkStmt.executeQuery();
+                        if (rs.next() && rs.getInt(1) > 0) {
+                            studentIdExists = true;
+                            System.out.println("⚠️  Student ID " + studentId + " already exists, using NULL for this user");
+                        }
+                    }
+                }
+                
+                // Insert user with NULL student_id if it's a duplicate or not available
                 try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
                     insertStmt.setString(1, username);
                     insertStmt.setString(2, email);
                     insertStmt.setString(3, fullName);
-                    insertStmt.setString(4, "temp"); // temporary student ID
+                    if (studentId != null && !studentId.trim().isEmpty() && !studentIdExists) {
+                        insertStmt.setString(4, studentId);
+                    } else {
+                        insertStmt.setNull(4, java.sql.Types.VARCHAR); // Use NULL for duplicate or missing student IDs
+                    }
                     
                     int rowsAffected = insertStmt.executeUpdate();
-                    System.out.println("🆕 Auto-created user in database: " + email + " (rows: " + rowsAffected + ")");
+                    System.out.println("✅ Added user to database: " + email + " (rows: " + rowsAffected + ")");
                 }
                 
                 // Get the user ID
@@ -413,7 +411,7 @@ public class BookingServlet extends HttpServlet {
                     
                     if (rs.next()) {
                         int userId = rs.getInt("user_id");
-                        System.out.println("✅ Retrieved auto-created user ID: " + userId + " for email: " + email);
+                        System.out.println("✅ Retrieved user ID: " + userId + " for email: " + email);
                         return userId;
                     }
                 }
@@ -421,7 +419,30 @@ public class BookingServlet extends HttpServlet {
             
         } catch (SQLException e) {
             System.err.println("❌ Error auto-creating user: " + e.getMessage());
-            e.printStackTrace();
+            
+            // Check if it's a unique constraint violation - user might already exist by email or username
+            if (e.getMessage() != null && e.getMessage().contains("Unique index")) {
+                System.out.println("⚠️  User might already exist, trying to retrieve...");
+                try {
+                    HttpSession session = req.getSession(false);
+                    String email = (String) session.getAttribute("email");
+                    String selectQuery = "SELECT user_id FROM users WHERE email = ?";
+                    
+                    try (Connection conn = DatabaseSetup.getConnection();
+                         PreparedStatement selectStmt = conn.prepareStatement(selectQuery)) {
+                        selectStmt.setString(1, email);
+                        ResultSet rs = selectStmt.executeQuery();
+                        
+                        if (rs.next()) {
+                            int userId = rs.getInt("user_id");
+                            System.out.println("✅ Found existing user ID: " + userId + " for " + email);
+                            return userId;
+                        }
+                    }
+                } catch (SQLException e2) {
+                    System.err.println("❌ Error retrieving existing user: " + e2.getMessage());
+                }
+            }
         }
 
         

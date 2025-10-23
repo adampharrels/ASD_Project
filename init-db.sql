@@ -53,6 +53,17 @@ CREATE TABLE IF NOT EXISTS booktime (
     INDEX idx_booking_ref (booking_ref)
 );
 
+-- Create ratings table
+CREATE TABLE IF NOT EXISTS ratings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT NOT NULL,
+    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES booktime(timeID) ON DELETE CASCADE,
+    INDEX idx_booking_rating (booking_id)
+);
+
 -- Insert sample users (H2 compatible - using INSERT with IF NOT EXISTS check, no explicit user_id)
 INSERT INTO users (username, email, full_name, student_id) 
 SELECT 'admin_user', 'admins@student.uts.edu.au', 'Admin User', '123' 

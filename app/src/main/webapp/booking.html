@@ -344,7 +344,7 @@
 
                 try {
                     const payload = { bookingId, rating: Number(rating), comment };
-                    const resp = await fetch('/api/rate-room', {
+                    const resp = await fetch('/api/ratings', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)

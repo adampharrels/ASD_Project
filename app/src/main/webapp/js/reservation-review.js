@@ -289,10 +289,21 @@ function confirmBooking() {
     credentials: 'include',
     body: JSON.stringify(bookingData)
   })
-  .then(response => response.json())
+  .then(response => {
+    // Check if response is OK before parsing JSON
+    if (!response.ok) {
+      return response.json().then(data => {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
+      }).catch(err => {
+        // If JSON parsing fails, throw a generic error
+        throw new Error(`HTTP error! status: ${response.status}`);
+      });
+    }
+    return response.json();
+  })
   .then(data => {
     if (data.success) {
-      alert(`Booking confirmed! Your booking reference is: ${data.bookingRef}`);
+      alert(`Booking confirmed! Your booking reference is: ${data.bookingRefDisplay || data.bookingRef}`);
       window.location.href = 'home.html';
     } else {
       alert(`Booking failed: ${data.error || 'Unknown error'}`);
@@ -302,7 +313,7 @@ function confirmBooking() {
   })
   .catch(error => {
     console.error('Error confirming booking:', error);
-    alert('Error confirming booking. Please try again.');
+    alert(`Error confirming booking: ${error.message}`);
     confirmBtn.disabled = false;
     confirmBtn.textContent = 'Confirm';
   });
