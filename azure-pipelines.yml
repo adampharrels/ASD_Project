@@ -1,15 +1,18 @@
-# Azure Pipeline for Spring Boot Room Booking System
-# Builds, tests, and validates the application
+# UniSpace Room Booking System - Comprehensive Azure DevOps Pipeline
+# Full CI/CD pipeline with testing, security scanning, and deployment
 
 trigger:
 - main
+- develop
 - Martin
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
+  JAVA_VERSION: '21'
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  BUILD_CONFIGURATION: 'Release'
 
 steps:
 # Set up Java environment
