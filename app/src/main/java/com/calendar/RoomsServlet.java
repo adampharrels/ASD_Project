@@ -1,5 +1,24 @@
 package com.calendar;
 
+/**
+ * RoomsServlet - Handles room data retrieval for the UniSpace system
+ * 
+ * This servlet provides room data access functionality:
+ * - Retrieves all available rooms from the database
+ * - Returns room details in JSON format
+ * - Integrates with CalendarService for data access
+ * 
+ * Dependencies:
+ * - CalendarService for room data retrieval
+ * - GSON for JSON serialization
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - Calendar feature and room listing implementation
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

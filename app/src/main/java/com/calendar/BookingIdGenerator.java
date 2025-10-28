@@ -1,5 +1,27 @@
 package com.calendar;
 
+/**
+ * BookingIdGenerator - Generates and manages unique, human-readable booking references
+ * 
+ * This utility class handles booking reference generation with features:
+ * - Human-readable reference format (ROOM-DATESLOT-USER)
+ * - Time period encoding (Morning/Afternoon/Evening/Night)
+ * - Room code abbreviation logic
+ * - User initial extraction
+ * - Validation and display formatting
+ * 
+ * Example reference: CB112-1021M-A1K
+ * - CB112: Room code (CB06.06.112)
+ * - 1021M: October 21, Morning
+ * - A1K: User initial (A) + unique suffix
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - Design and implementation of booking reference system
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;

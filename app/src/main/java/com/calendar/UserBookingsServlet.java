@@ -1,5 +1,32 @@
 package com.calendar;
 
+/**
+ * UserBookingsServlet - Manages user-specific booking operations
+ * 
+ * This servlet handles all user-specific booking operations including:
+ * - Retrieving a user's current and past bookings
+ * - Cancelling existing bookings
+ * - Filtering bookings by status (current/past/all)
+ * 
+ * Database tables used:
+ * - booktime: Primary booking records with status tracking
+ * - room: Room details and amenities
+ * - users: User account information
+ * 
+ * Features:
+ * - Session-based user authentication
+ * - Booking status management (ACTIVE/CANCELLED/COMPLETED)
+ * - Detailed booking information retrieval
+ * - Room amenity tracking (speaker, whiteboard, etc.)
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - User session integration, booking references
+ *                              - User synchronization system
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

@@ -1,3 +1,10 @@
+/**
+ * @file styles-signup.css
+ * @contributors Adam Nguyen <kingofnightcore3@gmail.com>
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
+
 :root{
     --brand:#3751FE; --brand-600:#2743ff; --ink:#0f172a; --muted:#6B7280; --panel:#ffffff; --bg:#fafbfd; --border:#e5e7eb; --shadow:0 10px 30px rgba(2,6,23,.08); --radius:18px;
     --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444;

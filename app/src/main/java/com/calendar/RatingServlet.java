@@ -1,5 +1,30 @@
 package com.calendar;
 
+/**
+ * RatingServlet - Manages room booking ratings and feedback
+ * 
+ * This servlet handles all rating-related operations including:
+ * - Creating new ratings for bookings
+ * - Retrieving ratings for a specific booking
+ * - Managing rating metadata (scores, comments, timestamps)
+ * 
+ * Database tables used:
+ * - ratings: Stores rating records with booking references
+ * - booktime: Referenced for booking validation
+ * 
+ * Key Features:
+ * - Rating submission with optional comments
+ * - Chronological rating retrieval
+ * - Input validation and error handling
+ * 
+ * Contributors:
+ * - Nathan (clive897) - Initial rating system implementation
+ * - Adam Nguyen (adampharrels) - Booking ID integration, logging improvements
+ * 
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,20 @@
-// js/home.js
+/**
+ * UniSpace Home Page JavaScript
+ * 
+ * Core functionality for the UniSpace home page including:
+ * - Profile dropdown menu handling
+ * - Room availability checking and display
+ * - Room filtering system
+ * - Real-time room updates
+ * - Responsive design handling
+ * 
+ * Contributors:
+ * - Noah (Noahkhuu127) - Room searching and filtering
+ * - Adam Nguyen (adampharrels) - Dropdown menu, room display
+ * 
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
 
 document.addEventListener('DOMContentLoaded', function() {
   const profileBtn = document.getElementById('profileBtn');

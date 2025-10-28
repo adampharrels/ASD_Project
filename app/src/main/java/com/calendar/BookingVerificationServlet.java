@@ -1,5 +1,32 @@
 package com.calendar;
 
+/**
+ * BookingVerificationServlet - Handles booking verification and status checks
+ * 
+ * This servlet provides booking verification functionality including:
+ * - Retrieving and validating user-specific bookings
+ * - Displaying system-wide booking activity
+ * - Verifying booking authenticity and status
+ * 
+ * Database tables used:
+ * - booktime: Primary booking records
+ * - room: Room details
+ * - users: User information
+ * 
+ * Features:
+ * - User-specific booking verification
+ * - System-wide booking activity monitoring
+ * - Session-based authentication
+ * - Detailed booking status reporting
+ * 
+ * Contributors:
+ * - Nathan (clive897) - Initial booking verification system
+ * - Adam Nguyen (adampharrels) - Fixes and confirmation page integration
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

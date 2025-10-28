@@ -1,5 +1,32 @@
 package com.calendar;
 
+/**
+ * IntegrationTest - End-to-end testing suite for the UniSpace system
+ * 
+ * This test class verifies complete system workflows including:
+ * - Full booking process
+ * - Authentication and session management
+ * - API response consistency
+ * - Error handling
+ * - Static content serving
+ * - Database connectivity
+ * - CORS configuration
+ * 
+ * Test Environment:
+ * - Uses Spring Boot test framework
+ * - Runs with test profile
+ * - Requires test database
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels)
+ * - Nathan (clive)
+ * - Noah
+ * - Martin
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

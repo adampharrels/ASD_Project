@@ -1,5 +1,19 @@
 -- UniSpace Database Schema
 -- This script creates the complete database structure for the room booking system
+--
+-- Contributors:
+-- - Adam Nguyen (adampharrels) - Database schema design and sample data
+--
+-- Created: October 2023
+-- Last Updated: October 2025
+--
+-- Schema includes:
+-- - users: User accounts and profiles
+-- - room: Room information and facilities
+-- - booktime: Booking records and status tracking
+-- - ratings: Room ratings and feedback
+--
+-- Sample data includes test users and rooms for development
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (

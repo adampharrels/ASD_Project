@@ -1,5 +1,22 @@
 package com.calendar;
 
+/**
+ * CalendarService - Core service class for calendar and booking functionality
+ * 
+ * This service handles database operations for:
+ * - Room data retrieval and formatting
+ * - Booking management
+ * - Equipment and facility tracking
+ * 
+ * Uses H2 database through DatabaseSetup utility
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - Service implementation and database integration
+ * 
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
+
 import java.sql.*;
 import java.util.*;
 import uni.space.finder.DatabaseSetup;

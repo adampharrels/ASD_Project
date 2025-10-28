@@ -1,5 +1,31 @@
 package com.calendar;
 
+/**
+ * RoomAvailabilityTest - Unit tests for room availability functionality
+ * 
+ * This test suite covers the room availability checking system:
+ * - Available rooms retrieval
+ * - CORS headers and preflight requests
+ * - Response format validation
+ * - Error handling
+ * - Database connection management
+ * 
+ * Testing Approach:
+ * - Uses Mockito for HTTP request/response mocking
+ * - Isolates servlet testing from database
+ * - Verifies CORS and content type headers
+ * - Tests error conditions and edge cases
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels)
+ * - Nathan (clive)
+ * - Noah
+ * - Martin
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

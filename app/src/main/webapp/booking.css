@@ -1,4 +1,11 @@
-ensure full-height so centering works
+/**
+ * @file booking.css
+ * @contributors Nathan Nourse <nathan.nourse@student.uts.edu.au>
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
+
+/* ensure full-height so centering works */
 html, body {
     height: 100%;
 }

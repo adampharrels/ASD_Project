@@ -1,5 +1,26 @@
 package com.calendar;
 
+/**
+ * UserSessionServlet - Manages user session information and authentication state
+ * 
+ * This servlet handles user session management tasks including:
+ * - Retrieving current user session information
+ * - Providing user profile data to the frontend
+ * - Managing session attributes (email, name, student ID)
+ * - Basic user profile data transformation
+ * 
+ * Dependencies:
+ * - Requires valid HTTP session with user authentication
+ * - Uses GSON for JSON serialization
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - Initial session management implementation
+ * - Noah (Noahkhuu127) - Enhanced session handling and booking flow
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

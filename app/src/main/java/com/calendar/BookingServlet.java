@@ -1,5 +1,28 @@
 package com.calendar;
 
+/**
+ * BookingServlet - Handles room booking operations for the UniSpace system
+ * 
+ * This servlet manages the creation and retrieval of room bookings, including:
+ * - Creating new room bookings with conflict checking
+ * - Generating unique booking references
+ * - Managing user sessions and authentication
+ * - Interfacing with the room booking database
+ * 
+ * Database tables used:
+ * - booktime: Stores booking records (times, room, user, status)
+ * - room: Stores room information
+ * - users: Stores user profiles
+ * 
+ * Contributors:
+ * - Nathan (clive897) - Initial booking system, table functionality
+ * - Adam Nguyen (adampharrels) - User session integration, booking references
+ *                              - Auto user sync, confirmation page
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

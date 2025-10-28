@@ -1,5 +1,24 @@
 package com.calendar;
 
+/**
+ * User - Data model class representing a system user
+ * 
+ * This class defines the core user data structure including:
+ * - Basic user information (ID, username, email)
+ * - Profile details (full name, student ID)
+ * - Account metadata (creation timestamp)
+ * 
+ * Database mapping:
+ * - Maps to the 'users' table in the database
+ * - Used for user authentication and profile management
+ * 
+ * Contributors:
+ * - Adam Nguyen (adampharrels) - User model design and implementation
+ * 
+ * Created: September 2023
+ * Last Updated: October 2025
+ */
+
 import java.sql.Timestamp;
 
 public class User {
