@@ -34,8 +34,6 @@
             font-size: 2rem;
         }
         
-        /* Removed conflicting .nav-links styles that were affecting the header navigation */
-        
         .booking-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -65,8 +63,6 @@
             margin-bottom: 1rem;
             font-size: 1.25rem;
         }
-        
-        /* Modal and button styles */
         .hidden { display:none !important; }
         .btn-rate { padding:6px 10px;border-radius:6px;border:1px solid #2563eb;background:#fff;color:#2563eb;cursor:pointer; }
         .btn-rate:hover { background:#f0f7ff; }
@@ -117,33 +113,27 @@
 </script>
 
 <script>
-  // open existing rating modal if present
   function openRatingsPanel() {
     const modal = document.getElementById('rating-modal');
     if (modal) {
       modal.classList.remove('hidden');
-      modal.dataset.bookingId = ''; // optional: no booking pre-selected
+      modal.dataset.bookingId = ''; 
     } else {
-      // fallback: scroll to history section or navigate to a ratings section
       const el = document.getElementById('booking-history') || document.querySelector('#history-table');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 
-  // open modal if URL contains #ratings
   document.addEventListener('DOMContentLoaded', () => {
     if (window.location.hash === '#ratings') {
       openRatingsPanel();
-      // remove hash so repeated loads won't reopen unexpectedly
       history.replaceState(null, '', window.location.pathname + window.location.search);
     }
-    // expose for other scripts if needed
     window.openRatingsPanel = openRatingsPanel;
   });
 </script>
 
 <body>
- <!-- Header / Top Nav - Same as home.html -->
  <header class="site-header container">
    <nav class="nav">
      <a class="brand" href="home.html">UniSpace</a>
@@ -179,7 +169,6 @@
                             🔄 Loading your bookings...
                         </div>
                         <ul id="booking-list" style="display: none;">
-                            <!-- Bookings will be loaded here -->
                         </ul>
                         <div id="no-bookings" style="color: var(--muted); font-style: italic; text-align: center; padding: 1rem; display: none;">
                             📋 No active bookings found. Create your first booking!
@@ -207,7 +196,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- history rows -->
                                     </tbody>
                                 </table>
                             </div>
@@ -263,13 +251,11 @@
         }
         document.addEventListener('DOMContentLoaded', () => {
             loadBookings();
-            //loadBookingsHistory();
         });
 
     </script>
 
     <script>
-        // Load current bookings and history; robust to network errors and avoids runtime typos
         async function fetchJson(url) {
             const res = await fetch(url, { credentials: 'same-origin' });
             if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
@@ -399,11 +385,9 @@
                     const roomLabel = b.roomName || b.roomId || '';
                     console.log('🎯 Rate button - bookingId:', bookingId, 'from booking:', b.bookingID, b.timeID, b.id);
                     btn.addEventListener('click', () => {
-                        // openRatingModal is provided elsewhere in the page
                         if (typeof openRatingModal === 'function') {
                             openRatingModal(bookingId, roomLabel);
                         } else {
-                            // fallback: open generic modal
                             openRatingsPanel?.();
                         }
                     });
@@ -430,10 +414,7 @@
                     });
                     
                     if (response.ok) {
-                        // Remove the booking from the UI
                         buttonElement.closest('li').remove();
-                        
-                        // Check if no bookings left
                         const bookingList = document.getElementById('booking-list');
                         if (bookingList.children.length === 0) {
                             bookingList.style.display = 'none';
@@ -450,11 +431,8 @@
                     alert('❌ Error cancelling booking. Please try again.');
                 }
             }
-            
-            // Make cancelBooking globally available
             window.cancelBooking = cancelBooking;
 
-            // Form submission handler - Make real API call
             const bookingForm = document.getElementById('booking-form');
             if (bookingForm) {
                 bookingForm.addEventListener('submit', async function(e) {
@@ -471,14 +449,12 @@
                     return;
                 }
                 
-                // Disable submit button during request
                 const submitButton = this.querySelector('button[type="submit"]');
                 const originalText = submitButton.textContent;
                 submitButton.disabled = true;
                 submitButton.textContent = '🔄 Booking...';
                 
                 try {
-                    // Convert FormData to URLSearchParams for proper servlet handling
                     const urlParams = new URLSearchParams();
                     urlParams.append('room', room);
                     urlParams.append('date', date);
@@ -522,8 +498,7 @@
             document.addEventListener('DOMContentLoaded', loadMyBookings);
     </script>
     
-    // ...existing code...
-<!-- rating modal markup: add a container with class "past-ratings" -->
+    
 <div id="rating-modal" class="hidden" aria-hidden="true" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:1200;">
   <div style="background:rgba(0,0,0,0.45);position:absolute;inset:0;" onclick="closeRatingModal()"></div>
   <div role="dialog" aria-modal="true" style="position:relative;background:#fff;border-radius:8px;padding:1rem;max-width:520px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.2);">
@@ -555,7 +530,6 @@
 </div>
 
     <script>
-    // ...existing code...
 
     function renderPastRatings(container, list) {
     if (!container) return;
@@ -636,7 +610,6 @@
     window.closeRatingModal = closeRatingModal;
     window.submitRating = submitRating;
     
-    // Function to clear all ratings (for testing/reset)
     async function clearAllRatings() {
         if (!confirm('⚠️ This will delete ALL ratings from the database. Are you sure?')) {
             return;
@@ -667,7 +640,6 @@
 
 
 
-    <!-- Profile Dropdown JS - Same as home.html -->
     <script src="js/home.js"></script>
 
 </body>

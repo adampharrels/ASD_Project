@@ -76,23 +76,19 @@ public class BookingServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
         
         try {
-            // Read JSON data from request body
             StringBuilder requestBody = new StringBuilder();
             String line;
             while ((line = req.getReader().readLine()) != null) {
                 requestBody.append(line);
             }
             
-            // Parse JSON
             JsonObject jsonData = gson.fromJson(requestBody.toString(), JsonObject.class);
             
-            // Get data from JSON
             String roomId = jsonData.has("roomId") ? jsonData.get("roomId").getAsString() : null;
             String date = jsonData.has("date") ? jsonData.get("date").getAsString() : null;
             String startTime = jsonData.has("startTime") ? jsonData.get("startTime").getAsString() : null;
             String endTime = jsonData.has("endTime") ? jsonData.get("endTime").getAsString() : null;
             
-            // Get current user from session
             int currentUserId = getCurrentUserId(req);
             if (currentUserId == -1) {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -100,7 +96,6 @@ public class BookingServlet extends HttpServlet {
                 return;
             }
             
-            // Debug: Print received parameters
             System.out.println("🔍 Booking request received:");
             System.out.println("  Room ID: " + roomId);
             System.out.println("  Date: " + date);
@@ -129,7 +124,6 @@ public class BookingServlet extends HttpServlet {
                 return;
             }
             
-            // Parse roomId as integer
             int roomIdInt = Integer.parseInt(roomId);
             
             // Format times for database (timestamp format)
@@ -154,7 +148,6 @@ public class BookingServlet extends HttpServlet {
             // Get user info for booking reference generation
             String userFullName = getUserFullName(currentUserId);
             
-            // Generate memorable booking reference
             LocalDateTime startDateTime = LocalDateTime.parse(startDateTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String bookingRef = BookingIdGenerator.generateBookingRef(roomName, startDateTime, userFullName);
             
@@ -194,7 +187,6 @@ public class BookingServlet extends HttpServlet {
     }
     
     private int getRoomIdByName(String roomName) {
-        // Extract just the room number part (e.g., "CB06.06.112" from "CB06.06.112 - Group Study Room (8 people)")
         String roomNumber = roomName.split(" - ")[0].trim();
         
         String query = "SELECT room_id FROM room WHERE room_name = ?";
@@ -322,9 +314,6 @@ public class BookingServlet extends HttpServlet {
         return "Unknown User";
     }
     
-    /**
-     * Get current user ID from session and database
-     */
     private int getCurrentUserId(HttpServletRequest req) {
         try {
             // Get user email from session
@@ -337,7 +326,6 @@ public class BookingServlet extends HttpServlet {
             String email = (String) session.getAttribute("email");
             System.out.println("🔍 Looking up user ID for email: " + email);
             
-            // Get user ID from database
             String query = "SELECT user_id FROM users WHERE email = ?";
             
             try (Connection conn = DatabaseSetup.getConnection();
@@ -352,7 +340,6 @@ public class BookingServlet extends HttpServlet {
                     return userId;
                 } else {
                     System.err.println("❌ User not found in database: " + email);
-                    // Auto-create user in database if they can log in but aren't in DB
                     return createUserFromSession(req);
                 }
             }
@@ -364,9 +351,6 @@ public class BookingServlet extends HttpServlet {
         }
     }
     
-    /**
-     * Create user in database from session data (auto-sync for logged-in users)
-     */
     private int createUserFromSession(HttpServletRequest req) {
         try {
             HttpSession session = req.getSession(false);
@@ -381,26 +365,23 @@ public class BookingServlet extends HttpServlet {
             
             String username = email.split("@")[0];
             
-            // Use defaults if not in session
             if (fullName == null || fullName.trim().isEmpty()) {
                 String firstName = (String) session.getAttribute("firstName");
                 String lastName = (String) session.getAttribute("lastName");
                 if (firstName != null && lastName != null) {
                     fullName = firstName + " " + lastName;
                 } else {
-                    fullName = username; // Use email username as fallback
+                    fullName = username; 
                 }
             }
             
             System.out.println("🆕 Creating user in database: " + email + " (Full name: " + fullName + ", Student ID: " + studentId + ")");
             
-            // Insert user into database - handle duplicate student_id gracefully
             String insertQuery = "INSERT INTO users (username, email, full_name, student_id) VALUES (?, ?, ?, ?)";
             String selectQuery = "SELECT user_id FROM users WHERE email = ?";
             String checkStudentIdQuery = "SELECT COUNT(*) FROM users WHERE student_id = ?";
             
             try (Connection conn = DatabaseSetup.getConnection()) {
-                // Check if student_id is already taken
                 boolean studentIdExists = false;
                 if (studentId != null && !studentId.trim().isEmpty()) {
                     try (PreparedStatement checkStmt = conn.prepareStatement(checkStudentIdQuery)) {
@@ -413,7 +394,7 @@ public class BookingServlet extends HttpServlet {
                     }
                 }
                 
-                // Insert user with NULL student_id if it's a duplicate or not available
+                
                 try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
                     insertStmt.setString(1, username);
                     insertStmt.setString(2, email);
@@ -421,14 +402,14 @@ public class BookingServlet extends HttpServlet {
                     if (studentId != null && !studentId.trim().isEmpty() && !studentIdExists) {
                         insertStmt.setString(4, studentId);
                     } else {
-                        insertStmt.setNull(4, java.sql.Types.VARCHAR); // Use NULL for duplicate or missing student IDs
+                        insertStmt.setNull(4, java.sql.Types.VARCHAR); 
                     }
                     
                     int rowsAffected = insertStmt.executeUpdate();
                     System.out.println("✅ Added user to database: " + email + " (rows: " + rowsAffected + ")");
                 }
                 
-                // Get the user ID
+                
                 try (PreparedStatement selectStmt = conn.prepareStatement(selectQuery)) {
                     selectStmt.setString(1, email);
                     ResultSet rs = selectStmt.executeQuery();
@@ -444,7 +425,6 @@ public class BookingServlet extends HttpServlet {
         } catch (SQLException e) {
             System.err.println("❌ Error auto-creating user: " + e.getMessage());
             
-            // Check if it's a unique constraint violation - user might already exist by email or username
             if (e.getMessage() != null && e.getMessage().contains("Unique index")) {
                 System.out.println("⚠️  User might already exist, trying to retrieve...");
                 try {
