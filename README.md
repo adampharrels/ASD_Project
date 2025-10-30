@@ -25,26 +25,23 @@ UniSpace is a web-based application designed to streamline the process of bookin
 ### Core Features and Primary Contributors
 
 #### Authentication & User Management
-- **Primary**: Sarah Johnson
-- **Secondary**: Michael Chen
+- **Primary**: Adam Nguyen
 - **Files**: `SignupServlet.java`, `LoginServlet.java`, `UserSync.java`
 - **Features**: User registration, login system, session management
 
 #### Booking System
-- **Primary**: Michael Chen
-- **Secondary**: David Wilson
+Adam Nguyen & Nathan Nourse
 - **Files**: `BookingServlet.java`, `BookingManager.java`, `calendar.js`
 - **Features**: Room booking, calendar integration, availability checking
 
 #### Room Management
-- **Primary**: David Wilson
-- **Secondary**: Emma Thompson
+- **Primary**: 
+- **Secondary**: 
 - **Files**: `RoomManager.java`, `FacilityManager.java`
 - **Features**: Room creation, facility management, capacity tracking
 
 #### Frontend Interface
-- **Primary**: Emma Thompson
-- **Secondary**: Sarah Johnson
+- **Primary**: Adam Nguyen
 - **Files**: All files in `webapp/` directory
 - **Features**: UI/UX design, responsive layouts, user interaction
 
@@ -95,32 +92,7 @@ The application will be available at `http://localhost:8080`
 - React 18.2.0
 - Material-UI 5.0.0
 
-### External Services
-1. **MongoDB Atlas** (Database)
-   - Current Plan: Free Tier (M0)
-   - Expiration: December 31, 2025
-   - Action Required: Migration to paid tier needed before expiration
 
-2. **Redis Cloud** (Caching)
-   - Current Plan: 30MB Free Tier
-   - Expiration: None
-   - Limitations: 30 connections maximum
-
-3. **SendGrid** (Email Service)
-   - Current Plan: Free Tier
-   - Limitations: 100 emails/day
-   - Expiration: None
-
-4. **AWS S3** (File Storage)
-   - Current Plan: Free Tier
-   - Expiration: November 30, 2025
-   - Limitations: 5GB storage
-
-### Notes on External Services
-- The MongoDB Atlas free tier expires on December 31, 2025. Before this date, either:
-  - Upgrade to a paid tier (recommended)
-  - Migrate to a self-hosted MongoDB instance
-  - Switch to a different database solution
 
 ## Development Workflow
 1. Create a new branch for your feature
