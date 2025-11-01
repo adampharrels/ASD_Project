@@ -1,3 +1,12 @@
+/**
+ * @file test-data.sql
+ * @contributor Martin Lau
+ * Created: October 2023
+ * Last Updated: October 2025
+ * 
+ * Test data for calendar and room booking unit tests
+ */
+
 -- Test data for unit tests
 CREATE TABLE IF NOT EXISTS room (
     id INT PRIMARY KEY AUTO_INCREMENT,

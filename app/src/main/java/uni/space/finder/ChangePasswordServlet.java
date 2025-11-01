@@ -1,4 +1,10 @@
 
+/**
+ * @file ChangePasswordServlet.java
+ * @contributor Adam Nguyen
+ * Created: October 2023
+ * Last Updated: October 2025
+ */
 
 package uni.space.finder;
 

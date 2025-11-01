@@ -1,3 +1,12 @@
+/**
+ * @file BookingTest.java
+ * @contributor Martin Lau
+ * Created: October 2023
+ * Last Updated: October 2025
+ * 
+ * Unit tests for the Booking class and its functionality
+ */
+
 package com.calendar;
 
 import org.junit.jupiter.api.Test;

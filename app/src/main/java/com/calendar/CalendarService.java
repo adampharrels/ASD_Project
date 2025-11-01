@@ -1,6 +1,11 @@
 package com.calendar;
 
 /**
+ * @file CalendarService.java
+ * @contributor Martin Lau
+ * Created: October 2023
+ * Last Updated: October 2025
+ * 
  * CalendarService - Core service class for calendar and booking functionality
  * 
  * This service handles database operations for:

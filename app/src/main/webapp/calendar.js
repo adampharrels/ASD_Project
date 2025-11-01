@@ -1,3 +1,12 @@
+/**
+ * @file calendar.js
+ * @contributor Martin Lau
+ * Created: October 2023
+ * Last Updated: October 2025
+ * 
+ * Calendar system implementation for room booking visualization and management
+ */
+
 // Apply dark mode globally from localStorage 'theme'
 document.addEventListener('DOMContentLoaded', function() {
     const theme = localStorage.getItem('theme') || 'light';

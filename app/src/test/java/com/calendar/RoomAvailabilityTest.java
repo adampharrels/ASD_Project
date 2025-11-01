@@ -1,6 +1,11 @@
 package com.calendar;
 
 /**
+ * @file RoomAvailabilityTest.java
+ * @contributor Martin Lau
+ * Created: October 2023
+ * Last Updated: October 2025
+ * 
  * RoomAvailabilityTest - Unit tests for room availability functionality
  * 
  * This test suite covers the room availability checking system:
