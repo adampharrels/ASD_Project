@@ -1,7 +1,7 @@
 /**
  * @file BookingTest.java
  * @contributor Martin Lau
- * Created: October 2023
+ * Created: October 2025
  * Last Updated: October 2025
  * 
  * Unit tests for the Booking class and its functionality

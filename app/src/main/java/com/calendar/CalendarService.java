@@ -2,8 +2,8 @@ package com.calendar;
 
 /**
  * @file CalendarService.java
- * @contributor Martin Lau
- * Created: October 2023
+ * @contributor Martin Lau and Adam Nguyen
+ * Created: October 2025
  * Last Updated: October 2025
  * 
  * CalendarService - Core service class for calendar and booking functionality
@@ -13,13 +13,7 @@ package com.calendar;
  * - Booking management
  * - Equipment and facility tracking
  * 
- * Uses H2 database through DatabaseSetup utility
- * 
- * Contributors:
- * - Adam Nguyen (adampharrels) - Service implementation and database integration
- * 
- * Created: October 2023
- * Last Updated: October 2025
+
  */
 
 import java.sql.*;

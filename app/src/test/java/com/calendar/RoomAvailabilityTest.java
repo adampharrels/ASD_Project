@@ -2,8 +2,8 @@ package com.calendar;
 
 /**
  * @file RoomAvailabilityTest.java
- * @contributor Martin Lau
- * Created: October 2023
+ * @contributor Martin Lau 
+ * Created: October 2025
  * Last Updated: October 2025
  * 
  * RoomAvailabilityTest - Unit tests for room availability functionality
@@ -20,15 +20,7 @@ package com.calendar;
  * - Isolates servlet testing from database
  * - Verifies CORS and content type headers
  * - Tests error conditions and edge cases
- * 
- * Contributors:
- * - Adam Nguyen (adampharrels)
- * - Nathan (clive)
- * - Noah
- * - Martin
- * 
- * Created: September 2023
- * Last Updated: October 2025
+
  */
 
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 /**
  * @file calendar.js
  * @contributor Martin Lau
- * Created: October 2023
+ * Created: October 2025
  * Last Updated: October 2025
  * 
  * Calendar system implementation for room booking visualization and management

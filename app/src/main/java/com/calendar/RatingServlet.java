@@ -21,7 +21,7 @@ package com.calendar;
  * - Nathan (clive897) - Initial rating system implementation
  * - Adam Nguyen (adampharrels) - Booking ID integration, logging improvements
  * 
- * Created: October 2023
+ * Created: October 2025
  * Last Updated: October 2025
  */
 

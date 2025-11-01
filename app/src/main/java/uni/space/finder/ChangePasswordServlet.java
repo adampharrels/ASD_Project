@@ -1,8 +1,8 @@
 
 /**
  * @file ChangePasswordServlet.java
- * @contributor Adam Nguyen
- * Created: October 2023
+ * @contributor Adam Nguyen and Noah Khuu
+ * Created: October 2025
  * Last Updated: October 2025
  */
 

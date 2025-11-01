@@ -19,7 +19,7 @@ package com.calendar;
  * - Adam Nguyen (adampharrels) - User session integration, booking references
  *                              - Auto user sync, confirmation page
  * 
- * Created: September 2023
+ * Created: September 2025
  * Last Updated: October 2025
  */
 

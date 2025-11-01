@@ -18,7 +18,7 @@ package com.calendar;
  * Contributors:
  * - Adam Nguyen (adampharrels) - Design and implementation of booking reference system
  * 
- * Created: September 2023
+ * Created: September 2025
  * Last Updated: October 2025
  */
 

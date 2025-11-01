@@ -15,7 +15,7 @@ package com.calendar;
  * Contributors:
  * - Adam Nguyen (adampharrels) - Calendar feature and room listing implementation
  * 
- * Created: September 2023
+ * Created: September 2025
  * Last Updated: October 2025
  */
 

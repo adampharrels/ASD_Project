@@ -23,7 +23,7 @@ package com.calendar;
  * - Nathan (clive897) - Initial booking verification system
  * - Adam Nguyen (adampharrels) - Fixes and confirmation page integration
  * 
- * Created: September 2023
+ * Created: September 2025
  * Last Updated: October 2025
  */
 
