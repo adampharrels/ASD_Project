@@ -131,32 +131,7 @@ The application will be available at `http://localhost:8080`
 - React 18.2.0
 - Material-UI 5.0.0
 
-### External Services
-1. **MongoDB Atlas** (Database)
-   - Current Plan: Free Tier (M0)
-   - Expiration: December 31, 2025
-   - Action Required: Migration to paid tier needed before expiration
 
-2. **Redis Cloud** (Caching)
-   - Current Plan: 30MB Free Tier
-   - Expiration: None
-   - Limitations: 30 connections maximum
-
-3. **SendGrid** (Email Service)
-   - Current Plan: Free Tier
-   - Limitations: 100 emails/day
-   - Expiration: None
-
-4. **AWS S3** (File Storage)
-   - Current Plan: Free Tier
-   - Expiration: November 30, 2025
-   - Limitations: 5GB storage
-
-### Notes on External Services
-- The MongoDB Atlas free tier expires on December 31, 2025. Before this date, either:
-  - Upgrade to a paid tier (recommended)
-  - Migrate to a self-hosted MongoDB instance
-  - Switch to a different database solution
 
 ## Development Workflow
 1. Create a new branch for your feature
